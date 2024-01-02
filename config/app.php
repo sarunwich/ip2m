@@ -83,8 +83,8 @@ return [
     |
     */
 
-    'locale' => 'en',
-
+     'locale' => 'en',
+    // 'locales' => ['en' => 'English', 'th' => 'Thai'],
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
@@ -184,5 +184,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
+
+    
 
 ];

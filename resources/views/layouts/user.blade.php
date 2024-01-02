@@ -20,18 +20,19 @@
   color: white;
   text-align: center;
     }
-.left-side{
-    background-color: rgb(237, 18, 80);
-    border-radius: 10px; /* ขอบมุม */
-            padding: 10px; /* ระยะห่างขอบ */
-}
+
+
   .category-menu {
             background-color: rgb(237, 18, 80); /* สีพื้นหลัง */
-            border-radius: 10px; /* ขอบมุม */
+            /* border-radius: 10px; ขอบมุม */
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
             padding: 10px; /* ระยะห่างขอบ */
-            position: fixed; /* ติดตั้งเมนู */
-            top: 50%; /* ยืดให้ชิดด้านซ้ายและอยู่กึ่งกลางแนวตั้ง */
-            transform: translateY(-50%); /* ย้ายเมนูให้อยู่กึ่งกลางแนวตั้ง */
+            /* position: fixed;  */
+            /* ติดตั้งเมนู */
+            width: 100%;
+            top: 0; /* ยืดให้ชิดด้านซ้ายและอยู่กึ่งกลางแนวตั้ง */
+            /* transform: translateY(-50%); ย้ายเมนูให้อยู่กึ่งกลางแนวตั้ง */
         }
 
         .category-menu ul {
@@ -74,13 +75,13 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('messages.mlogin') }}</a>
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('messages.mregister') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
@@ -102,9 +103,6 @@
                                 </div>
                             </li>
                         @endguest
-                        <li class="nav-item">
-                            @include('language-switch')
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -113,8 +111,7 @@
         <main class="py-4">
             @yield('content')
         </main>
-        
-          @include('include.footer')
+        @include('include.footer')
     </div>
 </body>
 </html>
