@@ -20,10 +20,12 @@
         </div>
     </div>
 </div> --}}
-    <div class="category-menu">
 
+    <div class="mcategory-menu">
+        {{-- <div class="row justify-content-center"> --}}
 
         <div class="mb-3 row justify-content-center">
+
             <div class="col-sm-6 ">
                 <div class="input-group ">
                     <input type="text" class="form-control" placeholder="Search this blog">
@@ -46,8 +48,9 @@
         </div>
 
     </div>
-    <div class="container-fluid">
-
+    
+    {{-- <div class="container-fluid"> --}}
+        <div class="row justify-content-center">
 
         <div class="row">
          

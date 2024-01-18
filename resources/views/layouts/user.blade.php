@@ -16,14 +16,14 @@
 <style>
     .custom-red-header {
         width: 100%;
-  background-color: rgb(237, 18, 80);
+  background-color: rgb(255, 3, 3);
   color: white;
   text-align: center;
     }
 
 
-  .category-menu {
-            background-color: rgb(237, 18, 80); /* สีพื้นหลัง */
+  .mcategory-menu {
+            background-color: rgb(255, 3, 3); /* สีพื้นหลัง */
             /* border-radius: 10px; ขอบมุม */
             border-bottom-left-radius: 20px;
             border-bottom-right-radius: 20px;
@@ -35,29 +35,33 @@
             /* transform: translateY(-50%); ย้ายเมนูให้อยู่กึ่งกลางแนวตั้ง */
         }
 
-        .category-menu ul {
+        .mcategory-menu ul {
             list-style: none; /* เอา bullet point ออก */
             padding: 0;
         }
 
-        .category-menu li a {
+        .mcategory-menu li a {
             color: white; /* สีข้อความ */
             text-decoration: none; /* เอา underline ออก */
         }
 
-        .category-menu li {
+        .mcategory-menu li {
             margin-bottom: 5px; /* ระยะห่างระหว่างรายการ */
         }
 </style>
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
+    @stack('style')
 </head>
+@include('include.head')
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                <a class="navbar-brand" href="{{ url('/home') }}">
+                    <img src="{{ asset('storage/images/ip2M.png') }}" width="120px"> 
+                    {{-- {{ config('app.name', 'Laravel') }} --}}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -91,6 +95,10 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('profiles.index') }}">
+                                        {{ __('messages.editprofile') }}
+                                    </a>
+                                    
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -103,6 +111,9 @@
                                 </div>
                             </li>
                         @endguest
+                        <li class="nav-item">
+                            @include('language-switch')
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -113,5 +124,6 @@
         </main>
         @include('include.footer')
     </div>
+    @stack('scripts')
 </body>
 </html>

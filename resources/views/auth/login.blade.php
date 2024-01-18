@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8 left-side">
+            <div class="col-md-8 ">
                 
                         <div class="row justify-content-center">
                             <div class="col-md-6 left-side" style="background-color: rgb(237, 18, 80);">

@@ -18,5 +18,12 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        $this->call(CreateUsersSeeder::class);
+        $this->call(GroupSeeder::class);
+        $this->call(IPtypeSeeder::class);
+        $this->call(StatusSeeder::class);
+        $this->call(CategorySeeder::class);
+        $this->call(IPdetailSeeder::class);
+        $this->call(IPgroupSeeder::class);
     }
 }

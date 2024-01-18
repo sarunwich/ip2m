@@ -14,7 +14,7 @@
     left: 10%;
     bottom: 0;
     width: 100%;
-    background-color: rgb(237, 18, 80);
+    background-color: rgb(255, 3, 3);
     color: white;
     /* text-align: center; */
     }

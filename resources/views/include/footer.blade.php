@@ -60,7 +60,7 @@
     <!-- Grid container -->
   
     <!-- Copyright -->
-    <div class=" p-3" style="background-color: rgb(237, 18, 80); color: white;">
+    <div class=" p-3" style="background-color: rgb(255, 3, 3); color: white;">
       © 2023 Copyright:
       {{-- <a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a> --}}
     </div>

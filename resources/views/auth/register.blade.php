@@ -14,17 +14,17 @@
 
                             <div class="row mb-3">
                                 <label for="prefix"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Prefix') }}</label>
-
+                                    class="col-md-4 col-form-label text-md-end">{{ __('messages.prefix') }}</label>
+                                    
                                 <div class="col-md-6">
 
                                     <select name="prefix" id="prefix" class="form-control ">
-                                        <option value="">เลือกคำนำหน้า</option>
-                                        <option value="นาย" @if (old('prefix') == 'นาย') selected @endif>นาย
+                                        <option value="">{{__('messages.selectprefix')}}</option>
+                                        <option value="0" @if (old('prefix') == '0') selected @endif>{{ __('messages.prefix0') }}
                                         </option>
-                                        <option value="นาง" @if (old('prefix') == 'นาง') selected @endif>นาง
+                                        <option value="1" @if (old('prefix') == '1') selected @endif>{{ __('messages.prefix1') }}
                                         </option>
-                                        <option value="นางสาว" @if (old('prefix') == 'นางสาว') selected @endif>นางสาว
+                                        <option value="2" @if (old('prefix') == '2') selected @endif>{{ __('messages.prefix2') }}
                                         </option>
 
                                     </select>
@@ -38,7 +38,7 @@
 
                             <div class="row mb-3">
                                 <label for="firstname"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('FirstName') }}</label>
+                                    class="col-md-4 col-form-label text-md-end">{{ __('messages.first_name') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="firstname" type="text"
@@ -54,7 +54,7 @@
                             </div>
                             <div class="row mb-3">
                                 <label for="lastname"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('LastName') }}</label>
+                                    class="col-md-4 col-form-label text-md-end">{{ __('messages.last_name') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="lastname" type="text"
@@ -70,7 +70,7 @@
                             </div>
                             <div class="row mb-3">
                                 <label for="tel"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Telephone Number') }}</label>
+                                    class="col-md-4 col-form-label text-md-end">{{ __('messages.tel') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="tel" type="text"
@@ -86,7 +86,7 @@
                             </div>
                             <div class="row mb-3">
                                 <label for="email"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+                                    class="col-md-4 col-form-label text-md-end">{{ __('messages.email') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="email" type="email"
@@ -103,7 +103,7 @@
 
                             <div class="row mb-3">
                                 <label for="password"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+                                    class="col-md-4 col-form-label text-md-end">{{ __('messages.password') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="password" type="password"
@@ -120,7 +120,7 @@
 
                             <div class="row mb-3">
                                 <label for="password-confirm"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
+                                    class="col-md-4 col-form-label text-md-end">{{ __('messages.comfirm_password') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="password-confirm" type="password" class="form-control"
@@ -131,7 +131,7 @@
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
-                                        {{ __('Register') }}
+                                        {{ __('messages.register') }}
                                     </button>
                                 </div>
                             </div>

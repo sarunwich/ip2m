@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LangController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DropdownController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -25,6 +27,8 @@ Route::get('/categories', function () {
 Route::get('lang/home', [LangController::class, 'index']);
 Route::get('lang/change', [LangController::class, 'change'])->name('changeLang');
 Route::post('/language-switch', [LangController::class, 'languageswitch'])->name('language.switch');
+Route::post('/get-amphur', [DropdownController::class,'getAmphur'])->name('get.amphur');
+Route::post('/get-district', [DropdownController::class,'getDistrict'])->name('get.district');
 // Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -36,8 +40,9 @@ All Normal Users Routes List
 --------------------------------------------
 --------------------------------------------*/
 Route::middleware(['auth', 'user-access:user'])->group(function () {
-  
+    Route::resource('profiles', ProfileController::class);
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 });
   
 /*------------------------------------------

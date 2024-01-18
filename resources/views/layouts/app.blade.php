@@ -1,62 +1,13 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-    @include('include.footercss')
-<style>
-    .custom-red-header {
-        width: 100%;
-  background-color: rgb(237, 18, 80);
-  color: white;
-  text-align: center;
-    }
-.left-side{
-    background-color: rgb(237, 18, 80);
-    border-radius: 10px; /* ขอบมุม */
-            padding: 10px; /* ระยะห่างขอบ */
-}
-  .category-menu {
-            background-color: rgb(237, 18, 80); /* สีพื้นหลัง */
-            border-radius: 10px; /* ขอบมุม */
-            padding: 10px; /* ระยะห่างขอบ */
-            position: fixed; /* ติดตั้งเมนู */
-            top: 50%; /* ยืดให้ชิดด้านซ้ายและอยู่กึ่งกลางแนวตั้ง */
-            transform: translateY(-50%); /* ย้ายเมนูให้อยู่กึ่งกลางแนวตั้ง */
-        }
-
-        .category-menu ul {
-            list-style: none; /* เอา bullet point ออก */
-            padding: 0;
-        }
-
-        .category-menu li a {
-            color: white; /* สีข้อความ */
-            text-decoration: none; /* เอา underline ออก */
-        }
-
-        .category-menu li {
-            margin-bottom: 5px; /* ระยะห่างระหว่างรายการ */
-        }
-</style>
-    <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-</head>
+    @include('include.head')
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    <img src="{{ asset('storage/images/ip2M.png') }}" width="120px"> 
+                    {{-- {{ config('app.name', 'Laravel') }} --}}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
