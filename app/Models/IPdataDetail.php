@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class IPdataDetail extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'IPdata_id',
+        'ipdetail_id',
+        'IPdataDetail_data',
+    ];
 }

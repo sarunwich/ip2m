@@ -43,7 +43,10 @@
         </div>
         <div class="mb-3 row justify-content-center">
             <div class="col-sm-6 text-center">
-            <a href="#">1</a>/<a href="#">2</a>/<a href="#">3</a>
+                @foreach ($iptypes as $key=> $iptype)
+                @if($key!=0) | @endif
+            <a href="#" style="color: white">{{ $iptype->iptype_name}}</a> 
+            @endforeach
             </div>
         </div>
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Models\IPtype;
 
 class HomeController extends Controller
 {
@@ -24,7 +25,8 @@ class HomeController extends Controller
      */
     public function index(): View
     {
-        return view('user.home');
+        $iptypes=IPtype::all();
+        return view('user.home',compact('iptypes'));
     } 
   
     /**

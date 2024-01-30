@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class IPdata extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'iptype_id',
+        'rid',
+    ];
 }
