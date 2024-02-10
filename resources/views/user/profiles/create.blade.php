@@ -29,20 +29,20 @@
                             {{-- <label for="name">{{ __('messages.profile_name') }}</label> --}}
                             <input type="text" name="profile_name" class="form-control"
                                 placeholder="{{ __('messages.profile_name') }}"
-                                aria-label="{{ __('messages.profile_name') }}" required>
+                                aria-label="{{ __('messages.profile_name') }}" value="{{old('profile_name') ??''}}" required>
                         </div>
                         <div class="row g-2">
                             <div class="col">
                                 {{-- <label for="name">{{ __('messages.profile_name') }}</label> --}}
                                 <input type="text" name="institute" class="form-control"
                                     placeholder="{{ __('messages.institute') }}" aria-label="{{ __('messages.institute') }}"
-                                    required>
+                                    value="{{old('institute') ??''}}" required>
                             </div>
                             <div class="col">
                                 {{-- <label for="name">{{ __('messages.profile_name') }}</label> --}}
                                 <input type="text" name="country" class="form-control"
                                     placeholder="{{ __('messages.country') }}" aria-label="{{ __('messages.country') }}"
-                                    required>
+                                    value="{{old('country') ??''}}"  required>
                             </div>
 
                         </div>
@@ -51,7 +51,7 @@
                                 {{-- <label for="name">{{ __('messages.profile_name') }}</label> --}}
                                 <input type="text" name="address" class="form-control"
                                     placeholder="{{ __('messages.address') }}" aria-label="{{ __('messages.address') }}"
-                                    required>
+                                    value="{{old('address') ??''}}" required>
                             </div>
                         </div>
 
@@ -59,24 +59,24 @@
                             <div class="col">
                                 <input type="text" name="province" class="form-control"
                                     placeholder="{{ __('messages.province') }}" aria-label="{{ __('messages.province') }}"
-                                    required>
+                                    value="{{old('province') ??''}}" required>
                             </div>
                             <div class="col">
                                 <input type="text" name="district" class="form-control"
                                     placeholder="{{ __('messages.district') }}" aria-label="{{ __('messages.district') }}"
-                                    required>
+                                    value="{{old('district') ??''}}" required>
                             </div>
                         </div>
                         <div class="row g-2">
                             <div class="col">
                                 <input type="text" name="tombon" class="form-control"
                                     placeholder="{{ __('messages.tombon') }}" aria-label="{{ __('messages.tombon') }}"
-                                    required>
+                                    value="{{old('tombon') ??''}}" required>
                             </div>
                             <div class="col">
                                 <input type="text" name="zipcode" class="form-control"
                                     placeholder="{{ __('messages.zipcode') }}" aria-label="{{ __('messages.zipcode') }}"
-                                    required>
+                                    value="{{old('zipcode') ??''}}" required>
                             </div>
                         </div>
                         <div class="row g-2">
@@ -85,36 +85,36 @@
                                     placeholder="{{ __('messages.tel') }}" aria-label="{{ __('messages.tel') }}"
                                     maxlength="10" data-validation="length number" data-validation-length="min9"
                                     data-validation-error-msg="The answer you gave was not a correct number a value (9-10 chars)"
-                                    required>
+                                    value="{{old('tel') ??''}}"  required>
                             </div>
                             <div class="col">
                                 <input type="text" name="website" class="form-control"
                                     placeholder="{{ __('messages.website') }}" aria-label="{{ __('messages.website') }}"
-                                    required>
+                                    value="{{old('website') ??''}}" required>
                             </div>
                         </div>
                         <div class="row g-2">
                             <div class="col">
                                 <input type="text" name="facebook" class="form-control"
                                     placeholder="{{ __('messages.facebook') }}" aria-label="{{ __('messages.facebook') }}"
-                                    required>
+                                    value="{{old('facebook') ??''}}" required>
                             </div>
                             <div class="col">
                                 <input type="text" name="twitter" class="form-control"
                                     placeholder="{{ __('messages.twitter') }}" aria-label="{{ __('messages.twitter') }}"
-                                    required>
+                                    value="{{old('twitter') ??''}}" required>
                             </div>
                         </div>
                         <div class="row g-2">
                             <div class="col">
                                 <input type="text" name="line" class="form-control"
                                     placeholder="{{ __('messages.line') }}" aria-label="{{ __('messages.line') }}"
-                                    required>
+                                    value="{{old('line') ??''}}" required>
                             </div>
                             <div class="col">
                                 <input type="text" name="Instagram" class="form-control"
                                     placeholder="{{ __('messages.Instagram') }}"
-                                    aria-label="{{ __('messages.Instagram') }}" required>
+                                    aria-label="{{ __('messages.Instagram') }}" value="{{old('Instagram') ??''}}" required>
                             </div>
                         </div>
                         <div class="row g-2">

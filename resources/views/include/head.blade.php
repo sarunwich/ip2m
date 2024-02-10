@@ -32,6 +32,7 @@
     /* border-radius: 10px; ขอบมุม */
     border-bottom-left-radius: 20px;
     border-top-left-radius: 20px;
+    text-align: center;
     color: white;
             padding: 10px; /* ระยะห่างขอบ */
             box-shadow: inset 0 -3px 0 0 rgb(178, 179, 180);
@@ -67,7 +68,25 @@
             margin-bottom: 5px; /* ระยะห่างระหว่างรายการ */
         }
 
-
+        .buttonred {
+  background-color: #ff0303; /* red */
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 50px;
+}
+.strong {
+  font-weight:bold;
+  font-size:40px;
+  line-height:22px;
+  /* border:1px solid #000000; */
+}
 
         
 </style>

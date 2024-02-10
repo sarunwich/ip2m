@@ -82,7 +82,7 @@
                    
                     $('#ipdetal').empty().append('');
                     $.each(data.ipdetails, function(key, value) {
-
+                        if(value.require==1){
                         $('#ipdetal').append('<div class="row g-2">' +
                             ' <div class="col"><input type="hidden" name="ipdid[]" class="form-control" value="' +
                             value.ipdetail_id +
@@ -93,6 +93,18 @@
                             value.ipdetail_name + '" aria-label="' + value
                             .ipdetail_name + '" required value="{{ old('ipdata.0') }}">' +
                             ' </div></div>');
+                        }else{
+                            $('#ipdetal').append('<div class="row g-2">' +
+                            ' <div class="col"><input type="hidden" name="ipdid[]" class="form-control" value="' +
+                            value.ipdetail_id +
+                            '"><label for="pr' + value.ipdetail_id + '">' +
+                            value.ipdetail_name + '</label><input type="' +
+                            value.type +
+                            '"   name="ipdata[]" class="form-control" placeholder="' +
+                            value.ipdetail_name + '" aria-label="' + value
+                            .ipdetail_name + '"  value="{{ old('ipdata.0') }}">' +
+                            ' </div></div>');
+                        }
                         
                     });
                     // $('#ipdetal').html(data.ipdetailsdata);

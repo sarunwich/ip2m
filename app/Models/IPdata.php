@@ -12,4 +12,12 @@ class IPdata extends Model
         'iptype_id',
         'rid',
     ];
+    public function IPdataDetail()
+    {
+        return $this->hasMany(IPdataDetail::class ,'IPdata_id', 'id');
+    }
+    public function product()
+    {
+        return $this->belongsTo(Product::class ,'IPdata_id', 'id');
+    }
 }

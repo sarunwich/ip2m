@@ -11,7 +11,10 @@ use App\Models\IPdata;
 use App\Models\IPdataDetail;
 use Illuminate\Support\Facades\Auth;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
-
+use Illuminate\Support\Facades\DB;
+use App\Models\Product;
+use App\Models\ProductImage;
+use Illuminate\Support\Facades\Session;
 class WorkController extends Controller
 {
     /**
@@ -21,8 +24,17 @@ class WorkController extends Controller
     {
         //
        
-
-        return view('user.works.index');
+        // $Products = Product::all();
+        $Products = Product::join('i_pdatas', 'i_pdatas.id', '=', 'products.IPdata_id')
+            // ->join('sellers', 'sellers.pid', '<>', 'products.id')
+            // ->whereNotIn('products.id', DB::table('sellers')->pluck('pid'))
+            ->where('i_pdatas.rid', Auth::user()->id)
+            // ->where('requestdbs.status', '<=', 2)
+            // ->orderByDesc('id')
+            ->select('products.*')
+        //->get();
+            ->get();
+        return view('user.works.index',compact('Products'));
     }
 
     /**
@@ -46,8 +58,8 @@ class WorkController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'iptype_id' => 'required',
-            'ipdid.*' => 'required',
-            'ipdata.*' => 'required',
+            'ipdid.*' => 'sometimes|required',
+            'ipdata.*' => 'sometimes|required',
         ],[
             'iptype_id' =>'ประเภท',
             'ipdata.*'=>'กรอกข้อมูลให้ครบถ่วน',
@@ -105,23 +117,59 @@ class WorkController extends Controller
         $ipdata = $request->session()->get('ipdata');
        
         $uid = Auth::user()->id;
-        // $model=IPdata::create([
-        //     'iptype_id' => $ipdata['iptype_id'],
-        //     'rid' => $uid,
-        // ]);
-        // $id = $model->id;
-        // foreach ($ipdata['ipdid'] as $key => $item_ipdid) {
-        //     IPdataDetail::create([
-        //         'IPdata_id'=>$id,
-        //         'ipdetail_id' => $item_ipdid,
-        //           'IPdataDetail_data' => $ipdata['ipdata'][$key],
-        //     ]);
-        // }
+        $model=IPdata::create([
+            'iptype_id' => $ipdata['iptype_id'],
+            'rid' => $uid,
+        ]);
+       $id = $model->id;
+        foreach ($ipdata['ipdid'] as $key => $item_ipdid) {
+            IPdataDetail::create([
+                'IPdata_id'=>$id,
+                'ipdetail_id' => $item_ipdid,
+                  'IPdataDetail_data' => $ipdata['ipdata'][$key],
+            ]);
+        }
 
-        //  dd($ipdata,$request,$id);
-         $appid = IdGenerator::generate(['table' => 'i_pdatas', 'length' => 7, 'prefix' => date('ym'), 'reset_on_prefix_change' => true]);
-        echo $appid;
-         // return redirect()->route('works.index');
+        //  
+         $pid = IdGenerator::generate(['table' => 'products', 'length' => 7, 'prefix' => date('y')]);
+         //
+         Product::create([
+            'id'=>$pid,
+            'product_name'=>$request->input('name'),
+            'price'=>$request->input('price'),
+            'highlight'=>$request->input('highlight'),
+            'product_detail'=>$request->input('product_detail'),
+            'display'=>$request->input('display'),
+            'keyword'=>$request->input('keyword'),
+            'category_id'=>$request->input('category'),
+            'group_id'=>$request->input('group'),
+            'IPdata_id'=>$id,
+
+         ]);
+
+         // Store the uploaded files
+         $files = $request->file('fields');
+        
+         foreach ($files as $file) {
+           
+            $name = $pid.'_'.time() . '_' .$file->getClientOriginalName();
+            $path = $file->storeas('public/ProductImage',$name);
+            // File::create(['name' => $name, 'path' => $path]);
+           
+            // $path = $uploadedFile->store('ProductImage'); // Store the file in the "uploads" directory
+
+            // Save file details to the database
+            ProductImage::create([
+                'ProductImage_name' => $name,
+                'pid' => $pid,
+                'path' => $path
+            ]);
+        }
+
+// dd($ipdata,$request,$id);
+        // echo $appid;
+        Session::forget('ipdata');
+         return redirect()->route('works.index')->with('success', 'Data inserted successfully!');
     }
 
     /**
@@ -162,5 +210,7 @@ class WorkController extends Controller
     public function destroy(string $id)
     {
         //
+        $product = Product::find($id);
+$product->delete();
     }
 }

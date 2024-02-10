@@ -13,4 +13,9 @@ class IPdataDetail extends Model
         'ipdetail_id',
         'IPdataDetail_data',
     ];
+    public function IPdata()
+    {
+        return $this->belongsTo(IPdata::class);
+    }
+    
 }

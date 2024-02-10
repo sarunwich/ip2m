@@ -15,8 +15,10 @@ return new class extends Migration
             // $table->id();
             $table->bigIncrements('ProductImage_id');
             $table->string('ProductImage_name',255)->nullable();
+            $table->string('path');
             $table->unsignedBigInteger('pid')->nullable();
             $table->foreign('pid')->references('id')->on('products');
+
             $table->timestamps();
         });
     }

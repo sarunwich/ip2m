@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('i_pdatas', function (Blueprint $table) {
-            // $table->id();
-            $table->bigIncrements('IPdata_id');
+            $table->bigIncrements('id');
+            // $table->bigIncrements('IPdata_id');
             $table->unsignedBigInteger('iptype_id')->nullable();
             $table->foreign('iptype_id')->references('iptype_id')->on('i_ptypes');
             $table->unsignedBigInteger('rid')->nullable();

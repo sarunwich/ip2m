@@ -16,8 +16,8 @@ return new class extends Migration
             $table->bigIncrements('sid');
             $table->unsignedBigInteger('profile_id')->nullable();
             $table->foreign('profile_id')->references('profile_id')->on('profiles');
-            $table->unsignedBigInteger('IPdata_id')->nullable();
-            $table->foreign('IPdata_id')->references('IPdata_id')->on('i_pdatas');
+            $table->unsignedBigInteger('pid')->nullable();
+            $table->foreign('pid')->references('id')->on('products');
             $table->string('store_name',255);
             $table->string('id_number',50);
             $table->tinyInteger('person_type')->nullable();

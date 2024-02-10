@@ -15,6 +15,8 @@ return new class extends Migration
             // $table->id();
             $table->bigIncrements('ipdetail_id');
             $table->string('ipdetail_name');
+            $table->string('type');
+            $table->tinyInteger('require')->default(1);
             // $table->unsignedBigInteger('iptype_id')->nullable();
             // $table->foreign('iptype_id')->references('iptype_id')->on('i_ptypes');
             $table->timestamps();

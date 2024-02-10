@@ -9,6 +9,7 @@ class Profile extends Model
 {
     use HasFactory;
     protected $fillable = [
+
         'profile_name',
         'institute',
         'profile_picture',
@@ -24,6 +25,8 @@ class Profile extends Model
         'twitter',
         'line',
         'Instagram',
+        'rid',
        
     ];
+    protected $primaryKey = 'profile_id';
 }

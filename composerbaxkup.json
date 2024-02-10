@@ -1,0 +1,5 @@
+{
+    "require": {
+        "haruncpi/laravel-id-generator": "^1.1"
+    }
+}

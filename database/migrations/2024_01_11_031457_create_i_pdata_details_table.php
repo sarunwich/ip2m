@@ -15,7 +15,7 @@ return new class extends Migration
             // $table->id();
             $table->bigIncrements('ipgroup_id');
             $table->unsignedBigInteger('IPdata_id')->nullable();
-            $table->foreign('IPdata_id')->references('IPdata_id')->on('i_pdatas');
+            $table->foreign('IPdata_id')->references('id')->on('i_pdatas');
             $table->unsignedBigInteger('ipdetail_id')->nullable();
             $table->foreign('ipdetail_id')->references('ipdetail_id')->on('i_pdetails');
             $table->string('IPdataDetail_data',500)->nullable();

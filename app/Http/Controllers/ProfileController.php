@@ -7,6 +7,7 @@ use App\Models\Profile;
 use App\Models\Province;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -16,8 +17,13 @@ class ProfileController extends Controller
     public function index()
     {
         //
-        $profiles = Profile::all();
-
+        $id = Auth::user()->id;
+        // $profiles = Profile::where('rid','=',$id);
+        $profiles = DB::table('profiles')
+            ->select('profiles.*')
+            ->where('rid', '=', $id)
+            ->get();
+        // dd($id,$profiles);
         return view('user.profiles.index', compact('profiles'));
     }
 
@@ -54,6 +60,8 @@ class ProfileController extends Controller
             'line' => 'required|string|max:100',
             'Instagram' => 'required|string|max:100',
 
+        ],[
+           'profile_picture'=>'The profile picture field must not be greater than 5120 kilobytes.'
         ]);
 
         if ($request->hasfile('profile_picture')) {
@@ -64,7 +72,28 @@ class ProfileController extends Controller
             $request->profile_picture->storeAs('public/profile_picture', $name);
 
             $uid = Auth::user()->id;
-            $data = [
+            // $data = [
+            //     'profile_name' => $request->profile_name,
+            //     'institute' => $request->institute,
+            //     'profile_picture' => $name, // max 5MB
+            //     'country' => $request->country,
+            //     'address' => $request->address,
+            //     'province' => $request->province,
+            //     'district' => $request->district,
+            //     'tombon' => $request->tombon,
+            //     'zipcode' => $request->zipcode,
+            //     'tel' => $request->tel,
+            //     'website' => $request->website,
+            //     'facebook' => $request->facebook,
+            //     'twitter' => $request->twitter,
+            //     'line' => $request->line,
+            //     'Instagram' => $request->Instagram,
+            //     'rid' => $uid,
+            //     // Add more columns and values as needed
+            // ];
+// dd($data);
+            // dd($uid);
+            Profile::insert([
                 'profile_name' => $request->profile_name,
                 'institute' => $request->institute,
                 'profile_picture' => $name, // max 5MB
@@ -81,10 +110,9 @@ class ProfileController extends Controller
                 'line' => $request->line,
                 'Instagram' => $request->Instagram,
                 'rid' => $uid,
-                // Add more columns and values as needed
-            ];
-
-            Profile::create($data);
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
             return redirect()->route('profiles.index')->with('success', 'Profile created successfully');
         } else {
             return redirect()->route('profiles.index')->with('error', 'Profile created error');
@@ -121,5 +149,9 @@ class ProfileController extends Controller
     public function destroy(Profile $profile)
     {
         //
+        // dd($profile);
+        // $Profile = Profile::find($profile);
+        $profile->delete();
+        return redirect()->back()->with('success', 'Del successfully.');
     }
 }

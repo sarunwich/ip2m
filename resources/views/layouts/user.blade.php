@@ -56,11 +56,26 @@
             margin-bottom: 5px;
             /* ระยะห่างระหว่างรายการ */
         }
+        .strong {
+  font-weight:bold;
+  font-size:70px;
+  line-height:22px;
+  border:1px solid #000000;}
     </style>
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
     @stack('style')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+
+    <!-- Other head content -->
+
+    <!-- SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script>
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"  /> --}}
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 </head>
 @include('include.head')
 
@@ -100,7 +115,20 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown">
+                        <li class="nav-item">
+                            <a class="nav-link {{Route::is('works.index') ? 'active' : ''}}" href="{{ route('works.index') }}">{{ __('messages.Work_information') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{Route::is('profiles.index') ? 'active' : ''}}" href="{{ route('profiles.index') }}">{{ __('messages.Business_appointment_information') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{Route::is('works.index') ? 'active' : ''}}" href="{{ route('works.index') }}">{{ __('messages.Tender_offer_information') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{Route::is('seller.index') ? 'active' : ''}}" href="{{ route('seller.index') }}">{{ __('messages.Offering_information') }}</a>
+                        </li>
+                       
+                            {{-- <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ __('messages.Manage_data') }}
@@ -116,11 +144,11 @@
                                     <a class="dropdown-item" href="{{ route('profiles.index') }}">
                                         {{ __('messages.Tender_offer_information') }}
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('profiles.index') }}">
+                                    <a class="dropdown-item" href="{{ route('seller.index') }}">
                                         {{ __('messages.Offering_information') }}
                                     </a>
                                 </div>
-                            </li>
+                            </li> --}}
                             <li class="nav-item dropdown">
 
 
@@ -160,6 +188,16 @@
         @include('include.footer')
     </div>
     @stack('scripts')
+    @if(session('success'))
+    <script>
+        Swal.fire({
+            title: 'Success!',
+            text: '{{ session('success') }}',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        })
+    </script>
+@endif
 </body>
 
 </html>

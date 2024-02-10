@@ -22,6 +22,7 @@ class AppointmentController extends Controller
     public function create()
     {
         //
+        return view('user.appointment.create');
     }
 
     /**

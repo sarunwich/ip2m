@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->date('appointment_time')->nullable();
-            $table->string('purpose',100)->nullable();
+            $table->unsignedBigInteger('sid')->nullable();
+            $table->foreign('sid')->references('sid')->on('sellers');
             $table->unsignedBigInteger('rid')->nullable();
             $table->foreign('rid')->references('id')->on('users');
+            $table->date('appointment_time')->nullable();
+            $table->string('purpose',100)->nullable();
+           
             $table->text('appointment_detail')->nullable();
-            $table->string('store_name',100)->nullable();
+            $table->string('other',500)->nullable();
             $table->timestamps();
         });
     }

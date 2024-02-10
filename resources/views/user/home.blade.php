@@ -51,7 +51,7 @@
         </div>
 
     </div>
-    
+    <br>
     {{-- <div class="container-fluid"> --}}
         <div class="row justify-content-center">
 
@@ -66,20 +66,25 @@
                         {{--  --}}
                         <div class="row">
                             <!-- เพิ่มสินค้าตามต้องการ -->
-
-                            @for ($i = 1; $i <= 8; $i++)
+                            @foreach ($sellers as $seller)
+                            {{-- @for ($i = 1; $i <= 8; $i++) --}}
                                 <div class="col-md-3 mb-3">
                                     <div class="card">
-                                        <img src="{{ asset('storage/images/demop.png') }}" class="card-img-top"
+                                       
+                                        {{-- @foreach ($seller->images as $picture)
+                                       
+                                    @endforeach --}}
+                                        <img src="{{ asset('storage/ProductImage/'.$seller->images[0]->ProductImage_name) }}" class="card-img-top"
                                             alt="Product">
                                         <div class="card-body" style="background-color: rgb(255, 246, 218)">
-                                            <h5 class="card-title">สินค้าที่ {{ $i }}</h5>
-                                            <p class="card-text">รายละเอียดสินค้าที่ {{ $i }}</p>
-                                            <a href="#" class="btn btn-primary">ดูรายละเอียด</a>
+                                            <h5 class="card-title">{{ $seller->product_name }}</h5>
+                                            <p class="card-text">รายละเอียดสินค้าที่ i2M{{substr($seller->id,2,7)}}</p>
+                                            <a href="{{ route('products.show', $seller->id) }}" class="btn btn-primary">ดูรายละเอียด</a>
                                         </div>
                                     </div>
                                 </div>
-                            @endfor
+                                {{-- @endfor --}}
+                                @endforeach
 
 
                         </div>

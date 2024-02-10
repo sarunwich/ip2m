@@ -32,7 +32,7 @@
 
                             <label for="title">{{ __('messages.product_name') }}:</label>
                             <input type="text" value="{{ $product->name ?? old('name') ??'' }}" class="form-control" id="taskTitle"
-                                name="name" required>
+                                name="name" maxlength="200" required>
 
                         </div>
                     </div>
@@ -41,7 +41,7 @@
 
                             <label for="title">{{ __('messages.highlight') }}:</label>
                             <input type="text" value="{{ $product->highlight ?? old('highlight') ?? '' }}" class="form-control"
-                                id="highlight" name="highlight" required>
+                                id="highlight" name="highlight" maxlength="500" required>
 
                         </div>
                     </div>
@@ -54,8 +54,8 @@
                     <div class="row g-2">
                         <div class="col">
                             <label for="title">{{ __('messages.price') }}:</label>
-                            <input type="number" min="0.00" step="0.05" value="{{old('highlight') ?? 0}}" id="price" name="price"
-                                class="form-control" required placeholder="Price">
+                            <input type="text"  value="{{old('highlight') ?? 0}}" id="price" name="price"
+                                class="form-control" maxlength="200" required placeholder="Price">
                         </div>
                         <div class="col">
                             <label for="title">{{ __('messages.display') }}:</label>

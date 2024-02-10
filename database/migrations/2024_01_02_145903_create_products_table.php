@@ -14,19 +14,19 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('product_name',255);
-            $table->string('product_image',255)->nullable();
-            $table->decimal('price',15,2)->nullable();
+            // $table->string('product_image',255)->nullable();
+            $table->string('price',255)->nullable();
             $table->string('highlight',500)->nullable();
             $table->text('product_detail')->nullable();
             $table->string('display',100)->nullable();
-            $table->string('keyword',100)->nullable();
+            $table->text('keyword')->nullable();
            
             $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('category_id')->on('categories');
-            $table->unsignedBigInteger('iptype_id')->nullable();
-            $table->foreign('iptype_id')->references('iptype_id')->on('i_ptypes');
+            $table->unsignedBigInteger('group_id')->nullable();
+            $table->foreign('group_id')->references('group_id')->on('groups');
             $table->unsignedBigInteger('IPdata_id')->nullable();
-            $table->foreign('IPdata_id')->references('IPdata_id')->on('i_pdatas');
+            $table->foreign('IPdata_id')->references('id')->on('i_pdatas');
             
             $table->timestamps();
         });

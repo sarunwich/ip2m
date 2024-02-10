@@ -15,6 +15,7 @@ return new class extends Migration
             // $table->id();
             $table->bigIncrements('ProductImagebuy_id');
             $table->string('ProductImagebuy_name',255)->nullable();
+            $table->string('path');
             $table->unsignedBigInteger('offerbuy_id')->nullable();
             $table->foreign('offerbuy_id')->references('id')->on('offerbuys');
             $table->timestamps();
