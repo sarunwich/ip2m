@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eef539ee74ec5c1e3420fc2a93ff07d0",
+    "content-hash": "ab2dab5afdd921966f7e8e6270f10669",
     "packages": [
         {
             "name": "brick/math",
@@ -2592,6 +2592,61 @@
                 "source": "https://github.com/phattarachai/thai-id-card-validation/tree/1.0"
             },
             "time": "2021-03-05T16:41:24+00:00"
+        },
+        {
+            "name": "phattarachai/thaidate",
+            "version": "12.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phattarachai/thaidate.git",
+                "reference": "4a759081179f3401a5dd47a39db923aee51c301c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phattarachai/thaidate/zipball/4a759081179f3401a5dd47a39db923aee51c301c",
+                "reference": "4a759081179f3401a5dd47a39db923aee51c301c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.13",
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Phattarachai\\Thaidate\\ThaidateServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/function.php"
+                ],
+                "psr-4": {
+                    "Phattarachai\\Thaidate\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Phattarachai Chaimongkol",
+                    "email": "phatchai28@gmail.com"
+                }
+            ],
+            "description": "A Laravel, PHP package for thaidate() function",
+            "homepage": "https://phattarachai.dev",
+            "support": {
+                "issues": "https://github.com/phattarachai/thaidate/issues",
+                "source": "https://github.com/phattarachai/thaidate/tree/12.1"
+            },
+            "time": "2021-06-07T20:17:19+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -8103,16 +8158,16 @@
         },
         {
             "name": "spatie/laravel-ignition",
-            "version": "2.4.1",
+            "version": "2.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-ignition.git",
-                "reference": "005e1e7b1232f3b22d7e7be3f602693efc7dba67"
+                "reference": "351504f4570e32908839fc5a2dc53bf77d02f85e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-ignition/zipball/005e1e7b1232f3b22d7e7be3f602693efc7dba67",
-                "reference": "005e1e7b1232f3b22d7e7be3f602693efc7dba67",
+                "url": "https://api.github.com/repos/spatie/laravel-ignition/zipball/351504f4570e32908839fc5a2dc53bf77d02f85e",
+                "reference": "351504f4570e32908839fc5a2dc53bf77d02f85e",
                 "shasum": ""
             },
             "require": {
@@ -8191,7 +8246,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-01-12T13:14:58+00:00"
+            "time": "2024-02-09T16:08:40+00:00"
         },
         {
             "name": "symfony/yaml",

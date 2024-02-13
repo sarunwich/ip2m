@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Seller;
 use App\Models\Approve;
+use App\Models\Offerbuy;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class OfferController extends Controller
 {
@@ -43,9 +45,17 @@ class OfferController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Offerbuy $offerbuy)
     {
         //
+        $offerbuy=Offerbuy::where('offerbuys.status','=',1)
+        ->where('offerbuys.offerbuy_enddate','>=',date('Y-m-d'))
+        ->join('profiles','profiles.profile_id','offerbuys.profile_id')
+        ->select('offerbuys.*')
+        ->where('offerbuys.id', '<>', $offerbuy->id)
+        ->with('imagesbuy')
+        ->first();
+        return view('user.showoffer', compact('offerbuy'));
     }
 
     /**
@@ -92,5 +102,27 @@ class OfferController extends Controller
             ]);
         }
         return response()->json($approve);
+    }
+    public function offerBuy()
+    {
+        // return view('OK');
+        $Offerbuys =Offerbuy::all();
+        // dd($Offerbuys);
+        return view('admin.offer.offerbuy',compact('Offerbuys'));
+    }
+    public function upstatusoffer(Request $request)
+    {
+        $Offerbuy = Offerbuy::where('id', $request->id)->first();
+       
+            // User found, do something with it
+            $date = Carbon::createFromFormat('Y-m-d', date('Y-m-d'))->addMonth();
+            $Offerbuy->status = $request->status;
+            $Offerbuy->endorser_id = Auth::user()->id;
+            $Offerbuy->offerbuy_startdate = date('Y-m-d');
+            $Offerbuy->offerbuy_enddate = $date;
+
+            $Offerbuy->save();
+
+            return redirect()->back()->with('success', 'Record updated successfully!');
     }
 }

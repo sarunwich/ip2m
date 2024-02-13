@@ -11,6 +11,9 @@ use App\Http\Controllers\SellerController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\welcomeController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\OfferbuyController;
+use App\Http\Controllers\ResponseOfferbuyController;
+use App\Http\Controllers\ProductImagebuyController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -54,6 +57,10 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::resource('works', WorkController::class);
     Route::resource('seller', SellerController::class);
     Route::resource('appointment', AppointmentController::class);
+    Route::resource('buy', OfferbuyController::class);
+    Route::resource('response', ResponseOfferbuyController::class);
+    Route::resource('productImagebuy', ProductImagebuyController::class);
+    
    
     Route::get('/home', [HomeController::class, 'index'])->name('home');
      Route::post('work/create-step-one', [WorkController::class,'postCreateStepOne'])->name('work.create.step.one.post');
@@ -61,6 +68,9 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::post('work/create-step-two', [WorkController::class ,'postCreateStepTwo'])->name('work.create.step.two.post');
     Route::post('/get-category', [DropdownController::class,'getCategory'])->name('get.category');
     Route::get('changeStatus', [ProductController::class ,'changeStatus']);
+    Route::get('upreadApp', [AppointmentController::class ,'upreadApp']);
+
+    
 });
   
 /*------------------------------------------
@@ -72,6 +82,12 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::resource('offer', OfferController::class);
     Route::get('/admin/home', [HomeController::class, 'adminHome'])->name('admin.home');
     Route::get('upStatus', [OfferController::class ,'upStatus']);
+     Route::get('/offers/buy', [OfferController::class ,'offerBuy'])->name('offer.buy');
+    Route::get('upstatusoffer', [OfferController::class ,'upstatusoffer']);
+    // Route::get('offerx/buy', function () {
+//     return view('welcome');
+// });
+
 });
   
 /*------------------------------------------

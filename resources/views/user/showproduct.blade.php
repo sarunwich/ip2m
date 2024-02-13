@@ -96,7 +96,7 @@
                     <p><strong>{{ __('messages.price') }}:</strong></p>
                     {{ $product->price }}
                     <hr>
-                    <a href="{{ route('appointment.create') }}"><button class="buttonred">{{ __('messages.appointment') }}</button></a>
+                    <a href="{{ route('appointment.create',['sid' => $product->sid]) }}"><button class="buttonred">{{ __('messages.appointment') }}</button></a>
                     {{-- <p class="card-text">{{ __('messages.product_name') }}</p>
                     {{ $product->product_name }}
                     <p class="card-text">{{ __('messages.product_name') }}</p>

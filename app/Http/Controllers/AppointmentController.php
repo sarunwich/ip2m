@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\Seller;
+use App\Models\User;
+use App\Models\Response_offerbuy;
+use App\Models\Offerbuy;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AppointmentController extends Controller
 {
@@ -13,16 +18,46 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        //
+        $users=User::all();
+        $id = Auth::user()->id;
+
+        $response_offerbuys=Offerbuy::join('response_offerbuys','response_offerbuys.offerbuy_id','offerbuys.id')
+        ->join('profiles','profiles.profile_id','offerbuys.profile_id')
+        ->select('offerbuys.*','profiles.profile_name as profile_name','profiles.tel as profile_tel','response_offerbuys.id as resid','response_offerbuys.response_date as response_date','response_offerbuys.response_detail as response_detail','response_offerbuys.status as status' )
+        ->with('category')
+        ->where('response_offerbuys.res_id', '=', $id)
+        ->orderby('created_at','desc')
+        ->paginate(5);
+
+
+        $sellers=Seller::join('products', 'products.id', '=', 'sellers.pid')
+        ->join('i_pdatas', 'i_pdatas.id', '=', 'products.IPdata_id')
+        ->leftJoin('approves', 'approves.sid', '=', 'sellers.sid')
+
+        ->where('i_pdatas.rid', '=', $id)
+        ->with('appointments')
+        ->select('products.*','sellers.created_at as sellercreated_at','sellers.sid as sid','approves.status as status','approves.updated_at as statusupdated_at')
+        ->orderby('created_at','desc')
+        ->paginate(5);
+        $appointments = Appointment::where('appointments.rid', Auth::user()->id)
+            ->join('sellers', 'sellers.sid', '=', 'appointments.sid')
+            ->join('products', 'products.id', '=', 'sellers.pid')
+            ->join('profiles', 'profiles.profile_id', '=', 'sellers.profile_id')
+            
+            ->select('appointments.*','products.product_name as product_name','profiles.profile_name as profile_name','profiles.tel as tel','sellers.store_name as store_name')
+            ->orderby('created_at','desc')
+            ->paginate(5);
+        return view('user.appointment.index',compact('appointments','sellers','users','response_offerbuys'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         //
-        return view('user.appointment.create');
+        $id=$request->sid;
+        return view('user.appointment.create',compact('id'));
     }
 
     /**
@@ -31,6 +66,23 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'appointment_time' => 'required',
+            'appointment_detail' => 'sometimes|required',
+        ]);
+        $uid = Auth::user()->id;
+        $model=Appointment::create([
+            'sid'=>$request->input('sid'),
+            'appointment_time' => $request->input('appointment_time'),
+            'purpose1' => $request->input('purpose1'),
+            'purpose2' => $request->input('purpose2'),
+            'purpose3' => $request->input('purpose3'),
+            'other' => $request->input('other'),
+            'appointment_detail' => $request->input('appointment_detail'),
+            'rid' => $uid,
+        ]);
+        return redirect()->route('appointment.index')->with('success', 'Appointment successfully!');
+
     }
 
     /**
@@ -63,5 +115,13 @@ class AppointmentController extends Controller
     public function destroy(Appointment $appointment)
     {
         //
+    }
+    public function upreadApp(Request $request)
+    {
+        $Appointment = Appointment::find($request->id);
+        $Appointment->status_appointments = 1;
+        $Appointment->save();
+
+        return response()->json(['success' => 'Status read successfully.']);
     }
 }

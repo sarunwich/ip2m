@@ -18,5 +18,10 @@ class Seller extends Model
         'accept',
         
     ];
+
     protected $primaryKey = 'sid';
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class, 'sid', 'sid')->orderBy('created_at','desc');
+    }
 }

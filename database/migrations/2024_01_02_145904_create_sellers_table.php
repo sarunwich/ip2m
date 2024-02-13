@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('store_name',255);
             $table->string('id_number',50);
             $table->tinyInteger('person_type')->nullable();
-            
+            $table->tinyInteger('status_sell')->nullable();
             $table->tinyInteger('accept')->nullable()->nullable();
             $table->timestamps();
         });

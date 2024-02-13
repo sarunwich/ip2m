@@ -111,6 +111,9 @@
                             @endif
                         @else
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('offer.buy') }}">{{ __('messages.Offeringbuy') }}</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('offer.index') }}">{{ __('messages.Offering') }}</a>
                         </li>
                         {{-- <li class="nav-item dropdown">

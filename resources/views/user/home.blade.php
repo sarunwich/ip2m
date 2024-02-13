@@ -60,7 +60,7 @@
             <div class="col-md-12">
                 <!-- ส่วนเนื้อหาของหน้าเว็บ -->
                 <div class="card">
-                    <div class="custom-red-header text-center">New arrival</div>
+                    <div class="custom-red-header text-center">{{ __('messages.Newarrival') }}</div>
 
                     <div class="card-body">
                         {{--  --}}
@@ -79,7 +79,46 @@
                                         <div class="card-body" style="background-color: rgb(255, 246, 218)">
                                             <h5 class="card-title">{{ $seller->product_name }}</h5>
                                             <p class="card-text">รายละเอียดสินค้าที่ i2M{{substr($seller->id,2,7)}}</p>
-                                            <a href="{{ route('products.show', $seller->id) }}" class="btn btn-primary">ดูรายละเอียด</a>
+                                            <a href="{{ route('products.show', $seller->id) }}" ><button class="buttonred">ดูรายละเอียด</button></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- @endfor --}}
+                                @endforeach
+
+
+                        </div>
+                        {{--  --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+<br>
+        <div class="row mt-4">
+         
+            <div class="col-md-12">
+                <!-- ตามหา -->
+                <div class="card">
+                    <div class="custom-red-header text-center">{{ __('messages.Find_product') }}</div>
+
+                    <div class="card-body">
+                        {{--  --}}
+                        <div class="row">
+                            <!-- เพิ่มสินค้าตามต้องการ -->
+                            @foreach ($offerbuys as $offerbuy)
+                            {{-- @for ($i = 1; $i <= 8; $i++) --}}
+                                <div class="col-md-3 mb-3">
+                                    <div class="card">
+                                       
+                                        {{-- @foreach ($seller->images as $picture)
+                                       
+                                    @endforeach --}}
+                                        <img src="{{ asset('storage/ProductImagebuys/'.$offerbuy->imagesbuy[0]->ProductImagebuy_name) }}" class="card-img-top"
+                                            alt="Product">
+                                        <div class="card-body" style="background-color: rgb(255, 246, 218)">
+                                            <h5 class="card-title">{{ $offerbuy->Interest_data }}</h5>
+                                            <p class="card-text">รายละเอียดสินค้าที่ F{{$offerbuy->id}}</p>
+                                            <a href="{{ route('buy.show', $offerbuy->id) }}" ><button class="buttonred">ดูรายละเอียด</button></a>
                                         </div>
                                     </div>
                                 </div>

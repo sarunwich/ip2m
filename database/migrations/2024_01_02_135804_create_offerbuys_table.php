@@ -20,13 +20,16 @@ return new class extends Migration
             $table->foreign('category_id')->references('category_id')->on('categories');
             $table->unsignedBigInteger('profile_id')->nullable();
             $table->foreign('profile_id')->references('profile_id')->on('profiles');
+            $table->unsignedBigInteger('endorser_id')->nullable();
+            $table->foreign('endorser_id')->references('id')->on('users');
             $table->text('Interest_data')->nullable();
             $table->text('offbuy_detail')->nullable();
             $table->date('offbuy_date')->nullable();
+            $table->tinyInteger('status')->nullable();
             $table->date('offerbuy_startdate')->nullable();
             $table->date('offerbuy_enddate')->nullable();
-            $table->decimal('offerbuy_price',15,2)->nullable();
-            $table->string('offerbuy_image',200)->nullable();
+            $table->string('offerbuy_price',500)->nullable();
+            // $table->string('offerbuy_image',200)->nullable();
            
             $table->timestamps();
         });

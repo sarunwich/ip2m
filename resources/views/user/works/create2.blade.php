@@ -123,7 +123,7 @@
                         </div>
                     </div>
                     <button class="btn btn-success" type="button" onclick="education_fields();" id="add-field">Add
-                        Field</button>
+                        Picture</button>
                     <br>
                     <div class="row g-3">
                         <div class="col-md-6 text-left">

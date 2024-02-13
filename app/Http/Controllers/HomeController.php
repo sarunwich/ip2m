@@ -7,6 +7,7 @@ use Illuminate\View\View;
 use App\Models\IPtype;
 use App\Models\Seller;
 use App\Models\Product;
+use App\Models\Offerbuy;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -30,6 +31,15 @@ class HomeController extends Controller
     {
         $id = Auth::user()->id;
         $iptypes=IPtype::all();
+
+        $offerbuys=Offerbuy::where('offerbuys.status','=',1)
+        ->where('offerbuys.offerbuy_enddate','>=',date('Y-m-d'))
+        ->join('profiles','profiles.profile_id','offerbuys.profile_id')
+        ->select('offerbuys.*')
+        ->where('profiles.rid', '<>', $id)
+        ->with('imagesbuy')
+        ->paginate(8);
+
         $sellers=Product::join('sellers', 'sellers.pid', '=', 'products.id')
         ->join('i_pdatas', 'i_pdatas.id', '=', 'products.IPdata_id')
         ->leftJoin('approves', 'approves.sid', '=', 'sellers.sid')
@@ -39,7 +49,7 @@ class HomeController extends Controller
         ->with('images')
         ->select('products.*','sellers.created_at as sellercreated_at','sellers.sid as sid','approves.status as status','approves.updated_at as statusupdated_at')
         ->paginate(8);
-        return view('user.home',compact('iptypes','sellers'));
+        return view('user.home',compact('iptypes','sellers','offerbuys'));
     } 
   
     /**

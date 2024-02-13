@@ -1,12 +1,15 @@
 @extends('layouts.user')
+@push('style')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
 
+@endpush
 @section('content')
     <div class="container">
         {{-- <div class="container-fluid"> --}}
         <div class="row justify-content-center">
-            <div class="col-md-3 left-side  >
+            <div class="col-md-3 left-side ">
                 <h2>{{ __('messages.Work_information') }}</h2>
-                <a href="{{ route('works.create') }}" class="btn btn-primary">{{ __('messages.Add_Performance') }}</a>
+                <a href="{{ route('works.create')}}" class="btn btn-primary">{{ __('messages.Add_Performance') }}</a>
 
                 @if (session('success'))
                     <div class="alert alert-success mt-3">
@@ -19,6 +22,7 @@
                 <table class="table mt-3">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>{{ __('messages.profile_name') }}</th>
                             <th>created_at</th>
                             <th>Status</th>
@@ -27,6 +31,7 @@
                     <tbody>
                         @foreach ($Products as $Product)
                             <tr>
+                                <th scope="row">{{ ($Products->currentPage() - 1) * $Products->perPage() + $loop->iteration }}</th>
                                 <td>{{ $Product->product_name }}</td>
                                 <td>{{ $Product->created_at }}</td>
                                 <td>
@@ -46,6 +51,10 @@
                         @endforeach
                     </tbody>
                 </table>
+                {!! $Products->withQueryString()->links('pagination::bootstrap-5') !!}
+                {{-- <div class="d-flex justify-content-center">
+                    {!!$Products->links() !!}
+                </div> --}}
             </div>
         </div>
     </div>

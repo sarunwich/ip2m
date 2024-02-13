@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Phattarachai\ThaiIdCardValidation\ThaiIdCardRule;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class SellerController extends Controller
 {

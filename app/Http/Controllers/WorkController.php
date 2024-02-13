@@ -33,7 +33,7 @@ class WorkController extends Controller
             // ->orderByDesc('id')
             ->select('products.*')
         //->get();
-            ->get();
+            ->paginate(10);
         return view('user.works.index',compact('Products'));
     }
 

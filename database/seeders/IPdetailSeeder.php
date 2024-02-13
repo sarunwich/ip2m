@@ -17,6 +17,7 @@ class IPdetailSeeder extends Seeder
             [
                 'ipdetail_name' => 'เลขที่คำขอ',
                 'type'=>'text'
+                
             ],
             [
                 'ipdetail_name' => 'ชื่อเจ้าของ',

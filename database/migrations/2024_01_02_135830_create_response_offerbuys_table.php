@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('offerbuy_id')->references('id')->on('offerbuys');
             $table->date('response_date')->nullable();
             $table->text('response_detail')->nullable();
+            $table->tinyInteger('status')->nullable();
             $table->timestamps();
         });
     }

@@ -22,7 +22,7 @@
 
         </div>
 
-        <div class="row justify-content-center">
+        <div class="row justify-content-center mt-4">
 
             <div class="col-md-12">
                 <div class="card">
@@ -57,6 +57,46 @@
                     </div>
                 </div>
             </div>
+            <br>
+        </div>
+        <div class="row justify-content-center mt-4">
+            {{-- ตามหาผลิตภัน --}}
+            <div class="col-md-12">
+                <div class="card">
+                    {{-- <div class="custom-red-header text-center" >New arrival</div> --}}
+                    <div class="custom-red-header d-flex justify-content-between align-items-center text-center">
+                        <h3 class="card-title  mb-0"> {{ __('messages.Find_product') }}</h3>
+                        <a href="#" class="btn btn-primary float-end">ดูรายละเอียด</a>
+
+                    </div>
+                    <div class="card-body">
+                        {{--  --}}
+                        <div class="row">
+                            <!-- เพิ่มสินค้าตามต้องการ -->
+
+                            @foreach ($offerbuys as $offerbuy)
+                                <div class="col-md-3 mb-3">
+                                    <div class="card">
+                                        <img src="{{ asset('storage/ProductImagebuys/'.$offerbuy->imagesbuy[0]->ProductImagebuy_name) }}" class="card-img-top"
+                                            alt="Product">
+                                        <div class="card-body" style="background-color: rgb(249, 219, 187)">
+                                            <h5 class="card-title">{{ $offerbuy->Interest_data }}</h5>
+                                            <p class="card-text">รายละเอียดสินค้าที่ F{{$offerbuy->id}}</p>
+                                            <a href="#" class="btn btn-primary">ดูรายละเอียด</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+
+
+                        </div>
+                        {{--  --}}
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+        <div class="row justify-content-center mt-4">
             {{--  --}}
             <div class="col-md-12">
                 <div class="card ">

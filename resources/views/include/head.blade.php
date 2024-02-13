@@ -19,8 +19,12 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
     @include('include.footercss')
 <style>
+    .eye-icon {
+    color: gray;
+}
     .custom-red-header {
         width: 100%;
   background-color: rgb(255, 3, 3);
@@ -72,14 +76,17 @@
   background-color: #ff0303; /* red */
   border: none;
   color: white;
-  padding: 20px;
+  padding: 10px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  margin: 4px 2px;
+  margin: 2px 2px;
   cursor: pointer;
   border-radius: 50px;
+}
+.custom-checkbox:checked {
+    background-color: #ff0303; /* Background color when checked */
 }
 .strong {
   font-weight:bold;
@@ -87,6 +94,7 @@
   line-height:22px;
   /* border:1px solid #000000; */
 }
+
 
         
 </style>

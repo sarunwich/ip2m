@@ -17,11 +17,13 @@ return new class extends Migration
             $table->foreign('sid')->references('sid')->on('sellers');
             $table->unsignedBigInteger('rid')->nullable();
             $table->foreign('rid')->references('id')->on('users');
-            $table->date('appointment_time')->nullable();
-            $table->string('purpose',100)->nullable();
-           
+            $table->dateTime('appointment_time')->nullable();
+            $table->integer('purpose1')->nullable();
+            $table->integer('purpose2')->nullable();
+            $table->integer('purpose3')->nullable();
             $table->text('appointment_detail')->nullable();
             $table->string('other',500)->nullable();
+            $table->tinyInteger('status_appointments')->nullable();
             $table->timestamps();
         });
     }
