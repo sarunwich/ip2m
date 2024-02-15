@@ -28,7 +28,7 @@
                 <div class="card">
                     {{-- <div class="custom-red-header text-center" >New arrival</div> --}}
                     <div class="custom-red-header d-flex justify-content-between align-items-center text-center">
-                        <h3 class="card-title  mb-0"> {{ __('messages.Newarrival') }}</h3>
+                        <h3 class="card-title  ml-4"> {{ __('messages.Newarrival') }}</h3>
                         <a href="#" class="btn btn-primary float-end">ดูรายละเอียด</a>
 
                     </div>
@@ -45,7 +45,7 @@
                                         <div class="card-body" style="background-color: rgb(249, 219, 187)">
                                             <h5 class="card-title">{{ $seller->product_name }}</h5>
                                             <p class="card-text">รายละเอียดสินค้าที่ i2M{{substr($seller->id,2,7)}}</p>
-                                            <a href="#" class="btn btn-primary">ดูรายละเอียด</a>
+                                            <a href="{{ route('showproduct', $seller->id) }}" ><button class="buttonred">ดูรายละเอียด</button></a>
                                         </div>
                                     </div>
                                 </div>
@@ -65,7 +65,7 @@
                 <div class="card">
                     {{-- <div class="custom-red-header text-center" >New arrival</div> --}}
                     <div class="custom-red-header d-flex justify-content-between align-items-center text-center">
-                        <h3 class="card-title  mb-0"> {{ __('messages.Find_product') }}</h3>
+                        <h3 class="card-title  ml-4"> {{ __('messages.Find_product') }}</h3>
                         <a href="#" class="btn btn-primary float-end">ดูรายละเอียด</a>
 
                     </div>
@@ -82,7 +82,7 @@
                                         <div class="card-body" style="background-color: rgb(249, 219, 187)">
                                             <h5 class="card-title">{{ $offerbuy->Interest_data }}</h5>
                                             <p class="card-text">รายละเอียดสินค้าที่ F{{$offerbuy->id}}</p>
-                                            <a href="#" class="btn btn-primary">ดูรายละเอียด</a>
+                                            <a href="{{ route('showoffer', $offerbuy->id) }}" ><button class="buttonred">ดูรายละเอียด</button></a>
                                         </div>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@
             <div class="col-md-12">
                 <div class="card ">
                     <div class="custom-red-header d-flex justify-content-between align-items-center text-center">
-                        <h3 class="card-title mb-0"> {{ __('messages.group') }}</h3>
+                        <h3 class="card-title ml-4"> {{ __('messages.group') }}</h3>
                         <a href="/categories" class="btn btn-primary float-end">ดูรายละเอียด</a>
                     </div>
 

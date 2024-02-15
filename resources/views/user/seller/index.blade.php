@@ -19,6 +19,7 @@
                 <table class="table mt-3">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>{{ __('messages.profile_name') }}</th>
                             <th>created_at</th>
                             <th>Status</th>
@@ -28,8 +29,15 @@
                     <tbody>
                         @foreach ($sellers as $seller)
                             <tr>
+                                <td scope="row">{{ ($sellers->currentPage() - 1) * $sellers->perPage() + $loop->iteration }}</td>
                                 <td>{{ $seller->product_name }}</td>
-                                <td>{{ $seller->sellercreated_at }}</td>
+                                <td>
+                                    @if (app()->getLocale() == 'en')
+                                    {{ \Carbon\Carbon::parse($seller->sellercreated_at)->isoFormat('LL') }}
+                                @else
+                                    {{ \Carbon\Carbon::parse($seller->sellercreated_at)->locale(app()->getLocale())->thaidate('j F Y') }}
+                                @endif
+                                </td>
                                 <td>
                                    @if($seller->status==1)
                                    <div class="alert alert-success" role="alert">
@@ -62,6 +70,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {!! $sellers->withQueryString()->links('pagination::bootstrap-5') !!}
             </div>
         </div>
     </div>

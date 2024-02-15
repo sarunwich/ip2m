@@ -19,6 +19,7 @@
                 <table class="table mt-3">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>{{ __('messages.profile_name') }}</th>
 
                         </tr>
@@ -26,8 +27,9 @@
                     <tbody>
                         @foreach ($profiles as $profile)
                             <tr>
+                                
+                                <td><img src="{{ asset('storage/profile_picture/'.$profile->profile_picture) }}"  class="img-fluid rounded-circle mb-2" style="width: 80px;"  alt="profile"></td>
                                 <td>{{ $profile->profile_name }}</td>
-
                                 <td>
                                     <a href="{{ route('profiles.edit', $profile->profile_id ) }}" class="btn btn-primary">Edit</a>
                                     <form action="{{ route('profiles.destroy', $profile->profile_id ) }}" method="POST"

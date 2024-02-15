@@ -14,6 +14,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\OfferbuyController;
 use App\Http\Controllers\ResponseOfferbuyController;
 use App\Http\Controllers\ProductImagebuyController;
+use App\Http\Controllers\ProductImageController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -40,6 +41,8 @@ Route::post('/language-switch', [LangController::class, 'languageswitch'])->name
 Route::post('/get-amphur', [DropdownController::class,'getAmphur'])->name('get.amphur');
 Route::post('/get-district', [DropdownController::class,'getDistrict'])->name('get.district');
 Route::post('/get-iptypedetail', [DropdownController::class,'getiptypedetail'])->name('get.iptypedetail');
+Route::get('/showproduct/{id}', [welcomeController::class,'showproduct'])->name('showproduct');
+Route::get('/showoffer/{id}', [welcomeController::class,'showoffer'])->name('showoffer');
 
 // Auth::routes();
 
@@ -60,12 +63,19 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::resource('buy', OfferbuyController::class);
     Route::resource('response', ResponseOfferbuyController::class);
     Route::resource('productImagebuy', ProductImagebuyController::class);
-    
+    Route::resource('productImage', ProductImageController::class);
    
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'upprofile'])->name('user.profile');
+Route::post('/profile', [App\Http\Controllers\ProfileController::class, 'storeupprofile'])->name('user.profile.store');
+
      Route::post('work/create-step-one', [WorkController::class,'postCreateStepOne'])->name('work.create.step.one.post');
+     Route::post('work/edit-step-one', [WorkController::class,'postEditStepOne'])->name('work.edit.step.one.post');
     Route::get('work/create-step-two', [WorkController::class ,'createStepTwo'])->name('user.works.create2');
+    Route::get('work/edit-step-two', [WorkController::class ,'editStepTwo'])->name('user.works.edit2');
     Route::post('work/create-step-two', [WorkController::class ,'postCreateStepTwo'])->name('work.create.step.two.post');
+    Route::post('work/edit-step-two', [WorkController::class ,'postEditStepTwo'])->name('work.edit.step.two.post');
     Route::post('/get-category', [DropdownController::class,'getCategory'])->name('get.category');
     Route::get('changeStatus', [ProductController::class ,'changeStatus']);
     Route::get('upreadApp', [AppointmentController::class ,'upreadApp']);

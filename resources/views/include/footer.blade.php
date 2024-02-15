@@ -31,7 +31,7 @@
         <!--Grid column-->
   
         <!--Grid column-->
-        <div class="col-lg-3 col-md-6 mb-4 mb-md-0 ">
+        {{-- <div class="col-lg-3 col-md-6 mb-4 mb-md-0 ">
           <h5 class="text-uppercase mb-0">Quick Links</h5>
   
           <ul class="list-unstyled">
@@ -48,7 +48,7 @@
               <a href="#!" class="text-light ">Link 4</a>
             </li>
           </ul>
-        </div>
+        </div> --}}
         <!--Grid column-->
   
        

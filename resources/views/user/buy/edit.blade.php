@@ -25,7 +25,8 @@
                 @endif --}}
             </div>
             <div class="col-md-9 right-side">
-                <form class="row g-2" action="{{ route('buy.update',$offerbuy->id ) }}" method="POST" enctype="multipart/form-data">
+                <form class="row g-2" action="{{ route('buy.update', $offerbuy->id) }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row g-2">
@@ -44,7 +45,7 @@
                         <div class="col">
                             <label for="category">{{ __('messages.category') }}:</label>
                             <select class="form-control select2bs4" title="Please select" style="width:100%" id="category"
-                                name="category_id" title="เลือก"  data-validation="required">
+                                name="category_id" title="เลือก" data-validation="required">
                                 <option id=""> -- Select --</option>
                                 @foreach ($Categorys as $Category)
                                     <option value="{{ $Category->category_id }}"
@@ -93,11 +94,12 @@
                         </div>
                     </div>
                     @php $i=0; @endphp
-                    @foreach ($offerbuy->imagesbuy as $key => $value)
-                        {{ $value->ProductImagebuy_id }}
-                        {{ $offerbuy->id }}
-                        @php $i++; @endphp
-                        <div id="dynamic-form">
+                    <div id="dynamic-form">
+                        @foreach ($offerbuy->imagesbuy as $key => $value)
+                            {{-- {{ $value->ProductImagebuy_id }}
+                            {{ $offerbuy->id }} --}}
+                            @php $i++; @endphp
+
                             <div class="row g-2">
                                 <div class="col-sm-3">
                                     <label for="field_1">ภาพที่ {{ $i }} :</label>
@@ -106,11 +108,12 @@
                                             class="card-img-top" alt="Product">
                                         {{-- <button class="btn btn-danger" type="button" id="button-addon2">Remove</button> --}}
                                     </div>
-                                    <button class="btn btn-danger" type="button" onclick="deletePost({{ $value->ProductImagebuy_id }})">Delete</button>
+                                    <button class="btn btn-danger" type="button"
+                                        onclick="deletePost({{ $value->ProductImagebuy_id }})">Delete</button>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
                     <input type="hidden" name="chki" id="chki" value="{{ $i }}">
                     @if ($i == 0)
                         <div id="dynamic-form">

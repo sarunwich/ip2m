@@ -119,6 +119,10 @@
                                 </li>
                             @endif
                         @else
+                        <li class="nav-item">
+                            <a class="nav-link {{ Route::is('home') ? 'active' : '' }}"
+                                href="{{ route('home') }}">{{ __('messages.home') }}</a>
+                        </li>
                             <li class="nav-item">
                                 <a class="nav-link {{ Route::is('works.index') ? 'active' : '' }}"
                                     href="{{ route('works.index') }}">{{ __('messages.Work_information') }}</a>
@@ -166,10 +170,13 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    
                                     <a class="dropdown-item" href="{{ route('profiles.index') }}">
                                         {{ __('messages.editprofile') }}
                                     </a>
-
+                                    <a class="dropdown-item" href="{{ route('user.profile') }}">
+                                        {{ __('messages.editpass') }}
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

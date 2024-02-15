@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends('layouts.app')
 
 @section('content')
     {{-- <div class="container">
@@ -21,8 +21,8 @@
     </div>
 </div> --}}
 
-    <div class="mcategory-menu">
-        {{-- <div class="row justify-content-center"> --}}
+    {{-- <div class="mcategory-menu">
+      
 
         <div class="mb-3 row justify-content-center">
 
@@ -52,7 +52,7 @@
             </div>
         </div>
 
-    </div>
+    </div> --}}
 
     {{-- <div class="container-fluid"> --}}
     <br>
@@ -96,8 +96,7 @@
                     <p><strong>{{ __('messages.price') }}:</strong></p>
                     {{ $product->price }}
                     <hr>
-                    <a href="{{ route('appointment.create', ['sid' => $product->sid]) }}"><button
-                            class="buttonred">{{ __('messages.appointment') }}</button></a>
+                    <a href="{{ route('appointment.create',['sid' => $product->sid]) }}"><button class="buttonred">{{ __('messages.appointment') }}</button></a>
                     {{-- <p class="card-text">{{ __('messages.product_name') }}</p>
                     {{ $product->product_name }}
                     <p class="card-text">{{ __('messages.product_name') }}</p>
@@ -126,21 +125,10 @@
                         @foreach ($iPdetails as $iPdetail)
                             @if ($IPdatail->ipdetail_id == $iPdetail->ipdetail_id && $IPdatail->ipdetail_id != 8)
                                 <strong>{{ $iPdetail->ipdetail_name }}:</strong>
-                              @php  $type =$iPdetail->type ; @endphp
                             @endif
                         @endforeach
-                       
                         @if ($IPdatail->ipdetail_id != 8)
-                        
-                            @if ($type =='date')
-                                @if (app()->getLocale() == 'en')
-                                    {{ \Carbon\Carbon::parse($IPdatail->IPdataDetail_data)->isoFormat('LL') }}
-                                @else
-                                    {{ \Carbon\Carbon::parse($IPdatail->IPdataDetail_data)->locale(app()->getLocale())->thaidate('j F Y') }}
-                                @endif
-                            @else
-                                {{ $IPdatail->IPdataDetail_data }}
-                            @endif
+                            {{ $IPdatail->IPdataDetail_data }}
                             <hr>
                         @endif
                     @endforeach

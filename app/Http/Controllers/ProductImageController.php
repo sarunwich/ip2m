@@ -62,5 +62,7 @@ class ProductImageController extends Controller
     public function destroy(ProductImage $productImage)
     {
         //
+        $productImage->delete();
+        return redirect()->back()->with('success', 'ProductImage delete successfully!');
     }
 }

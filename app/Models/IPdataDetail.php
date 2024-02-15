@@ -17,5 +17,9 @@ class IPdataDetail extends Model
     {
         return $this->belongsTo(IPdata::class);
     }
+    public function IPdetail()
+    {
+        return $this->belongsTo(IPdetail::class,'ipdetail_id','ipdetail_id');
+    }
     
 }

@@ -23,6 +23,7 @@ return [
     'editprofile'=>'แก้ไขข้อมูลส่วนตัว',
     'profile'=>'ข้อมูลส่วนตัว',
     'Create_Profile'=>'สร้างข้อมูลส่วนตัว',
+    'Update_Profile'=>'แก้ไขข้อมูลส่วนตัว',
     'profile_name'=>'ชื่อ',
     'PROVINCE_NAME'=>'PROVINCE_NAME',
     'address'=>'ที่อยู่',
@@ -91,5 +92,7 @@ return [
     'daterecord'=>'วันที่ตอบกลับ',
     'Purchase_request_number'=>'เลขที่ขอซื้อ',
     'Approvedate'=>'วันที่อนุมัติ',
+    'editpass'=>'แก้ไขรหัสผ่าน',
+    'home'=>'หน้าหลัก',
 
 ];

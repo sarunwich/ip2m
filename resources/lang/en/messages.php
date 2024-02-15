@@ -23,6 +23,7 @@ return [
     'editprofile'=>'Edit Profile',
     'profile'=>'Profiles',
     'Create_Profile'=>'Create Profile',
+    'Update_Profile'=>'Update Profile',
     'profile_name'=>'Name',
     'PROVINCE_NAME'=>'ROVINCE_NAME_ENG',
     'address'=>'Address',
@@ -90,4 +91,6 @@ return [
     'daterecord'=>'Response date',
     'Purchase_request_number'=>'Purchase request number',
     'Approvedate'=>'Approve Date',
+    'editpass'=>'Edit Password',
+    'home'=>'Home',
 ];

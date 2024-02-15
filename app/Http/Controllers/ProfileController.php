@@ -8,9 +8,11 @@ use App\Models\Province;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
+  
     /**
      * Display a listing of the resource.
      */
@@ -60,8 +62,8 @@ class ProfileController extends Controller
             'line' => 'required|string|max:100',
             'Instagram' => 'required|string|max:100',
 
-        ],[
-           'profile_picture'=>'The profile picture field must not be greater than 5120 kilobytes.'
+        ], [
+            'profile_picture' => 'The profile picture field must not be greater than 5120 kilobytes.',
         ]);
 
         if ($request->hasfile('profile_picture')) {
@@ -133,6 +135,8 @@ class ProfileController extends Controller
     public function edit(Profile $profile)
     {
         //
+        // $profile = Profile::findOrFail($profile);
+        return view('user.profiles.edit', compact('profile'));
     }
 
     /**
@@ -141,6 +145,48 @@ class ProfileController extends Controller
     public function update(Request $request, Profile $profile)
     {
         //
+        $request->validate([
+            'profile_name' => 'required|string|max:255',
+            'institute' => 'required|string|max:255',
+            'profile_picture' => 'sometimes|required|image|mimes:jpeg,png,jpg|max:5120', // max 5MB
+            'country' => 'required|string|max:100',
+            'address' => 'required|string|max:100',
+            'province' => 'required|string|max:100',
+            'district' => 'required|string|max:100',
+            'tombon' => 'required|string|max:100',
+            'zipcode' => 'required|string|min:5|max:5',
+            'tel' => 'required|string|min:9|max:10',
+            'website' => 'required|string|max:100',
+            'facebook' => 'required|string|max:100',
+            'twitter' => 'required|string|max:100',
+            'line' => 'required|string|max:100',
+            'Instagram' => 'required|string|max:100',
+
+        ]);
+        $profile->profile_name = $request->profile_name;
+        $profile->institute = $request->institute;
+        $profile->country = $request->country;
+        $profile->address = $request->address;
+        $profile->province = $request->province;
+        $profile->district = $request->district;
+        $profile->tombon = $request->tombon;
+        $profile->tel = $request->tel;
+        $profile->website = $request->website;
+        $profile->facebook = $request->facebook;
+        $profile->twitter = $request->twitter;
+        $profile->line = $request->line;
+        $profile->Instagram = $request->Instagram;
+        $profile->save();
+        if ($request->file('profile_picture')) {
+            $filename = $request->file('profile_picture')->getClientOriginalName();
+            $filename = explode(".", $filename);
+            $name = "P_" . $filename[0] . "_" . time() . rand(1, 100) . '.' . $request->profile_picture->extension();
+            $request->profile_picture->storeAs('public/profile_picture', $name);
+            $profile->profile_picture = $name;
+            $profile->save();
+        }
+        return redirect()->route('profiles.index')->with('success', 'Profile Update successfully');
+
     }
 
     /**
@@ -153,5 +199,43 @@ class ProfileController extends Controller
         // $Profile = Profile::find($profile);
         $profile->delete();
         return redirect()->back()->with('success', 'Del successfully.');
+    }
+    public function upprofile()
+    {
+        return view('user.uppass.profile');
+    }
+    public function storeupprofile(Request $request)
+    {
+        $request->validate([
+            'prefix' => 'required',
+            'firstname' => ['required', 'string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
+            'tel' => ['required', 'string', 'max:15', 'min:8'],
+            // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'confirm_password' => ['required_with:password|same:password','min:8',]
+            
+        ]);
+  
+        $input = $request->all();
+          
+        // if ($request->hasFile('avatar')) {
+        //     $avatarName = time().'.'.$request->avatar->getClientOriginalExtension();
+        //     $request->avatar->move(public_path('avatars'), $avatarName);
+  
+        //     $input['avatar'] = $avatarName;
+        
+        // } else {
+        //     unset($input['avatar']);
+        // }
+  
+        if ($request->filled('password')) {
+            $input['password'] = Hash::make($input['password']);
+        } else {
+            unset($input['password']);
+        }
+  
+        auth()->user()->update($input);
+    
+        return back()->with('success', 'Profile updated successfully.');
     }
 }

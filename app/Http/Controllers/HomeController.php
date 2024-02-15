@@ -9,6 +9,8 @@ use App\Models\Seller;
 use App\Models\Product;
 use App\Models\Offerbuy;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Database\Eloquent\Builder;
 
 class HomeController extends Controller
 {
@@ -27,7 +29,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(): View
+    public function index(Request $request): View
     {
         $id = Auth::user()->id;
         $iptypes=IPtype::all();
@@ -40,6 +42,25 @@ class HomeController extends Controller
         ->with('imagesbuy')
         ->paginate(8);
 
+        if($request->filled('q')){
+            $sellers=Product::join('sellers', 'sellers.pid', '=', 'products.id')
+        ->join('i_pdatas', 'i_pdatas.id', '=', 'products.IPdata_id')
+        ->leftJoin('approves', 'approves.sid', '=', 'sellers.sid')
+         ->where('approves.status', '=', 1)
+
+        ->where('i_pdatas.rid', '<>', $id)
+        ->with('images')
+        ->when(
+            $request->q,
+            function (Builder $builder) use ($request) {
+                $builder->where('product_name', 'like', "%{$request->q}%")
+                    ->orWhere('keyword', 'like', "%{$request->q}%")
+                    ->orWhere('product_detail', 'like', "%{$request->q}%");
+            }
+        )
+        ->select('products.*','sellers.created_at as sellercreated_at','sellers.sid as sid','approves.status as status','approves.updated_at as statusupdated_at')
+        ->paginate(8);
+        }else{
         $sellers=Product::join('sellers', 'sellers.pid', '=', 'products.id')
         ->join('i_pdatas', 'i_pdatas.id', '=', 'products.IPdata_id')
         ->leftJoin('approves', 'approves.sid', '=', 'sellers.sid')
@@ -49,6 +70,8 @@ class HomeController extends Controller
         ->with('images')
         ->select('products.*','sellers.created_at as sellercreated_at','sellers.sid as sid','approves.status as status','approves.updated_at as statusupdated_at')
         ->paginate(8);
+        }
+
         return view('user.home',compact('iptypes','sellers','offerbuys'));
     } 
   
