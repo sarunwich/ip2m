@@ -32,9 +32,7 @@ use Illuminate\Support\Facades\Auth;
 //     return view('welcome');
 // });
 Route::get('/', [welcomeController::class, 'index']);
-Route::get('/categories', function () {
-    return view('categories');
-});
+Route::get('/categories', [welcomeController::class, 'categories'])->name('categories');
 Route::get('lang/home', [LangController::class, 'index']);
 Route::get('lang/change', [LangController::class, 'change'])->name('changeLang');
 Route::post('/language-switch', [LangController::class, 'languageswitch'])->name('language.switch');
@@ -43,6 +41,7 @@ Route::post('/get-district', [DropdownController::class,'getDistrict'])->name('g
 Route::post('/get-iptypedetail', [DropdownController::class,'getiptypedetail'])->name('get.iptypedetail');
 Route::get('/showproduct/{id}', [welcomeController::class,'showproduct'])->name('showproduct');
 Route::get('/showoffer/{id}', [welcomeController::class,'showoffer'])->name('showoffer');
+Route::get('/findgroup/{id}', [welcomeController::class,'findgroup'])->name('findgroup');
 
 // Auth::routes();
 
@@ -79,6 +78,7 @@ Route::post('/profile', [App\Http\Controllers\ProfileController::class, 'storeup
     Route::post('/get-category', [DropdownController::class,'getCategory'])->name('get.category');
     Route::get('changeStatus', [ProductController::class ,'changeStatus']);
     Route::get('upreadApp', [AppointmentController::class ,'upreadApp']);
+    Route::get('/findtype/{id}', [HomeController::class,'findtype'])->name('findtype');
 
     
 });

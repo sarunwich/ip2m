@@ -10,5 +10,7 @@ class Group extends Model
     use HasFactory;
     protected $fillable = [
         'group_name',
+        'image',
+        'oder',
     ];
 }

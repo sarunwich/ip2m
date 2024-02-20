@@ -13,6 +13,7 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
+        "phattarachai/line-notify": "^2.0",
         "phattarachai/thai-id-card-validation": "^1.0",
         "phattarachai/thaidate": "^12.1"
     },

@@ -24,4 +24,8 @@ class Seller extends Model
     {
         return $this->hasMany(Appointment::class, 'sid', 'sid')->orderBy('created_at','desc');
     }
+    public function product()
+    {
+        return $this->belongsTo(Product::class ,'pid', 'id');
+    }
 }

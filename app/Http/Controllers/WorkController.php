@@ -174,7 +174,7 @@ class WorkController extends Controller
         }
 
         //
-        $pid = IdGenerator::generate(['table' => 'products', 'length' => 7, 'prefix' => date('y')]);
+        $pid = IdGenerator::generate(['table' => 'products', 'length' => 7, 'prefix' => date('ym')]);
         //
         Product::create([
             'id' => $pid,
@@ -266,15 +266,17 @@ class WorkController extends Controller
                 'IPdataDetail_data' => $ipdata['ipdata'][$key],
             ]);
         }
+        
         $Product = Product::findOrFail($ipdata['pid']);
+        // dd($request,$Product);
         $Product->product_name = $request->input('name');
         $Product->price = $request->input('price');
         $Product->highlight = $request->input('highlight');
         $Product->product_detail = $request->input('product_detail');
         $Product->display = $request->input('display');
         $Product->keyword = $request->input('keyword');
-        $Product->category_id = $request->input('category_id');
-        $Product->group_id = $request->input('group_id');
+        $Product->category_id = $request->input('category');
+        $Product->group_id = $request->input('group');
         $Product->save();
 //         //
 //         $pid = IdGenerator::generate(['table' => 'products', 'length' => 7, 'prefix' => date('y')]);
@@ -375,4 +377,5 @@ class WorkController extends Controller
         $product = Product::find($id);
         $product->delete();
     }
+   
 }

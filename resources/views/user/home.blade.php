@@ -49,7 +49,8 @@
                     @if ($key != 0)
                         |
                     @endif
-                    <a href="#" style="color: white">{{ $iptype->iptype_name }}</a>
+                    
+                    <a href="{{ route('findtype', $iptype->iptype_id)}}" style="color: white">{{ $iptype->iptype_name }}</a>
                 @endforeach
             </div>
         </div>

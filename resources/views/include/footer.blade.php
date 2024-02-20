@@ -10,17 +10,19 @@
       <!--Grid row-->
       <div class="row">
         <!--Grid column-->
-        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-          <h5 class="text-uppercase">Get In Touch</h5>
+        <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+          <h5 class="text-uppercase">ติดต่อสอบถาม</h5>
   
           <ul class="list-unstyled mb-0">
             <li>
-              <a href="#!" class="text-light ">กลุ่มภารกิจบริหารจัดการผลผลิต
-                ทรัพย์สนทางปัญญาและถ่ายทอดนวัตกรรมสถาบันวิจัยและนวัตกรรม
-                โทรภายใน 7253/7247</a>
+              <a href="#!" class="text-light ">กลุ่มภารกิจบริหารจัดการทรัพย์สินทางปัญญา<br>และธุรกิจนวัตกรรม สถาบันวิจัยและนวัตกรรม
+                <br>โทรศัพท์ 0 7460 9600 ต่อ 7253/7247</a>
             </li>
             <li>
-              <a href="#!" class="text-light ">081-5407304</a>
+              <a href="#!" class="text-light "><i class="fa fa-phone" aria-hidden="true"></i> 08 1540 7304</a>
+              
+          
+             
             </li>
             <li>
               <a href="#!" class="text-light ">tlo.research@tsu.ac.th</a>
@@ -28,10 +30,18 @@
             
           </ul>
         </div>
+        <div class="col-lg-4 col-md-6 mb-4 mb-md-0 ">
+         <a href="https://www.facebook.com/thaksinuniversityip" target="new" style="color: white" ><img src="{{ asset('storage/images/facebook.png') }}"  width="25" >
+          : TLO TSU ภารกิจทรัพย์สินทางปัญญา มหาวิทยาลัยทักษิณ</a>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4 mb-md-0 ">
+          เวบไซต์ : www.pt.tsu.ac.th/rdi
+        </div>
         <!--Grid column-->
   
         <!--Grid column-->
         {{-- <div class="col-lg-3 col-md-6 mb-4 mb-md-0 ">
+
           <h5 class="text-uppercase mb-0">Quick Links</h5>
   
           <ul class="list-unstyled">

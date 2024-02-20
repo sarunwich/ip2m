@@ -8,6 +8,9 @@ use App\Models\Product;
 use App\Models\Offerbuy;
 use App\Models\IPtype;
 use App\Models\IPdetail;
+use App\Models\Group;
+
+use Illuminate\Support\Facades\DB;
 
 
 class welcomeController extends Controller
@@ -18,7 +21,17 @@ class welcomeController extends Controller
     public function index()
     {
         //
-
+        $productCount = Product::select('products.group_id as group_id', DB::raw('count(*) as count'))
+        ->join('sellers', 'sellers.pid', '=', 'products.id')
+        ->join('i_pdatas', 'i_pdatas.id', '=', 'products.IPdata_id')
+        ->leftJoin('approves', 'approves.sid', '=', 'sellers.sid')
+         ->where('approves.status', '=', 1)
+         ->groupBy('products.group_id')->get();
+        
+        $groups=Group::orderBy('groups.order', 'asc')
+        ->get();
+        
+        // dd($groups);
         $offerbuys=Offerbuy::where('status','=',1)
         ->where('offerbuy_enddate','>=',date('Y-m-d'))
          ->with('imagesbuy')
@@ -34,7 +47,7 @@ class welcomeController extends Controller
         ->select('products.*','sellers.created_at as sellercreated_at','sellers.sid as sid','approves.status as status','approves.updated_at as statusupdated_at')
         ->paginate(8);
         // dd($offerbuys);
-        return view('welcome',compact('sellers','offerbuys'));
+        return view('welcome',compact('sellers','offerbuys','groups','productCount'));
     }
 
     /**
@@ -118,5 +131,36 @@ class welcomeController extends Controller
         ->first();
         // dd($offerbuy);
         return view('showoffer', compact('offerbuy'));
+    }
+    public function categories()
+    {
+        $groups=Group::orderBy('groups.order', 'asc')
+        ->get();
+        $sellers=Product::join('sellers', 'sellers.pid', '=', 'products.id')
+        ->join('i_pdatas', 'i_pdatas.id', '=', 'products.IPdata_id')
+        ->leftJoin('approves', 'approves.sid', '=', 'sellers.sid')
+         ->where('approves.status', '=', 1)
+
+        // ->where('i_pdatas.rid', '<>', $id)
+        ->with('images')
+        ->select('products.*','sellers.created_at as sellercreated_at','sellers.sid as sid','approves.status as status','approves.updated_at as statusupdated_at')
+        ->paginate(8);
+
+        return view('categories', compact('groups','sellers'));
+    }
+    public function findgroup($id)
+    {
+        $groups=Group::orderBy('groups.order', 'asc')
+        ->get();
+        $sellers=Product::join('sellers', 'sellers.pid', '=', 'products.id')
+        ->join('i_pdatas', 'i_pdatas.id', '=', 'products.IPdata_id')
+        ->leftJoin('approves', 'approves.sid', '=', 'sellers.sid')
+         ->where('approves.status', '=', 1)
+         ->where('products.group_id', '=', $id)
+        // ->where('i_pdatas.rid', '<>', $id)
+        ->with('images')
+        ->select('products.*','sellers.created_at as sellercreated_at','sellers.sid as sid','approves.status as status','approves.updated_at as statusupdated_at')
+        ->paginate(8);
+        return view('categories', compact('groups','sellers'));
     }
 }

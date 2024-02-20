@@ -4,9 +4,9 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8 ">
-                
+               
                         <div class="row justify-content-center">
-                            <div class="col-md-6 left-side" style="background-color: rgb(237, 18, 80);">
+                            <div class="col-md-6 left-side" style="background-color: rgb(255, 3, 3);">
                             </div>
                             <div class="col-md-6 right-side">
                                 <form method="POST" action="{{ route('login') }}">

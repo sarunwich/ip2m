@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->bigIncrements('group_id');
             $table->string('group_name');
+            $table->string('image',30);
+            $table->integer('order',2);
             $table->timestamps();
         });
     }

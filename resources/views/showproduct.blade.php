@@ -125,10 +125,21 @@
                         @foreach ($iPdetails as $iPdetail)
                             @if ($IPdatail->ipdetail_id == $iPdetail->ipdetail_id && $IPdatail->ipdetail_id != 8)
                                 <strong>{{ $iPdetail->ipdetail_name }}:</strong>
+                                @php  $type =$iPdetail->type ; @endphp
                             @endif
                         @endforeach
                         @if ($IPdatail->ipdetail_id != 8)
-                            {{ $IPdatail->IPdataDetail_data }}
+                        @if ($type == 'date')
+                         
+                                @if (app()->getLocale() == 'en')
+                                    {{ \Carbon\Carbon::parse($IPdatail->IPdataDetail_data)->isoFormat('LL') }}
+                                @else
+                                    {{ \Carbon\Carbon::parse($IPdatail->IPdataDetail_data)->locale('th')->thaidate('j F Y') }}
+                                @endif
+                            @else
+                                {{ $IPdatail->IPdataDetail_data }}
+                            @endif
+                            {{-- {{ $IPdatail->IPdataDetail_data }} --}}
                             <hr>
                         @endif
                     @endforeach
