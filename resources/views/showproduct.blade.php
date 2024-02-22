@@ -96,12 +96,27 @@
                     <p><strong>{{ __('messages.price') }}:</strong></p>
                     {{ $product->price }}
                     <hr>
-                    <a href="{{ route('appointment.create',['sid' => $product->sid]) }}"><button class="buttonred">{{ __('messages.appointment') }}</button></a>
+                    @if ($product->status_sell == null)
+                        <button class="buttonred">ปิดการขาย(Close the sale)</button>
+                    @else
+                        <a href="{{ route('appointment.create', ['sid' => $product->sid]) }}"><button
+                                class="buttonred">{{ __('messages.appointment') }}</button></a>
+                    @endif
                     {{-- <p class="card-text">{{ __('messages.product_name') }}</p>
                     {{ $product->product_name }}
                     <p class="card-text">{{ __('messages.product_name') }}</p>
                     {{ $product->product_name }} --}}
-
+                    <hr>
+                    <p>ยอดการเข้าชม: {{ $product->view_count }}</p>
+                    <p>ยอดถูกใจ: {{ $product->likes_count }}</p>
+                    @auth
+                        @if (!Auth::user()->likedProducts->contains($product))
+                            <form action="{{ route('products.like', $product) }}" method="POST">
+                                @csrf
+                                <button type="submit">กดถูกใจ</button>
+                            </form>
+                        @endif
+                    @endauth
                 </div>
             </div>
             <br>
@@ -129,8 +144,7 @@
                             @endif
                         @endforeach
                         @if ($IPdatail->ipdetail_id != 8)
-                        @if ($type == 'date')
-                         
+                            @if ($type == 'date')
                                 @if (app()->getLocale() == 'en')
                                     {{ \Carbon\Carbon::parse($IPdatail->IPdataDetail_data)->isoFormat('LL') }}
                                 @else

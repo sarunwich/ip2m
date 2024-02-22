@@ -19,13 +19,17 @@ class Seller extends Model
         
     ];
 
-    protected $primaryKey = 'sid';
+    // protected $primaryKey = 'sid';
     public function appointments()
     {
-        return $this->hasMany(Appointment::class, 'sid', 'sid')->orderBy('created_at','desc');
+        return $this->hasMany(Appointment::class, 'id', 'sid')->orderBy('created_at','desc');
     }
     public function product()
     {
         return $this->belongsTo(Product::class ,'pid', 'id');
+    }
+    public function profile()
+    {
+        return $this->belongsTo(Profile::class ,'profile_id', 'profile_id');
     }
 }

@@ -98,7 +98,7 @@
                             ' <div class="col"><input type="hidden" name="ipdid[]" class="form-control" value="' +
                             value.ipdetail_id +
                             '"><label for="pr' + value.ipdetail_id + '">' +
-                            value.ipdetail_name + '</label><input type="' +
+                            value.ipdetail_name +' '+ value.require +'</label><input type="' +
                             value.type +
                             '"   name="ipdata[]" class="form-control" placeholder="' +
                             value.ipdetail_name + '" aria-label="' + value

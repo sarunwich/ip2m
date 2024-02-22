@@ -29,4 +29,8 @@ class Profile extends Model
        
     ];
     protected $primaryKey = 'profile_id';
+    public function user()
+    {
+        return $this->belongsTo(User::class ,'rid', 'id');
+    }
 }

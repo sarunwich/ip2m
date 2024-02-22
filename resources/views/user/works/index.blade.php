@@ -48,13 +48,17 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('works.edit', $Product->id) }}" class="btn btn-primary">Edit</a>
-                                    <form action="{{ route('works.destroy', $Product->id) }}" method="POST"
-                                        class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger"
-                                            onclick="return confirm('Are you sure?')">Delete</button>
-                                    </form>
+                                    @if ($Product->seller)
+                                        @if ($Product->seller->accept != 1)
+                                            <form action="{{ route('works.destroy', $Product->id) }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger"
+                                                    onclick="return confirm('Are you sure?')">Delete</button>
+                                            </form>
+                                        @endif
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

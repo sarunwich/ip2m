@@ -28,4 +28,8 @@ class Offerbuy extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'category_id');
     }
+    public function profile()
+    {
+        return $this->belongsTo(Profile::class ,'profile_id', 'profile_id');
+    }
 }

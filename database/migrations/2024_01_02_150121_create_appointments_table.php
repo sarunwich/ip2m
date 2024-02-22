@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('sid')->nullable();
-            $table->foreign('sid')->references('sid')->on('sellers');
+            $table->foreign('sid')->references('id')->on('sellers');
             $table->unsignedBigInteger('rid')->nullable();
             $table->foreign('rid')->references('id')->on('users');
             $table->dateTime('appointment_time')->nullable();

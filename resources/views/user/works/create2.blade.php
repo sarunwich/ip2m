@@ -31,8 +31,8 @@
                         <div class="col">
 
                             <label for="title">{{ __('messages.product_name') }}:</label>
-                            <input type="text" value="{{ $product->name ?? old('name') ??'' }}" class="form-control" id="taskTitle"
-                                name="name" maxlength="200" required>
+                            <input type="text" value="{{ $product->name ?? (old('name') ?? '') }}" class="form-control"
+                                id="taskTitle" name="name" maxlength="200" required>
 
                         </div>
                     </div>
@@ -40,34 +40,35 @@
                         <div class="col">
 
                             <label for="title">{{ __('messages.highlight') }}:</label>
-                            <input type="text" value="{{ $product->highlight ?? old('highlight') ?? '' }}" class="form-control"
-                                id="highlight" name="highlight" maxlength="500" required>
+                            <input type="text" value="{{ $product->highlight ?? (old('highlight') ?? '') }}"
+                                class="form-control" id="highlight" name="highlight" maxlength="500" required>
 
                         </div>
                     </div>
                     <div class="row g-2">
                         <div class="col">
                             <label for="product_detail" class="form-label">{{ __('messages.product_detail') }}:</label>
-                            <textarea class="form-control" id="product_detail" name="product_detail" rows="3" required>{{ $product->product_detail ?? old('product_detail') ?? '' }}</textarea>
+                            <textarea class="form-control" id="product_detail" name="product_detail" rows="3" required>{{ $product->product_detail ?? (old('product_detail') ?? '') }}</textarea>
                         </div>
                     </div>
                     <div class="row g-2">
                         <div class="col">
                             <label for="title">{{ __('messages.price') }}:</label>
-                            <input type="text"  value="{{old('highlight') ?? 0}}" id="price" name="price"
+                            <input type="text" value="{{ old('highlight') ?? 0 }}" id="price" name="price"
                                 class="form-control" maxlength="200" required placeholder="Price">
                         </div>
                         <div class="col">
                             <label for="title">{{ __('messages.display') }}:</label>
                             <div class="form-check">
                                 <input class="form-check-input" value="1" type="radio" name="display" id="display1"
-                                  @if(old('display')==1) checked @endif  checked>
+                                    @if (old('display') == 1) checked @endif checked>
                                 <label class="form-check-label" for="display1">
                                     ร่าง (Draft)
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" value="2" type="radio" name="display" id="display2" @if(old('display')==2) checked @endif >
+                                <input class="form-check-input" value="2" type="radio" name="display" id="display2"
+                                    @if (old('display') == 2) checked @endif>
                                 <label class="form-check-label" for="display2">
                                     แสดงผล (Publish)
                                 </label>
@@ -77,8 +78,8 @@
                     <div class="row g-2">
                         <div class="col">
                             <label for="title">{{ __('messages.keyword') }}:</label>
-                            <input type="text" value="{{ $product->keyword ?? old('keyword') ??'' }}" class="form-control" id="keyword"
-                                name="keyword" required>
+                            <input type="text" value="{{ $product->keyword ?? (old('keyword') ?? '') }}"
+                                class="form-control" id="keyword" name="keyword" required>
                         </div>
 
                     </div>
@@ -113,13 +114,24 @@
                         <div class="row g-2">
                             <div class="col">
                                 <label for="field_1">ภาพที่ 1 :</label>
-                                <div class="input-group mb-3">
-                                    <input type="file" name="fields[]" id="field_1" accept="image/*" class="form-control"
-                                        placeholder="Recipient's username" aria-label="Recipient's username"
-                                        aria-describedby="button-addon2" required>
+
+                                <div class="input-group mb-12">
+                                    <input type="file" name="fields[]" id="field_1" accept="image/*"
+                                        class="form-control" placeholder="Recipient's username"
+                                        aria-label="Recipient's username" aria-describedby="button-addon2" required>
                                     {{-- <button class="btn btn-danger" type="button" id="button-addon2">Remove</button> --}}
+
+
+                                </div>
+                                <div class="col-auto">
+                                    <span id="button-addon2" class="form-text">
+                                        ภาพที่ใชควรเป็นแนวตั้งหรือสี่เหลี่ยมจัตุรสั
+                                        ขนาดไม่เกิน 5 MB
+                                    </span>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
                     <button class="btn btn-success" type="button" onclick="education_fields();" id="add-field">Add
@@ -191,18 +203,22 @@
                     '<div class="col">' +
                     '<label for="field_' + room + '">ภาพ ' + room + '</label>' +
                     '<div class="input-group mb-3">' +
-                    '<input type="file" class="form-control" name="fields[]" accept="image/*" id="field_' + room + '"required>' +
+                    '<input type="file" class="form-control" name="fields[]" accept="image/*" id="field_' + room +
+                    '"required"> </div><div class="col-auto"><span id="button-addon2" class="form-text"> ภาพที่ใชควรเป็นแนวตั้งหรือสี่เหลี่ยมจัตุรสั'+
+                                        'ขนาดไม่เกิน 5 MB</span></div>' +
                     '<button type="button" class="remove-field btn btn-danger" onclick="remove_education_fields(' + room +
                     ');">Remove</button>' +
-                    '</div></div></div>';
+                    '</div></div>';
                 $(dynamicForm).append(divtest);
             }
 
         }
+
         function remove_education_fields(rid) {
-	   $('.removeclass'+rid).remove();
-	   room --;
-   }
+            $('.removeclass' + rid).remove();
+            room--;
+        }
+
         function finecategory(group_id) {
             $('#category').prop('disabled', false);
             $.ajax({

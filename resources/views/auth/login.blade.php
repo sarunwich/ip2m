@@ -7,6 +7,7 @@
                
                         <div class="row justify-content-center">
                             <div class="col-md-6 left-side" style="background-color: rgb(255, 3, 3);">
+                                <img src="{{ asset('storage/images/Login_2.png') }}" class="card-img-top" alt="Product">
                             </div>
                             <div class="col-md-6 right-side">
                                 <form method="POST" action="{{ route('login') }}">

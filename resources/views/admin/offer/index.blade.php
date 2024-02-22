@@ -51,7 +51,7 @@
                                 <tbody>
                                     @foreach ($sellers as $seller)
                                         <tr>
-                                            <td></td>
+                                            <td>{{ ($sellers->currentPage() - 1) * $sellers->perPage() + $loop->iteration }}</td>
                                             <td>{{ $seller->product_name }}</td>
                                             <td>{{ $seller->sellercreated_at }}</td>
                                             <td>
@@ -95,6 +95,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            {!! $sellers->withQueryString()->links('pagination::bootstrap-5') !!}
                         </div>
                     </div>
                 </div>
@@ -110,13 +111,13 @@
             $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: '/upStatus',
+                    url:'{{ route('admin.upStatus') }}',
                     data: {
                         'status': status,
                         'id': id
                     },
                     success: function(data) {
-                        console.log(data.success)
+                        console.log(data)
                     }
                 });
         }

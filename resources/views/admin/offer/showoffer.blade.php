@@ -1,25 +1,7 @@
-@extends('layouts.user')
+@extends('layouts.admin')
 
 @section('content')
-    {{-- <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-  
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-  
-                    You are a User.
-                </div>
-            </div>
-        </div>
-    </div>
-</div> --}}
+   
 
     <div class="mcategory-menu">
         {{-- <div class="row justify-content-center"> --}}
@@ -43,12 +25,7 @@
         </div>
         <div class="mb-3 row justify-content-center">
             <div class="col-sm-6 text-center">
-                {{-- @foreach ($iptypes as $key => $iptype)
-                    @if ($key != 0)
-                        |
-                    @endif
-                    <a href="#" style="color: white">{{ $iptype->iptype_name }}</a>
-                @endforeach --}}
+               
             </div>
         </div>
 
@@ -110,8 +87,16 @@
                     <strong class="mb-4">{{ __('messages.Contact') }}:</strong>
                     {{ $offerbuy->profile_name }} {{ $offerbuy->profile_tel }}
                     <hr>
-                    <a href="{{ route('response.create', ['id' => $offerbuy->id]) }}"><button
-                            class="buttonred">{{ __('messages.ResponseTenderOffer') }}</button></a>
+                    {{-- <a href="{{ route('response.create', ['id' => $offerbuy->id]) }}"><button
+                            class="buttonred">{{ __('messages.ResponseTenderOffer') }}</button></a> --}}
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="{{$offerbuy->id}}rd_1" name="{{$offerbuy->id}}status" @if ($offerbuy->status == 1) checked @endif onchange="upstatusoffer({{$offerbuy->id}},1)" class="custom-control-input" value="1">
+                                <label class="custom-control-label green" for="{{$offerbuy->id}}rd_1">{{ __('messages.status1') }}</label>
+                              </div>
+                              <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="{{$offerbuy->id}}rd_2" name="{{$offerbuy->id}}status" @if ($offerbuy->status == 2) checked @endif onchange="upstatusoffer({{$offerbuy->id}},2)" class="custom-control-input" value="2">
+                                <label class="custom-control-label red" for="{{$offerbuy->id}}rd_2">{{ __('messages.status2') }}</label>
+                              </div>
                 </div>
             </div>
             <br>
@@ -125,3 +110,41 @@
 
     </div>
 @endsection
+@push('scripts')
+    <script>
+        function upstatusoffer(id,status){
+            // alert(id+'  '+status);
+            $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: '/upstatusoffer',
+                    data: {
+                        'status': status,
+                        'id': id
+                    },
+                    success: function(data) {
+                        console.log(data.success)
+                    }
+                });
+        }
+        $(function() {
+            $('.toggle-class').change(function() {
+                var status = $(this).prop('checked') == true ? 1 : 0;
+                var id = $(this).data('id');
+
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: '/changeStatus',
+                    data: {
+                        'status': status,
+                        'id': id
+                    },
+                    success: function(data) {
+                        console.log(data.success)
+                    }
+                });
+            })
+        })
+    </script>
+@endpush

@@ -28,6 +28,8 @@
     .custom-red-header {
         width: 100%;
   background-color: rgb(255, 3, 3);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
   color: white;
   text-align: center;
     }

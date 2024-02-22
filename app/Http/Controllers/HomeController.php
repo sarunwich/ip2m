@@ -45,7 +45,7 @@ class HomeController extends Controller
         if ($request->filled('q')) {
             $sellers = Product::join('sellers', 'sellers.pid', '=', 'products.id')
                 ->join('i_pdatas', 'i_pdatas.id', '=', 'products.IPdata_id')
-                ->leftJoin('approves', 'approves.sid', '=', 'sellers.sid')
+                ->leftJoin('approves', 'approves.sid', '=', 'sellers.id')
                 ->where('approves.status', '=', 1)
 
                 ->where('i_pdatas.rid', '<>', $id)
@@ -58,17 +58,17 @@ class HomeController extends Controller
                             ->orWhere('product_detail', 'like', "%{$request->q}%");
                     }
                 )
-                ->select('products.*', 'sellers.created_at as sellercreated_at', 'sellers.sid as sid', 'approves.status as status', 'approves.updated_at as statusupdated_at')
+                ->select('products.*', 'sellers.created_at as sellercreated_at', 'sellers.id as sid', 'approves.status as status', 'approves.updated_at as statusupdated_at')
                 ->paginate(8);
         } else {
             $sellers = Product::join('sellers', 'sellers.pid', '=', 'products.id')
                 ->join('i_pdatas', 'i_pdatas.id', '=', 'products.IPdata_id')
-                ->leftJoin('approves', 'approves.sid', '=', 'sellers.sid')
+                ->leftJoin('approves', 'approves.sid', '=', 'sellers.id')
                 ->where('approves.status', '=', 1)
 
                 ->where('i_pdatas.rid', '<>', $id)
                 ->with('images')
-                ->select('products.*', 'sellers.created_at as sellercreated_at', 'sellers.sid as sid', 'approves.status as status', 'approves.updated_at as statusupdated_at')
+                ->select('products.*', 'sellers.created_at as sellercreated_at', 'sellers.id as sid', 'approves.status as status', 'approves.updated_at as statusupdated_at')
                 ->paginate(8);
         }
 
@@ -90,12 +90,12 @@ class HomeController extends Controller
             ->paginate(8);
         $sellers = Product::join('sellers', 'sellers.pid', '=', 'products.id')
             ->join('i_pdatas', 'i_pdatas.id', '=', 'products.IPdata_id')
-            ->leftJoin('approves', 'approves.sid', '=', 'sellers.sid')
+            ->leftJoin('approves', 'approves.sid', '=', 'sellers.id')
             ->where('approves.status', '=', 1)
             ->where('i_pdatas.iptype_id', '=', $fid)
             ->where('i_pdatas.rid', '<>', $id)
             ->with('images')
-            ->select('products.*', 'sellers.created_at as sellercreated_at', 'sellers.sid as sid', 'approves.status as status', 'approves.updated_at as statusupdated_at')
+            ->select('products.*', 'sellers.created_at as sellercreated_at', 'sellers.id as sid', 'approves.status as status', 'approves.updated_at as statusupdated_at')
             ->paginate(8);
         return view('user.home', compact('iptypes', 'sellers', 'offerbuys', 'groups'));
     }

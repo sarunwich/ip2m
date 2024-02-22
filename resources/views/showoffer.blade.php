@@ -1,12 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-  
-
-   
-
-   
-    
     <div class="row justify-content-center">
 
         {{-- {{dd($product)}} --}}
@@ -17,8 +11,12 @@
             <div class="row">
 
                 <div class="col-md-6 left-side">
-                    <img src="{{ asset('storage/ProductImagebuys/' . $offerbuy->imagesbuy[0]->ProductImagebuy_name) }}"
-                        class="card-img-top" alt="Product">
+                    @if ($offerbuy->imagesbuy)
+                        <img src="{{ asset('storage/images/ip2m.jpg') }}" class="card-img-top" alt="Product">
+                    @else
+                        <img src="{{ asset('storage/ProductImagebuys/' . $offerbuy->imagesbuy[0]->ProductImagebuy_name) }}"
+                            class="card-img-top" alt="Product">
+                    @endif
                     <hr>
                 </div>
 
@@ -40,16 +38,25 @@
                     {{ $offerbuy->offerbuy_price }}
                     <hr>
 
-                  
-                        <strong class="mb-4">{{ __('messages.startdate') }}:</strong>
-                        @if(app()->getLocale()=='en') {{ \Carbon\Carbon::parse($offerbuy->offerbuy_startdate)->isoFormat('LL') }} @else {{ \Carbon\Carbon::parse($offerbuy->offerbuy_startdate)->locale('th')->thaidate('j F Y') }} @endif
-                        <br><strong class="mb-4">{{ __('messages.enddate') }}:</strong>
-                        @if(app()->getLocale()=='en') {{ \Carbon\Carbon::parse($offerbuy->offerbuy_enddate)->isoFormat('LL') }} @else {{ \Carbon\Carbon::parse($offerbuy->offerbuy_enddate)->locale('th')->thaidate('j F Y') }} @endif
-                       <hr>
-                       <strong class="mb-4">{{ __('messages.Contact') }}:</strong>
-                        {{ $offerbuy->profile_name }} {{ $offerbuy->profile_tel }} 
-                        <hr>
-                        <a href="{{ route('response.create',['id' => $offerbuy->id]) }}"><button class="buttonred">{{ __('messages.ResponseTenderOffer') }}</button></a>
+
+                    <strong class="mb-4">{{ __('messages.startdate') }}:</strong>
+                    @if (app()->getLocale() == 'en')
+                        {{ \Carbon\Carbon::parse($offerbuy->offerbuy_startdate)->isoFormat('LL') }}
+                    @else
+                        {{ \Carbon\Carbon::parse($offerbuy->offerbuy_startdate)->locale('th')->thaidate('j F Y') }}
+                    @endif
+                    <br><strong class="mb-4">{{ __('messages.enddate') }}:</strong>
+                    @if (app()->getLocale() == 'en')
+                        {{ \Carbon\Carbon::parse($offerbuy->offerbuy_enddate)->isoFormat('LL') }}
+                    @else
+                        {{ \Carbon\Carbon::parse($offerbuy->offerbuy_enddate)->locale('th')->thaidate('j F Y') }}
+                    @endif
+                    <hr>
+                    <strong class="mb-4">{{ __('messages.Contact') }}:</strong>
+                    {{ $offerbuy->profile_name }} {{ $offerbuy->profile_tel }}
+                    <hr>
+                    <a href="{{ route('response.create', ['id' => $offerbuy->id]) }}"><button
+                            class="buttonred">{{ __('messages.ResponseTenderOffer') }}</button></a>
                 </div>
             </div>
             <br>

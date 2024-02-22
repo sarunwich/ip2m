@@ -45,30 +45,41 @@ class ResponseOfferbuyController extends Controller
         $res = IdGenerator::generate(['table' => 'response_offerbuys', 'length' => 7, 'prefix' => date('ym'), 'reset_on_change' => 'prefix']);
    
         $uid = Auth::user()->id;
-        // $model=Response_offerbuy::insert([
-        //     'id'=>$res,
-        //     'offerbuy_id'=>$request->input('id'),
-        //     'response_detail' => $request->input('response_detail'),
-        //     'response_date'=>date('Y-m-d H:i:s'),
-        //     'res_id' => $uid,
-        //     'created_at' => date('Y-m-d H:i:s'),
-        //     'updated_at' => date('Y-m-d H:i:s'),
-        // ]);
-        $Offerbuy=Offerbuy::where('id',$request->input('id'))->first();
+        $model=Response_offerbuy::insert([
+            'id'=>$res,
+            'offerbuy_id'=>$request->input('id'),
+            'response_detail' => $request->input('response_detail'),
+            'response_date'=>date('Y-m-d H:i:s'),
+            'res_id' => $uid,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+        $Offerbuy=Offerbuy::where('id',$request->input('id'))
+        ->with('profile')
+        ->first();
         // dd($Offerbuy);
-        $email = Auth::user()->email;
+        $email2 = Auth::user()->email;
         $firstname = Auth::user()->firstname;
         $lastname = Auth::user()->lastname;
-        $prefix = Auth::user()->prefix;
+        // $prefix = Auth::user()->prefix;
+        $email = $Offerbuy->profile->user->email;
         $SendMail = [
             'title' => 'ติดต่อนัดหมาย เสนอซื้อ',
-            'body' => 'เรียนคุณ' . $firstname .' '.$lastname . ' ได้ติดต่อนัดหมาย สินค้าที่ F'.$Offerbuy->id.' '.$Offerbuy->Interest_data ,
+            'body' => 'เรียนคุณ' . $Offerbuy->profile->user->firstname . ' ' . $Offerbuy->profile->user->lastname . ' มีการติดต่อนัดหมาย สินค้าที่ F'.$Offerbuy->id.' '.$Offerbuy->Interest_data ,
+            
+            'URL' => 'ท่านสามารถตรวจสอบข้อมูลได้ทาง ' . env('APP_URL') . ' ',
+
+        ];
+        $SendMail2= [
+            'title' => 'ติดต่อนัดหมาย เสนอซื้อ',
+            'body' => 'เรียนคุณ' . $firstname. ' ' . $lastname  . ' ได้ติดต่อนัดหมาย สินค้าที่ F'.$Offerbuy->id.' '.$Offerbuy->Interest_data ,
             
             'URL' => 'ท่านสามารถตรวจสอบข้อมูลได้ทาง ' . env('APP_URL') . ' ',
 
         ];
 
          Mail::to($email)->send(new SendMail($SendMail));
+         Mail::to($email2)->send(new SendMail($SendMail2));
         
         return redirect()->route('home')->with('success', 'Response successfully!');
     }

@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\IPdata;
 use App\Models\IPtype;
 use App\Models\Product;
+use App\Models\User;
+use App\Models\product_user;
 use Illuminate\Http\Request;
 use App\Models\IPdetail;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -49,15 +52,15 @@ class ProductController extends Controller
             ->join('i_ptypes', 'i_ptypes.iptype_id', '=', 'i_pdatas.iptype_id')
             ->join('categories', 'categories.category_id', '=', 'products.category_id')
             ->join('profiles', 'profiles.profile_id', '=', 'sellers.profile_id')
-            ->leftJoin('approves', 'approves.sid', '=', 'sellers.sid')
+            ->leftJoin('approves', 'approves.sid', '=', 'sellers.id')
             ->where('approves.status', '=', 1)
 
             ->where('products.id', '=', $product->id)
             ->with('images')
             ->with('IPdatails')
-            ->select('products.*','categories.category_name as category_name','i_ptypes.iptype_name as iptypename', 'profiles.profile_name as pname', 'sellers.created_at as sellercreated_at', 'sellers.sid as sid', 'approves.status as status', 'approves.updated_at as statusupdated_at')
+            ->select('products.*','categories.category_name as category_name','i_ptypes.iptype_name as iptypename', 'profiles.profile_name as pname', 'sellers.created_at as sellercreated_at', 'sellers.id as sid', 'sellers.status_sell as status_sell', 'sellers.created_at as sellercreated_at', 'approves.status as status', 'approves.updated_at as statusupdated_at')
             ->first();
-
+            $product->increment('view_count');
         //   dd($product);
         return view('user.showproduct', compact('iptypes', 'product','iPdetails'));
     }
@@ -112,4 +115,24 @@ class ProductController extends Controller
 
         return response()->json(['success' => 'Status change successfully.']);
     }
+    public function like($id)
+{
+    $product = Product::findOrFail($id);
+    // dd($id);
+    // ตรวจสอบว่าผู้ใช้เคยกดถูกใจสินค้านี้ไปแล้วหรือไม่
+    if (!Auth::user()->likedProducts()->where('product_id', $id)->exists()) {
+        // บันทึกข้อมูลการถูกใจ
+        // $model= product_user::create([
+           
+        //     'user_id' => Auth::user()->id,
+        //     'product_id' => $id,
+          
+        // ]);
+        Auth::user()->likedProducts()->syncWithoutDetaching($id);
+        $product->increment('likes_count'); // บันทึกจำนวนการถูกใจของสินค้า
+    }
+    
+
+    return redirect()->back();
+}
 }

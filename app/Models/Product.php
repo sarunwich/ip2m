@@ -27,7 +27,11 @@ class Product extends Model
     // }
     public function IPdata()
     {
-        return $this->belongsTo(IPdata::class,'id', 'IPdata_id');
+        return $this->belongsTo(IPdata::class,'IPdata_id','id' );
+    }
+    public function seller()
+    {
+        return $this->belongsTo(Seller::class ,'id', 'pid');
     }
     public function IPdatails()
     {
@@ -37,4 +41,15 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class, 'pid', 'id');
     }
+    public function likedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'product_user', 'product_id', 'user_id')->withTimestamps();
+    }
+
+    public function likesCount()
+    {
+        return $this->likedByUsers()->count();
+    }
+
+   
 }

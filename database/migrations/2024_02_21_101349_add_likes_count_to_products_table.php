@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('i_ptypes', function (Blueprint $table) {
-            $table->bigIncrements('iptype_id')->unsigned();
-            $table->string('iptype_name');
-            $table->timestamps();
+        Schema::table('products', function (Blueprint $table) {
+            $table->unsignedBigInteger('likes_count')->default(0);
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('i_ptypes');
+        Schema::table('products', function (Blueprint $table) {
+            //
+        });
     }
 };

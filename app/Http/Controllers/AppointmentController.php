@@ -33,15 +33,15 @@ class AppointmentController extends Controller
 
         $sellers = Seller::join('products', 'products.id', '=', 'sellers.pid')
             ->join('i_pdatas', 'i_pdatas.id', '=', 'products.IPdata_id')
-            ->leftJoin('approves', 'approves.sid', '=', 'sellers.sid')
+            ->leftJoin('approves', 'approves.sid', '=', 'sellers.id')
 
             ->where('i_pdatas.rid', '=', $id)
             ->with('appointments')
-            ->select('products.*', 'sellers.created_at as sellercreated_at', 'sellers.sid as sid', 'approves.status as status', 'approves.updated_at as statusupdated_at')
+            ->select('products.*', 'sellers.created_at as sellercreated_at', 'sellers.id as sid', 'approves.status as status', 'approves.updated_at as statusupdated_at')
             ->orderby('created_at', 'desc')
             ->paginate(5);
         $appointments = Appointment::where('appointments.rid', Auth::user()->id)
-            ->join('sellers', 'sellers.sid', '=', 'appointments.sid')
+            ->join('sellers', 'sellers.id', '=', 'appointments.sid')
             ->join('products', 'products.id', '=', 'sellers.pid')
             ->join('profiles', 'profiles.profile_id', '=', 'sellers.profile_id')
 
@@ -85,20 +85,21 @@ class AppointmentController extends Controller
 
         $sellers=Seller::where('sid','=',$request->input('sid'))
         ->with('product')
+        ->with('profile')
         ->first();
 // dd($sellers);
 
-
+$email2 = $sellers->profile->user->email;
 // จากใน Controller หรือที่อื่น ๆ
 
 //  Line::send('ทดสอบส่งข้อความ');
-        $email = Auth::user()->email;
+        $email1 = Auth::user()->email;
         $firstname = Auth::user()->firstname;
         $lastname = Auth::user()->lastname;
         $prefix = Auth::user()->prefix;
         //หรือ ใช้ relationship เรียกจากตาราง user
         //$email = $article->user->email;
-        $SendMail = [
+        $SendMail1 = [
             'title' => 'ติดต่อนัดหมาย สินค้าที่สนใจ',
             'body' => 'เรียนคุณ' . $firstname .' '.$lastname . ' ได้ติดต่อนัดหมาย สินค้าที่ i2M'.$sellers->pid.' '.$sellers->product->product_name .' วันที่'.$request->input('appointment_time'),
             // 'idip' => '::' . $request->id_ip . '',
@@ -109,7 +110,19 @@ class AppointmentController extends Controller
 
         ];
 
-         Mail::to($email)->send(new SendMail($SendMail));
+        $SendMail2 = [
+            'title' => 'ติดต่อนัดหมาย สินค้าที่สนใจ',
+            'body' => 'เรียนคุณ' . $sellers->profile->user->firstname . ' ' . $sellers->profile->user->lastname  . ' มีการติดต่อนัดหมาย สินค้าที่ i2M'.$sellers->pid.' '.$sellers->product->product_name .' วันที่'.$request->input('appointment_time'),
+            // 'idip' => '::' . $request->id_ip . '',
+            // 'nameip' => ':: ' . $requestdb['ip_thainame'] . '',
+            // 'iptype' => ':: ' . $requestdb['iptype_name'] . '',
+            // 'status' => ':: แนบหลักฐานการชำระเงิน',
+            'URL' => 'ท่านสามารถตรวจสอบข้อมูลได้ทาง ' . env('APP_URL') . ' ',
+
+        ];
+
+         Mail::to($email1)->send(new SendMail($SendMail1));
+         Mail::to($email2)->send(new SendMail($SendMail2));
 
         return redirect()->route('appointment.index')->with('success', 'Appointment successfully!');
 

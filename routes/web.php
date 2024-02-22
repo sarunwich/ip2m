@@ -43,17 +43,19 @@ Route::get('/showproduct/{id}', [welcomeController::class,'showproduct'])->name(
 Route::get('/showoffer/{id}', [welcomeController::class,'showoffer'])->name('showoffer');
 Route::get('/findgroup/{id}', [welcomeController::class,'findgroup'])->name('findgroup');
 
+
+
 // Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Auth::routes();
-  
+// Auth::routes();
+Auth::routes(['verify' => true]);
 /*------------------------------------------
 --------------------------------------------
 All Normal Users Routes List
 --------------------------------------------
 --------------------------------------------*/
-Route::middleware(['auth', 'user-access:user'])->group(function () {
+Route::middleware(['auth','verified', 'user-access:user'])->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('profiles', ProfileController::class);
     Route::resource('works', WorkController::class);
@@ -63,7 +65,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::resource('response', ResponseOfferbuyController::class);
     Route::resource('productImagebuy', ProductImagebuyController::class);
     Route::resource('productImage', ProductImageController::class);
-   
+    Route::post('/products/{id}/like', [ProductController::class,'like'])->name('products.like');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'upprofile'])->name('user.profile');
@@ -76,9 +78,11 @@ Route::post('/profile', [App\Http\Controllers\ProfileController::class, 'storeup
     Route::post('work/create-step-two', [WorkController::class ,'postCreateStepTwo'])->name('work.create.step.two.post');
     Route::post('work/edit-step-two', [WorkController::class ,'postEditStepTwo'])->name('work.edit.step.two.post');
     Route::post('/get-category', [DropdownController::class,'getCategory'])->name('get.category');
-    Route::get('changeStatus', [ProductController::class ,'changeStatus']);
-    Route::get('upreadApp', [AppointmentController::class ,'upreadApp']);
+    Route::get('changeStatus', [ProductController::class ,'changeStatus'])->name('user.changeStatus');
+    Route::get('upreadApp', [AppointmentController::class ,'upreadApp'])->name('user.upreadApp');
     Route::get('/findtype/{id}', [HomeController::class,'findtype'])->name('findtype');
+    Route::get('changeSellStatus', [SellerController::class ,'changeSellStatus'])->name('user.changeSellStatus');
+    
 
     
 });
@@ -91,9 +95,11 @@ All Admin Routes List
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::resource('offer', OfferController::class);
     Route::get('/admin/home', [HomeController::class, 'adminHome'])->name('admin.home');
-    Route::get('upStatus', [OfferController::class ,'upStatus']);
+    Route::get('/upStatus', [OfferController::class ,'upStatus'])->name('admin.upStatus');
      Route::get('/offers/buy', [OfferController::class ,'offerBuy'])->name('offer.buy');
-    Route::get('upstatusoffer', [OfferController::class ,'upstatusoffer']);
+    Route::get('upstatusoffer', [OfferController::class ,'upstatusoffer'])->name('admin.upstatusoffer');
+    Route::get('/offer/{id}/show', [OfferController::class ,'offerShow'])->name('offer.show');
+    Route::post('/calendar/update', [OfferController::class, 'update'])->name('admin.calendar.update');
     // Route::get('offerx/buy', function () {
 //     return view('welcome');
 // });

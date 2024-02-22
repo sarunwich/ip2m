@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('approves', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('sid')->nullable();
-            $table->foreign('sid')->references('sid')->on('sellers');
+            $table->foreign('sid')->references('id')->on('sellers');
             $table->unsignedBigInteger('manager_id')->nullable();
             $table->foreign('manager_id')->references('id')->on('users');
             $table->string('status',100)->nullable();

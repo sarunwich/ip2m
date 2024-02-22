@@ -35,8 +35,8 @@ class ProfileController extends Controller
     public function create()
     {
         //
-        $provinces = Province::all();
-        return view('user.profiles.create', compact('provinces'));
+        // $provinces = Province::all();
+        return view('user.profiles.create');
     }
 
     /**

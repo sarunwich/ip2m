@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('groups', function (Blueprint $table) {
-            $table->bigIncrements('group_id');
-            $table->string('group_name');
-            $table->string('image',30);
-            $table->integer('order',2);
-            $table->timestamps();
+            $table->bigIncrements('group_id'); // Auto-incrementing primary key
+            $table->string('group_name', 50)->nullable(false); // Define 'group_name' as not nullable and limit its length to 50 characters
+            $table->string('image', 30)->nullable(false); // Define 'image' as not nullable and limit its length to 30 characters
+            $table->integer('order')->nullable(false); // Define 'order' as not nullable
+            $table->timestamps(); // Created_at and updated_at columns
         });
     }
 

@@ -24,10 +24,17 @@ class welcomeController extends Controller
         $productCount = Product::select('products.group_id as group_id', DB::raw('count(*) as count'))
         ->join('sellers', 'sellers.pid', '=', 'products.id')
         ->join('i_pdatas', 'i_pdatas.id', '=', 'products.IPdata_id')
-        ->leftJoin('approves', 'approves.sid', '=', 'sellers.sid')
+        ->leftJoin('approves', 'approves.sid', '=', 'sellers.id')
          ->where('approves.status', '=', 1)
          ->groupBy('products.group_id')->get();
         
+         $offerbuyCount=Offerbuy::select('groups.group_id as group_id', DB::raw('count(*) as Offercount'))
+         ->join('categories','categories.category_id','=','offerbuys.category_id')
+         ->join('groups','groups.group_id','=','categories.group_id')
+         ->where('offerbuys.status', '=', 1)
+         ->where('offerbuys.offerbuy_enddate', '>=', date('Y-m-d'))
+         ->groupBy('groups.group_id')->get();
+
         $groups=Group::orderBy('groups.order', 'asc')
         ->get();
         
@@ -39,15 +46,15 @@ class welcomeController extends Controller
 
         $sellers=Product::join('sellers', 'sellers.pid', '=', 'products.id')
         ->join('i_pdatas', 'i_pdatas.id', '=', 'products.IPdata_id')
-        ->leftJoin('approves', 'approves.sid', '=', 'sellers.sid')
+        ->leftJoin('approves', 'approves.sid', '=', 'sellers.id')
          ->where('approves.status', '=', 1)
 
         // ->where('i_pdatas.rid', '<>', $id)
         ->with('images')
-        ->select('products.*','sellers.created_at as sellercreated_at','sellers.sid as sid','approves.status as status','approves.updated_at as statusupdated_at')
+        ->select('products.*','sellers.created_at as sellercreated_at','sellers.id as sid','approves.status as status','approves.updated_at as statusupdated_at')
         ->paginate(8);
         // dd($offerbuys);
-        return view('welcome',compact('sellers','offerbuys','groups','productCount'));
+        return view('welcome',compact('sellers','offerbuys','groups','productCount','offerbuyCount'));
     }
 
     /**
@@ -107,15 +114,15 @@ class welcomeController extends Controller
             ->join('i_ptypes', 'i_ptypes.iptype_id', '=', 'i_pdatas.iptype_id')
             ->join('categories', 'categories.category_id', '=', 'products.category_id')
             ->join('profiles', 'profiles.profile_id', '=', 'sellers.profile_id')
-            ->leftJoin('approves', 'approves.sid', '=', 'sellers.sid')
+            ->leftJoin('approves', 'approves.sid', '=', 'sellers.id')
             ->where('approves.status', '=', 1)
 
             ->where('products.id', '=', $id)
             ->with('images')
             ->with('IPdatails')
-            ->select('products.*','categories.category_name as category_name','i_ptypes.iptype_name as iptypename', 'profiles.profile_name as pname', 'sellers.created_at as sellercreated_at', 'sellers.sid as sid', 'approves.status as status', 'approves.updated_at as statusupdated_at')
+            ->select('products.*','categories.category_name as category_name','i_ptypes.iptype_name as iptypename', 'profiles.profile_name as pname', 'sellers.created_at as sellercreated_at', 'sellers.id as sid','sellers.status_sell as status_sell', 'approves.status as status', 'approves.updated_at as statusupdated_at')
             ->first();
-
+            $product->increment('view_count');
         //   dd($product);
         return view('showproduct', compact('iptypes', 'product','iPdetails'));
     }
@@ -138,12 +145,12 @@ class welcomeController extends Controller
         ->get();
         $sellers=Product::join('sellers', 'sellers.pid', '=', 'products.id')
         ->join('i_pdatas', 'i_pdatas.id', '=', 'products.IPdata_id')
-        ->leftJoin('approves', 'approves.sid', '=', 'sellers.sid')
+        ->leftJoin('approves', 'approves.sid', '=', 'sellers.id')
          ->where('approves.status', '=', 1)
 
         // ->where('i_pdatas.rid', '<>', $id)
         ->with('images')
-        ->select('products.*','sellers.created_at as sellercreated_at','sellers.sid as sid','approves.status as status','approves.updated_at as statusupdated_at')
+        ->select('products.*','sellers.created_at as sellercreated_at','sellers.id as sid','approves.status as status','approves.updated_at as statusupdated_at')
         ->paginate(8);
 
         return view('categories', compact('groups','sellers'));
@@ -154,12 +161,12 @@ class welcomeController extends Controller
         ->get();
         $sellers=Product::join('sellers', 'sellers.pid', '=', 'products.id')
         ->join('i_pdatas', 'i_pdatas.id', '=', 'products.IPdata_id')
-        ->leftJoin('approves', 'approves.sid', '=', 'sellers.sid')
+        ->leftJoin('approves', 'approves.sid', '=', 'sellers.id')
          ->where('approves.status', '=', 1)
          ->where('products.group_id', '=', $id)
         // ->where('i_pdatas.rid', '<>', $id)
         ->with('images')
-        ->select('products.*','sellers.created_at as sellercreated_at','sellers.sid as sid','approves.status as status','approves.updated_at as statusupdated_at')
+        ->select('products.*','sellers.created_at as sellercreated_at','sellers.id as sid','approves.status as status','approves.updated_at as statusupdated_at')
         ->paginate(8);
         return view('categories', compact('groups','sellers'));
     }

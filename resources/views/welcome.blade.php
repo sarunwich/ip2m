@@ -1,23 +1,27 @@
 @extends('layouts.app')
 @push('style')
-<style>
-    .card-title {
-        width: 200px; /* or any other width */
-        white-space: nowrap; /* prevents text from wrapping */
-        overflow: hidden; /* hides overflow */
-        text-overflow: ellipsis; /* display an ellipsis (...) to indicate overflow */
-    }
-</style>
+    <style>
+        .card-title {
+            width: auto;
+            /* or any other width */
+            white-space: nowrap;
+            /* prevents text from wrapping */
+            overflow: hidden;
+            /* hides overflow */
+            text-overflow: ellipsis;
+            /* display an ellipsis (...) to indicate overflow */
+        }
+    </style>
 @endpush
 @section('content')
     <div class="container">
         {{-- <div class="container-fluid"> --}}
         <div class="row justify-content-center">
-            <div class="col-md-6 mx-auto" >
+            <div class="col-md-6 mx-auto">
                 <strong class="strong"> IP Match & Mart</strong>
                 <h1>Shopping Online</h1>
                 @if (app()->getLocale() == 'th')
-                    <div style="text-indent: 2.5em;" >
+                    <div style="text-indent: 2.5em;">
                         TSU IP Match & Mart (IP2M) แพลตฟอร์มบริการและจัดการสิทธิเทคโนโลยี (TSU IP licensing platform)
                         แบบออนไลน์
                         เฟส 2 ซึ่งเป็นโครงการพัฒนาต่อจากระบบ IP TSU System
@@ -28,7 +32,7 @@
                         เป็นระบบตลาดออนไลน์ของผลงานวิจัยและนวัตกรรมของมหาวิทยาลัยทักษิณที่อนุญาตให้ลูกค้าจากภายนอกมาซื้อผลิตภัณฑ์ได้
                     </div>
                 @else
-                    <div style="text-indent: 2.5em;" >
+                    <div style="text-indent: 2.5em;">
                         The "TSU IP Match & Mart (IP2M)" is an online service platform and technology rights management
                         system,
                         also known as the TSU IP licensing platform, developed as an extension of the TSU System IP. This
@@ -46,7 +50,7 @@
                 @endif
             </div>
             <div class="col-md-6 mx-auto">
-                <img src="{{ asset('storage/images/ip2m.jpg') }}"  width="100%" alt="Image Alt Text">
+                <img src="{{ asset('storage/images/ip2m.jpg') }}" width="100%" alt="Image Alt Text">
 
             </div>
 
@@ -58,7 +62,7 @@
                 <div class="card">
                     {{-- <div class="custom-red-header text-center" >New arrival</div> --}}
                     <div class="custom-red-header d-flex justify-content-between align-items-center text-center">
-                        <h3 class="card-title  ml-4"> {{ __('messages.Newarrival') }}</h3>
+                        <h3 class=" ml-4"> {{ __('messages.Newarrival') }}</h3>
                         {{-- <a href="#" class="btn btn-primary float-end">ดูรายละเอียด</a> --}}
 
                     </div>
@@ -74,7 +78,7 @@
                                             class="card-img-top" alt="Product">
                                         <div class="card-body" style="background-color: rgb(249, 219, 187)">
                                             <h5 class="card-title">{{ $seller->product_name }}</h5>
-                                            <p class="card-text">รายละเอียดสินค้าที่ i2M{{$seller->id}}</p>
+                                            <p class="card-text">รายละเอียดสินค้าที่ i2M{{ $seller->id }}</p>
                                             <a href="{{ route('showproduct', $seller->id) }}"><button
                                                     class="buttonred">ดูรายละเอียด</button></a>
                                         </div>
@@ -96,7 +100,7 @@
                 <div class="card">
                     {{-- <div class="custom-red-header text-center" >New arrival</div> --}}
                     <div class="custom-red-header d-flex justify-content-between align-items-center text-center">
-                        <h3 class="card-title  ml-4"> {{ __('messages.Find_product') }}</h3>
+                        <h3 class=" ml-4"> {{ __('messages.Find_product') }}</h3>
                         {{-- <a href="#" class="btn btn-primary float-end">ดูรายละเอียด</a> --}}
 
                     </div>
@@ -104,18 +108,19 @@
                         {{--  --}}
                         <div class="row">
                             <!-- เพิ่มสินค้าตามต้องการ -->
-
+                            {{-- {{dd($offerbuys)}} --}}
                             @foreach ($offerbuys as $offerbuy)
                                 <div class="col-md-3 mb-3">
                                     <div class="card">
-                                        {{-- {{dd($offerbuy->imagesbuy)}} --}}
-                                        {{-- @if ($offerbuy->imagesbuy)
-                                        <img src="{{ asset('storage/images/demop.png') }}"
+
+                                       
+                                        @if ($offerbuy->imagesbuy)
+                                        <img src="{{ asset('storage/images/ip2m.jpg') }}"
                                         class="card-img-top" alt="Product">
-                                        @else --}}
+                                        @else
                                         <img src="{{ asset('storage/ProductImagebuys/' . $offerbuy->imagesbuy[0]->ProductImagebuy_name) }}"
                                             class="card-img-top" alt="Product">
-                                        {{-- @endif --}}
+                                        @endif
 
                                         <div class="card-body" style="background-color: rgb(249, 219, 187)">
                                             <h5 class="card-title">{{ $offerbuy->Interest_data }}</h5>
@@ -154,16 +159,28 @@
                                 <div class="col-md-3 mb-3">
                                     <a href="{{ route('findgroup', $group->group_id) }}">
                                         <div class="card ">
-                                            <img src="{{ asset('storage/images/' . $group->image) }}" class="card-img-top"
-                                                alt="Product">
+                                            @if ($group->image)
+                                                <img src="{{ asset('storage/images/' . $group->image) }}"
+                                                    class="card-img-top" alt="Product">
+                                            @else
+                                            @endif
                                             <div class="card-body ">
                                                 {{-- <h5 class="card-title ">Product {{ $i }}</h5> --}}
-                                                <p class="card-text">จำนวนรายการที่มี
+                                                <p class="card-text">
+                                                    <span class="badge rounded-pill bg-success">เสนอซื้อ
                                                     @foreach ($productCount as $product)
                                                         @if ($product->group_id == $group->group_id)
                                                             {{ $product->count }}
                                                         @endif
-                                                    @endforeach
+                                                    @endforeach</span>
+                                                    <span class="badge rounded-pill bg-primary">  เสนอขาย
+                                                    @foreach ($offerbuyCount as $offerbuy)
+                                                        @if ($offerbuy->group_id == $group->group_id)
+                                                            {{ $offerbuy->Offercount }}
+                                                        @endif
+                                                    @endforeach</span>
+                                                  
+                                                    
                                                 </p>
 
                                             </div>

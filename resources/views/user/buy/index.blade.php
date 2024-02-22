@@ -45,7 +45,7 @@
                                         @if (app()->getLocale() == 'en')
                                             {{ \Carbon\Carbon::parse($Offerbuy->offerbuy_startdate)->isoFormat('LL') }}
                                         @else
-                                            {{ \Carbon\Carbon::parse($Offerbuy->offerbuy_startdate)->locale(app()->getLocale())->thaidate('j F Y') }}
+                                            {{ \Carbon\Carbon::parse($Offerbuy->offerbuy_startdate)->locale('th')->thaidate('j F Y') }}
                                         @endif
                                     @else
                                         {{ __('messages.status0') }}
@@ -56,7 +56,7 @@
                                         @if (app()->getLocale() == 'en')
                                             {{ \Carbon\Carbon::parse($Offerbuy->offerbuy_enddate)->isoFormat('LL') }}
                                         @else
-                                            {{ \Carbon\Carbon::parse($Offerbuy->offerbuy_enddate)->locale(app()->getLocale())->thaidate('j F Y') }}
+                                            {{ \Carbon\Carbon::parse($Offerbuy->offerbuy_enddate)->locale('th')->thaidate('j F Y') }}
                                         @endif
                                     @else
                                         {{ __('messages.status0') }}
@@ -82,7 +82,11 @@
                                 </td> --}}
                                 {{-- <td>{{ $seller->statusupdated_at ?? '' }}</td>--}}
                                 <td>
-                                    
+                                    @if($Offerbuy->status==1)
+                                    <div class="alert alert-success" role="alert">
+                                        {{ __('messages.status1') }}
+                                      </div>
+                                    @else
                                     <a href="{{ route('buy.edit', $Offerbuy->id  ) }}" class="btn btn-primary">Edit</a>
                                     <form action="{{ route('buy.destroy', $Offerbuy->id ) }}" method="POST"
                                         class="d-inline">
@@ -91,6 +95,7 @@
                                         <button type="submit" class="btn btn-danger"
                                             onclick="return confirm('Are you sure?')">Delete</button>
                                     </form>
+                                    @endif
                                 </td> 
                             </tr>
                         @endforeach

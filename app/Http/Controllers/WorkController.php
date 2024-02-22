@@ -32,6 +32,7 @@ class WorkController extends Controller
             ->where('i_pdatas.rid', Auth::user()->id)
         // ->where('requestdbs.status', '<=', 2)
         // ->orderByDesc('id')
+        ->with('seller')
             ->select('products.*')
         //->get();
             ->paginate(10);
@@ -59,11 +60,11 @@ class WorkController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'iptype_id' => 'required',
-            'ipdid.*' => 'sometimes|required',
-            'ipdata.*' => 'sometimes|required',
+            // 'ipdid.*' => 'sometimes|required',
+            // 'ipdata.*' => 'sometimes|required',
         ], [
             'iptype_id' => 'ประเภท',
-            'ipdata.*' => 'กรอกข้อมูลให้ครบถ่วน',
+            // 'ipdata.*' => 'กรอกข้อมูลให้ครบถ่วน',
         ]);
         if ($validator->fails()) {
             return redirect()
@@ -83,11 +84,11 @@ class WorkController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'iptype_id' => 'required',
-            'ipdid.*' => 'sometimes|required',
-            'ipdata.*' => 'sometimes|required',
+            // 'ipdid.*' => 'sometimes|required',
+            // 'ipdata.*' => 'sometimes|required',
         ], [
             'iptype_id' => 'ประเภท',
-            'ipdata.*' => 'กรอกข้อมูลให้ครบถ่วน',
+            // 'ipdata.*' => 'กรอกข้อมูลให้ครบถ่วน',
         ]);
         if ($validator->fails()) {
             return redirect()
@@ -174,7 +175,7 @@ class WorkController extends Controller
         }
 
         //
-        $pid = IdGenerator::generate(['table' => 'products', 'length' => 7, 'prefix' => date('ym')]);
+        $pid = IdGenerator::generate(['table' => 'products', 'length' => 7, 'prefix' => date('ym'),'reset_on_change'=>'prefix']);
         //
         Product::create([
             'id' => $pid,
@@ -316,6 +317,8 @@ class WorkController extends Controller
         }
 // // dd($ipdata,$request,$id);
 //         // echo $appid;
+
+
         Session::forget('ipdata');
         return redirect()->route('works.index')->with('success', 'Data Update successfully!');
     }
