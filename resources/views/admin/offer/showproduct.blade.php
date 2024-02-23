@@ -1,29 +1,9 @@
-@extends('layouts.user')
+@extends('layouts.admin')
 
 @section('content')
-    {{-- <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-  
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-  
-                    You are a User.
-                </div>
-            </div>
-        </div>
-    </div>
-</div> --}}
-
-    <div class="mcategory-menu">
-        {{-- <div class="row justify-content-center"> --}}
-
+   
+    {{-- <div class="mcategory-menu">
+       
         <div class="mb-3 row justify-content-center">
 
             <div class="col-sm-6 ">
@@ -42,7 +22,7 @@
             </div>
         </div>
         <div class="mb-3 row justify-content-center">
-            <div class="col-sm-12 text-center">
+            <div class="col-sm-6 text-center">
                 @foreach ($iptypes as $key => $iptype)
                     @if ($key != 0)
                         |
@@ -52,13 +32,13 @@
             </div>
         </div>
 
-    </div>
+    </div> --}}
 
     {{-- <div class="container-fluid"> --}}
     <br>
     <div class="row justify-content-center">
 
-        {{-- {{dd($product)}} --}}
+  
 
 
         <div class="col-md-9">
@@ -99,26 +79,20 @@
                     
                     @if ($product->status_sell == null)
                         <button class="buttonred">ปิดการขาย(Close the sale)</button>
-                    @else
+                    {{-- @else
                         <a href="{{ route('appointment.create', ['sid' => $product->sid]) }}"><button
-                                class="buttonred">{{ __('messages.appointment') }}</button></a>
+                                class="buttonred">{{ __('messages.appointment') }}</button></a> --}}
+                                <hr>
                     @endif
                     {{-- <p class="card-text">{{ __('messages.product_name') }}</p>
                     {{ $product->product_name }}
                     <p class="card-text">{{ __('messages.product_name') }}</p>
                     {{ $product->product_name }} --}}
-                    <hr>
+                    
                     <p>ยอดการเข้าชม: {{ $product->view_count }}</p>
                     <p>ยอดถูกใจ: {{ $product->likes_count }}</p>
                    
-                    @auth
-                        @if (!Auth::user()->likedProducts->contains($product))
-                            <form action="{{ route('products.like', $product->id) }}" method="POST">
-                                @csrf
-                                <button type="submit">กดถูกใจ</button>
-                            </form>
-                        @endif
-                    @endauth
+                   
                 </div>
             </div>
             <br>

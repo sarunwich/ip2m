@@ -77,6 +77,9 @@
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"  /> --}}
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    {{-- awesome --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-sXoqV3eT08h/RuPIb2YiDwl2Pqe5grPItJ7zkrbaN5vRaR01sdV5gqo4g5Tv5K5ZCovqIvcg+CmPp/1ZYhDq5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 @include('include.head')
 

@@ -11,7 +11,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Phattarachai\LineNotify\Facade\Line;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
+
 
 class AppointmentController extends Controller
 {
@@ -23,13 +25,25 @@ class AppointmentController extends Controller
         $users = User::all();
         $id = Auth::user()->id;
 
+        $offerbuys = Offerbuy::join('profiles', 'profiles.profile_id', 'offerbuys.profile_id')
+        // join('response_offerbuys', 'response_offerbuys.offerbuy_id', 'offerbuys.id')
+            // ->
+            //  ->select('offerbuys.*', 'profiles.profile_name as profile_name', 'profiles.tel as profile_tel', 'response_offerbuys.id as resid', 'response_offerbuys.response_date as response_date', 'response_offerbuys.response_detail as response_detail', 'response_offerbuys.status as status')
+            ->with('category')
+            ->with('response')
+            ->where('profiles.rid', '=', $id)
+        // ->where('response_offerbuys.res_id', '=', $id)
+            // ->orderby('response_offerbuys.created_at', 'desc')
+            ->paginate(5);
+
         $response_offerbuys = Offerbuy::join('response_offerbuys', 'response_offerbuys.offerbuy_id', 'offerbuys.id')
             ->join('profiles', 'profiles.profile_id', 'offerbuys.profile_id')
             ->select('offerbuys.*', 'profiles.profile_name as profile_name', 'profiles.tel as profile_tel', 'response_offerbuys.id as resid', 'response_offerbuys.response_date as response_date', 'response_offerbuys.response_detail as response_detail', 'response_offerbuys.status as status')
             ->with('category')
+        //  ->where('profiles.rid', '=', $id)
             ->where('response_offerbuys.res_id', '=', $id)
             ->orderby('created_at', 'desc')
-            ->paginate(5);
+            ->paginate(5, ['*'], 'response_offerbuys');
 
         $sellers = Seller::join('products', 'products.id', '=', 'sellers.pid')
             ->join('i_pdatas', 'i_pdatas.id', '=', 'products.IPdata_id')
@@ -39,7 +53,20 @@ class AppointmentController extends Controller
             ->with('appointments')
             ->select('products.*', 'sellers.created_at as sellercreated_at', 'sellers.id as sid', 'approves.status as status', 'approves.updated_at as statusupdated_at')
             ->orderby('created_at', 'desc')
-            ->paginate(5);
+            ->get();
+            // ->paginate(5, ['*'], 'sellers');
+            $sellers->transform(function ($seller) {
+                $perPage = 5; // Appointments per page
+                $currentPage = LengthAwarePaginator::resolveCurrentPage();
+                $currentItems = $seller->appointments->slice(($currentPage - 1) * $perPage, $perPage)->all();
+                $paginator = new LengthAwarePaginator($currentItems, $seller->appointments->count(), $perPage);
+                $paginator->setPath(request()->url());
+                $seller->setRelation('appointments', $paginator);
+                return $seller;
+            });
+
+            $sellers = new LengthAwarePaginator($sellers->all(), $sellers->count(), 5);
+            // dd($sellers);
         $appointments = Appointment::where('appointments.rid', Auth::user()->id)
             ->join('sellers', 'sellers.id', '=', 'appointments.sid')
             ->join('products', 'products.id', '=', 'sellers.pid')
@@ -47,8 +74,10 @@ class AppointmentController extends Controller
 
             ->select('appointments.*', 'products.product_name as product_name', 'profiles.profile_name as profile_name', 'profiles.tel as tel', 'sellers.store_name as store_name')
             ->orderby('created_at', 'desc')
-            ->paginate(5);
-        return view('user.appointment.index', compact('appointments', 'sellers', 'users', 'response_offerbuys'));
+            ->paginate(5, ['*'], 'appointments');
+
+            $sellers->setPageName('sellers_page');
+        return view('user.appointment.index', compact('appointments', 'sellers', 'users', 'response_offerbuys', 'offerbuys'));
     }
 
     /**
@@ -69,7 +98,7 @@ class AppointmentController extends Controller
         //
         $request->validate([
             'appointment_time' => 'required',
-            'appointment_detail' => 'sometimes|required',
+            // 'appointment_detail' => 'sometimes|required',
         ]);
         $uid = Auth::user()->id;
         $model = Appointment::create([
@@ -83,13 +112,13 @@ class AppointmentController extends Controller
             'rid' => $uid,
         ]);
 
-        $sellers=Seller::where('sid','=',$request->input('sid'))
-        ->with('product')
-        ->with('profile')
-        ->first();
+        $sellers = Seller::where('id', '=', $request->input('sid'))
+            ->with('product')
+            ->with('profile')
+            ->first();
 // dd($sellers);
 
-$email2 = $sellers->profile->user->email;
+        $email2 = $sellers->profile->user->email;
 // จากใน Controller หรือที่อื่น ๆ
 
 //  Line::send('ทดสอบส่งข้อความ');
@@ -101,7 +130,7 @@ $email2 = $sellers->profile->user->email;
         //$email = $article->user->email;
         $SendMail1 = [
             'title' => 'ติดต่อนัดหมาย สินค้าที่สนใจ',
-            'body' => 'เรียนคุณ' . $firstname .' '.$lastname . ' ได้ติดต่อนัดหมาย สินค้าที่ i2M'.$sellers->pid.' '.$sellers->product->product_name .' วันที่'.$request->input('appointment_time'),
+            'body' => 'เรียนคุณ' . $firstname . ' ' . $lastname . ' ได้ติดต่อนัดหมาย สินค้าที่ i2M' . $sellers->pid . ' ' . $sellers->product->product_name . ' วันที่' . $request->input('appointment_time'),
             // 'idip' => '::' . $request->id_ip . '',
             // 'nameip' => ':: ' . $requestdb['ip_thainame'] . '',
             // 'iptype' => ':: ' . $requestdb['iptype_name'] . '',
@@ -112,7 +141,7 @@ $email2 = $sellers->profile->user->email;
 
         $SendMail2 = [
             'title' => 'ติดต่อนัดหมาย สินค้าที่สนใจ',
-            'body' => 'เรียนคุณ' . $sellers->profile->user->firstname . ' ' . $sellers->profile->user->lastname  . ' มีการติดต่อนัดหมาย สินค้าที่ i2M'.$sellers->pid.' '.$sellers->product->product_name .' วันที่'.$request->input('appointment_time'),
+            'body' => 'เรียนคุณ' . $sellers->profile->user->firstname . ' ' . $sellers->profile->user->lastname . ' มีการติดต่อนัดหมาย สินค้าที่ i2M' . $sellers->pid . ' ' . $sellers->product->product_name . ' วันที่' . $request->input('appointment_time'),
             // 'idip' => '::' . $request->id_ip . '',
             // 'nameip' => ':: ' . $requestdb['ip_thainame'] . '',
             // 'iptype' => ':: ' . $requestdb['iptype_name'] . '',
@@ -121,10 +150,10 @@ $email2 = $sellers->profile->user->email;
 
         ];
 
-         Mail::to($email1)->send(new SendMail($SendMail1));
-         Mail::to($email2)->send(new SendMail($SendMail2));
+        Mail::to($email1)->send(new SendMail($SendMail1));
+        Mail::to($email2)->send(new SendMail($SendMail2));
 
-        return redirect()->route('appointment.index')->with('success', 'Appointment successfully!');
+        return redirect()->route('appointment.index')->with('success', 'Appointment successfully!')->with('loader',true);
 
     }
 

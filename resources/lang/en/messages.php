@@ -10,7 +10,7 @@ return [
     'mregister'=>'Register',
     'prefix'=>'Prefix',
     'first_name'=>'First Name',
-    'last_name'=>'Last Nname',
+    'last_name'=>'Last Name',
     'tel'=>'Tel',
     'email'=>'Email',
     'password'=>'Password',
@@ -93,4 +93,5 @@ return [
     'Approvedate'=>'Approve Date',
     'editpass'=>'Edit Password',
     'home'=>'Home',
+    'respones_products'=>'Respones Products',
 ];

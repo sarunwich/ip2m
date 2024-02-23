@@ -53,21 +53,17 @@
                                         <tr>
                                             <td>{{ ($sellers->currentPage() - 1) * $sellers->perPage() + $loop->iteration }}</td>
                                             <td>{{ $seller->product_name }}</td>
-                                            <td>{{ $seller->sellercreated_at }}</td>
                                             <td>
-                                                {{-- @if ($seller->status == 1)
-                                                    <div class="alert alert-success" role="alert">
-                                                        {{ __('messages.status1') }}
-                                                    </div>
-                                                @elseif($seller->status == 2)
-                                                    <div class="alert alert-danger" role="alert">
-                                                        {{ __('messages.status2') }}
-                                                    </div>
-                                                @else
-                                                    <div class="alert alert-warning" role="alert">
-                                                        {{ __('messages.status0') }}
-                                                    </div>
-                                                @endif --}}
+                                                @if (app()->getLocale() == 'en')
+                                                {{ \Carbon\Carbon::parse($seller->sellercreated_at)->isoFormat('LLL') }}
+                                            @else
+                                                {{ \Carbon\Carbon::parse($seller->sellercreated_at)->locale('th')->thaidate('j F Y H:s:i') }}
+                                            @endif
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('offer.sellshow', $seller->id) }}"> <button type="button"
+                                                    class="btn btn-outline-success"><i class="fa fa-eye"
+                                                        aria-hidden="true"></i></button></a>
                                                 <div class="custom-control custom-radio custom-control-inline">
                                                     <input type="radio" id="{{$seller->sid}}rd_1" name="{{$seller->sid}}status" @if ($seller->status == 1) checked @endif onchange="upstatus({{$seller->sid}},1)" class="custom-control-input" value="1">
                                                     <label class="custom-control-label green" for="{{$seller->sid}}rd_1">{{ __('messages.status1') }}</label>

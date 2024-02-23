@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-sXoqV3eT08h/RuPIb2YiDwl2Pqe5grPItJ7zkrbaN5vRaR01sdV5gqo4g5Tv5K5ZCovqIvcg+CmPp/1ZYhDq5w==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
 
     <link rel="icon" href="{{ asset('build/assets/favicon_io/favicon.ico') }}" type="image/x-icon">
 

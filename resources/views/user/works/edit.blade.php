@@ -31,8 +31,8 @@
                         <div class="col">
                             {{-- {{dd($IPdata->iptype_id)}} --}}
                             {{-- <label for="name">{{ __('messages.profile_name') }}</label> --}}
-                            <input name="pid" type="hidden" value="{{$products->id}}">
-                            <input name="IPdata_id" type="hidden" value="{{$products->IPdata_id}}">
+                            <input name="pid" type="hidden" value="{{ $products->id }}">
+                            <input name="IPdata_id" type="hidden" value="{{ $products->IPdata_id }}">
                             <select class="form-control select2bs4 " style="width: 100%" onchange="finetype(this.value)"
                                 id="iptype_id" name="iptype_id">
                                 <option id=""> ----- ประเภททรัพย์สินทางปัญญา -----</option>
@@ -51,9 +51,29 @@
                             {{-- {{ $ipdata['ipdata'][$key] }} --}}
                             <div class="row g-2">
                                 <div class="col">
-                                    <input type="hidden" name="ipdid[]" class="form-control" value="{{$value->IPdetail->ipdetail_id}}">
-                                    <label for="pr{{$value->IPdetail->ipdetail_id}}">{{$value->IPdetail->ipdetail_name}}</label>
-                                        <input type="{{$value->IPdetail->type}}" name="ipdata[]"class="form-control"placeholder="{{$value->IPdetail->ipdetail_name}}" aria-label="{{$value->IPdetail->ipdetail_name}}" required value="{{ old('ipdata.0') ??$ipdata['ipdata'][$key]?? $value->IPdataDetail_data}}"> </div>
+                                    {{-- {{$value->IPdetail->require}} --}}
+                                    @if ($value->IPdetail->require == 1)
+                                        <input type="hidden" name="ipdid[]" class="form-control"
+                                            value="{{ $value->IPdetail->ipdetail_id }}">
+                                        <label
+                                            for="pr{{ $value->IPdetail->ipdetail_id }}">{{ $value->IPdetail->ipdetail_name }}</label>
+                                        <input type="{{ $value->IPdetail->type }}" name="ipdata[]"class="form-control"
+                                            placeholder="{{ $value->IPdetail->ipdetail_name }}"
+                                            aria-label="{{ $value->IPdetail->ipdetail_name }}" required
+                                            value="{{ old('ipdata.0') ?? ($ipdata['ipdata'][$key] ?? $value->IPdataDetail_data) }}">
+                                    @else
+                                    <input type="hidden" name="ipdid[]" class="form-control"
+                                            value="{{ $value->IPdetail->ipdetail_id }}">
+                                        <label
+                                            for="pr{{ $value->IPdetail->ipdetail_id }}">{{ $value->IPdetail->ipdetail_name }}</label>
+                                        <input type="{{ $value->IPdetail->type }}" name="ipdata[]"class="form-control"
+                                            placeholder="{{ $value->IPdetail->ipdetail_name }}"
+                                            aria-label="{{ $value->IPdetail->ipdetail_name }}" 
+                                            value="{{ old('ipdata.0') ?? ($ipdata['ipdata'][$key] ?? $value->IPdataDetail_data) }}">
+                                
+                                    @endif
+                                </div>
+
                             </div>
                         @endforeach
                     </span>

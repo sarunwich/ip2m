@@ -107,7 +107,7 @@
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: '/changeSellStatus',
+                    url: '{{ route('user.changeSellStatus') }}',
                     data: {
                         'status': status,
                         'id': id

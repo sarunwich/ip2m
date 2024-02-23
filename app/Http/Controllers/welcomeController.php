@@ -168,6 +168,14 @@ class welcomeController extends Controller
         ->with('images')
         ->select('products.*','sellers.created_at as sellercreated_at','sellers.id as sid','approves.status as status','approves.updated_at as statusupdated_at')
         ->paginate(8);
-        return view('categories', compact('groups','sellers'));
+
+        $offerbuys=Offerbuy::where('status','=',1)
+        ->join('categories', 'categories.category_id', '=', 'offerbuys.category_id')
+        ->where('offerbuy_enddate','>=',date('Y-m-d'))
+        ->where('categories.group_id','=',$id)
+         ->with('imagesbuy')
+        ->paginate(8);
+
+        return view('categories', compact('groups','sellers','offerbuys'));
     }
 }

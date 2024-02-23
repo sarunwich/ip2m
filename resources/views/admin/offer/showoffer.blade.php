@@ -6,7 +6,7 @@
     <div class="mcategory-menu">
         {{-- <div class="row justify-content-center"> --}}
 
-        <div class="mb-3 row justify-content-center">
+        {{-- <div class="mb-3 row justify-content-center">
 
             <div class="col-sm-6 ">
                 <div class="input-group ">
@@ -22,7 +22,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="mb-3 row justify-content-center">
             <div class="col-sm-6 text-center">
                

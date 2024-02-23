@@ -110,14 +110,14 @@ class OfferbuyController extends Controller
         $prefix = Auth::user()->prefix;
         $SendMail = [
             'title' => 'เพิ่มข้อมูล เสนอซื้อ',
-            'body' => 'เรียนคุณ' . $firstname .' '.$lastname . ' ได้เพิ่มข้อมูลเสนอซื้อ ที่เลขที่ F'.$offid.' ผลงานที่สนใจ'.$request->input('Interest_data').' '. PHP_EOL .' สถานะ :: รออนุมัติ ',
+            'body' => 'เรียนคุณ' . $firstname .' '.$lastname . ' ได้เพิ่มข้อมูลเสนอซื้อ เลขที่ F'.$offid.' ผลงานที่สนใจ'.$request->input('Interest_data').' '. PHP_EOL .' สถานะ :: รออนุมัติ ',
             
             'URL' => 'ท่านสามารถตรวจสอบข้อมูลได้ทาง ' . env('APP_URL') . ' ',
 
         ];
 
          Mail::to($email)->send(new SendMail($SendMail));
-         Line::send('คุณ' . $firstname .' '.$lastname . ' ได้เพิ่มข้อมูลเสนอซื้อ '. PHP_EOL .'ที่เลขที่ :: F'.$offid.''. PHP_EOL .' ผลงานที่สนใจ'.$request->input('Interest_data').''. PHP_EOL .'สถานะ :: รออนุมัติ '. PHP_EOL .' ตรวจสอบข้อมูล ' . env('APP_URL') . '');
+         Line::send('คุณ' . $firstname .' '.$lastname . ' ได้เพิ่มข้อมูลเสนอซื้อ '. PHP_EOL .'เลขที่ :: F'.$offid.''. PHP_EOL .'ผลงานที่สนใจ :: '.$request->input('Interest_data').''. PHP_EOL .'สถานะ :: รออนุมัติ '. PHP_EOL .' ตรวจสอบข้อมูล ' . env('APP_URL') . '');
       
 
         return redirect()->route('buy.index')->with('success', 'Data inserted successfully!');

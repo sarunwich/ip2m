@@ -25,7 +25,7 @@
                 @endif --}}
             </div>
             <div class="col-md-9 right-side">
-                <form class="row g-2" action="{{ route('seller.update',$seller->sid) }}" method="POST">
+                <form class="row g-2" action="{{ route('seller.update',$seller->id) }}" method="POST">
                     @csrf
                     @method('PATCH')
                     <div class="row g-2">

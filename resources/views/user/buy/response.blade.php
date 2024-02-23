@@ -37,7 +37,7 @@
                     </div>
                     <input type="hidden" name="id" value="{{$id}}">
                     
-                    <button type="submit" class="buttonred col-sm-2">{{ __('messages.Send') }}</button>
+                    <button type="submit" onclick="loder()" class="buttonred col-sm-2">{{ __('messages.Send') }}</button>
 
                 </form>
             </div>
@@ -47,6 +47,12 @@
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
+         let loader = document.querySelector('#pageLoader')
+         function loder() {
+            // alert('ttt');
+            loader.style.display = 'block';
+
+        }
         config = {
             enableTime: true,
             dateFormat: 'Y-m-d H:i',

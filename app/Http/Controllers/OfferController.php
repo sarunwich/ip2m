@@ -6,6 +6,9 @@ use App\Mail\SendMail;
 use App\Models\Approve;
 use App\Models\Offerbuy;
 use App\Models\Seller;
+use App\Models\Product;
+use App\Models\IPtype;
+use App\Models\IPdetail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -72,6 +75,27 @@ class OfferController extends Controller
             ->with('category')
             ->first();
         return view('admin.offer.showoffer', compact('offerbuy'));
+    }
+
+    public function sellshow($id)
+    {
+       
+        $iptypes = IPtype::all();
+        $iPdetails=IPdetail::all();
+        $product = Product::join('sellers', 'sellers.pid', '=', 'products.id')
+            ->join('i_pdatas', 'i_pdatas.id', '=', 'products.IPdata_id')
+            ->join('i_ptypes', 'i_ptypes.iptype_id', '=', 'i_pdatas.iptype_id')
+            ->join('categories', 'categories.category_id', '=', 'products.category_id')
+            ->join('profiles', 'profiles.profile_id', '=', 'sellers.profile_id')
+            ->leftJoin('approves', 'approves.sid', '=', 'sellers.id')
+            ->where('approves.status', '=', 1)
+
+            ->where('products.id', '=', $id)
+            ->with('images')
+            ->with('IPdatails')
+            ->select('products.*','categories.category_name as category_name','i_ptypes.iptype_name as iptypename', 'profiles.profile_name as pname', 'sellers.created_at as sellercreated_at', 'sellers.id as sid', 'sellers.status_sell as status_sell', 'sellers.created_at as sellercreated_at', 'approves.status as status', 'approves.updated_at as statusupdated_at')
+            ->first();
+            return view('admin.offer.showproduct', compact('product','iptypes','iPdetails'));
     }
 
     /**
@@ -142,14 +166,14 @@ class OfferController extends Controller
         }
         $SendMail = [
             'title' => 'ข้อมูลสถานะ เสนอขาย',
-            'body' => 'เรียนคุณ' . $seller->profile->user->firstname . ' ' . $seller->profile->user->lastname . ' ข้อมูลเสนอขาย ที่เลขที่ S' . $seller->id . ' สินค้าเลขที่ ip2m' . $seller->product->id . ' ' . $seller->product->product_name . ' สถานะ :: ' . $status . '',
+            'body' => 'เรียนคุณ' . $seller->profile->user->firstname . ' ' . $seller->profile->user->lastname . ' ข้อมูลเสนอขาย เลขที่ S' . $seller->id . ' สินค้าเลขที่ ip2m' . $seller->product->id . ' ' . $seller->product->product_name . ' สถานะ :: ' . $status . '',
 
             'URL' => 'ท่านสามารถตรวจสอบข้อมูลได้ทาง ' . env('APP_URL') . ' ',
 
         ];
 
         Mail::to($email)->send(new SendMail($SendMail));
-        Line::send('ข้อมูลเสนอขาย ' . PHP_EOL . 'ที่เลขที่ :: S' . $seller->id . '' . PHP_EOL . 'สินค้าเลขที่ :: ip2m' . $seller->product->id . '' . PHP_EOL . 'ชื่อ :: ' . $seller->product->product_name . '' . PHP_EOL . 'สถานะ :: ' . $status . '');
+        Line::send('ข้อมูลเสนอขาย ' . PHP_EOL . 'เลขที่ :: S' . $seller->id . '' . PHP_EOL . 'สินค้าเลขที่ :: ip2m' . $seller->product->id . '' . PHP_EOL . 'ชื่อ :: ' . $seller->product->product_name . '' . PHP_EOL . 'สถานะ :: ' . $status . '');
 
         return response()->json($approve);
     }
@@ -184,14 +208,14 @@ class OfferController extends Controller
         }
         $SendMail = [
             'title' => 'ข้อมูลสถานะ เสนอซื้อ',
-            'body' => 'เรียนคุณ' . $Offerbuy->profile->user->firstname . ' ' . $Offerbuy->profile->user->lastname . ' ข้อมูลเสนอซื้อ ที่เลขที่ F' . $Offerbuy->id . ' ผลงานที่สนใจ' . $Offerbuy->Interest_data . ' ' . PHP_EOL . ' สถานะ :: ' . $status . '',
+            'body' => 'เรียนคุณ' . $Offerbuy->profile->user->firstname . ' ' . $Offerbuy->profile->user->lastname . ' ข้อมูลเสนอซื้อ เลขที่ F' . $Offerbuy->id . 'ผลงานที่สนใจ ' . $Offerbuy->Interest_data . ' ' . PHP_EOL . ' สถานะ :: ' . $status . '',
 
             'URL' => 'ท่านสามารถตรวจสอบข้อมูลได้ทาง ' . env('APP_URL') . ' ',
 
         ];
 
         Mail::to($email)->send(new SendMail($SendMail));
-        Line::send('ข้อมูลเสนอซื้อ ' . PHP_EOL . 'ที่เลขที่ :: F' . $Offerbuy->id . '' . PHP_EOL . 'ผลงานที่สนใจ' . $Offerbuy->Interest_data . '' . PHP_EOL . 'สถานะ :: ' . $status . '' . PHP_EOL . ' ตรวจสอบข้อมูล ' . env('APP_URL') . '');
+        Line::send('ข้อมูลเสนอซื้อ ' . PHP_EOL . 'เลขที่ :: F' . $Offerbuy->id . '' . PHP_EOL .'ผลงานที่สนใจ :: ' . $Offerbuy->Interest_data . '' . PHP_EOL . 'สถานะ :: ' . $status . '' . PHP_EOL . ' ตรวจสอบข้อมูล ' . env('APP_URL') . '');
 
         return redirect()->back()->with('success', 'Record updated successfully!');
     }

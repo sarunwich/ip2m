@@ -101,7 +101,7 @@
                     </div>
                     <div class="row g-2">
                         <div class="col-2">
-                            <button class="btn btn-success" type="button" onclick="education_fields();" id="add-field">Add
+                            <button class="btn btn-success"  type="button" onclick="education_fields();" id="add-field">Add
                                 Picture</button>
                         </div>
                     </div>
@@ -162,5 +162,6 @@
             $('.removeclass' + rid).remove();
             room--;
         }
+       
     </script>
 @endpush

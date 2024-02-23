@@ -37,7 +37,7 @@
                                     @if (app()->getLocale() == 'en')
                                         {{ \Carbon\Carbon::parse($Product->created_at)->isoFormat('LL') }}
                                     @else
-                                        {{ \Carbon\Carbon::parse($Product->created_at)->locale(app()->getLocale())->thaidate('j F Y') }}
+                                        {{ \Carbon\Carbon::parse($Product->created_at)->locale('th')->thaidate('j F Y') }}
                                     @endif
                                 </td>
                                 <td>
@@ -82,7 +82,7 @@
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: '/changeStatus',
+                    url: '{{ route('user.changeStatus') }}',
                     data: {
                         'status': status,
                         'id': id

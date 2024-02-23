@@ -38,7 +38,7 @@ class HomeController extends Controller
             ->where('offerbuys.offerbuy_enddate', '>=', date('Y-m-d'))
             ->join('profiles', 'profiles.profile_id', 'offerbuys.profile_id')
             ->select('offerbuys.*')
-            ->where('profiles.rid', '<>', $id)
+            // ->where('profiles.rid', '<>', $id)
             ->with('imagesbuy')
             ->paginate(8);
 
@@ -48,7 +48,7 @@ class HomeController extends Controller
                 ->leftJoin('approves', 'approves.sid', '=', 'sellers.id')
                 ->where('approves.status', '=', 1)
 
-                ->where('i_pdatas.rid', '<>', $id)
+                // ->where('i_pdatas.rid', '<>', $id)
                 ->with('images')
                 ->when(
                     $request->q,
@@ -66,7 +66,7 @@ class HomeController extends Controller
                 ->leftJoin('approves', 'approves.sid', '=', 'sellers.id')
                 ->where('approves.status', '=', 1)
 
-                ->where('i_pdatas.rid', '<>', $id)
+                // ->where('i_pdatas.rid', '<>', $id)
                 ->with('images')
                 ->select('products.*', 'sellers.created_at as sellercreated_at', 'sellers.id as sid', 'approves.status as status', 'approves.updated_at as statusupdated_at')
                 ->paginate(8);
@@ -85,7 +85,7 @@ class HomeController extends Controller
             ->where('offerbuys.offerbuy_enddate', '>=', date('Y-m-d'))
             ->join('profiles', 'profiles.profile_id', 'offerbuys.profile_id')
             ->select('offerbuys.*')
-            ->where('profiles.rid', '<>', $id)
+            // ->where('profiles.rid', '<>', $id)
             ->with('imagesbuy')
             ->paginate(8);
         $sellers = Product::join('sellers', 'sellers.pid', '=', 'products.id')
@@ -93,7 +93,7 @@ class HomeController extends Controller
             ->leftJoin('approves', 'approves.sid', '=', 'sellers.id')
             ->where('approves.status', '=', 1)
             ->where('i_pdatas.iptype_id', '=', $fid)
-            ->where('i_pdatas.rid', '<>', $id)
+            // ->where('i_pdatas.rid', '<>', $id)
             ->with('images')
             ->select('products.*', 'sellers.created_at as sellercreated_at', 'sellers.id as sid', 'approves.status as status', 'approves.updated_at as statusupdated_at')
             ->paginate(8);

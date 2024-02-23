@@ -22,7 +22,7 @@ class Seller extends Model
     // protected $primaryKey = 'sid';
     public function appointments()
     {
-        return $this->hasMany(Appointment::class, 'id', 'sid')->orderBy('created_at','desc');
+        return $this->hasMany(Appointment::class, 'sid', 'id')->orderBy('created_at','desc');
     }
     public function product()
     {

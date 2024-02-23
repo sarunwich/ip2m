@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 @endpush
 @section('content')
+    
     <div class="container">
         {{-- <div class="container-fluid"> --}}
         <div class="row justify-content-center">
@@ -23,7 +24,8 @@
                 @endif
             </div>
             <div class="col-md-9 right-side">
-                <form class="row g-2" action="{{ route('appointment.store') }}" method="POST" enctype="multipart/form-data">
+                <form id="appointment-store" class="row g-2" action="{{ route('appointment.store') }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="row g-2">
                         <div class="col">
@@ -35,7 +37,7 @@
                         <div class="col">
                             <div class="form-check">
                                 <input class="form-check-input custom-checkbox" type="checkbox" value="1"
-                                    id="purpose1" name="purpose1" >
+                                    id="purpose1" name="purpose1">
                                 <label class="form-check-label" for="purpose1">
                                     ต้องการรายละเอียดสินค้า
                                 </label>
@@ -66,9 +68,9 @@
                             <input type="text" class="form-control" name="appointment_detail">
                         </div>
                     </div>
-                    <input type="hidden" name="sid" value="{{$id}}">
+                    <input type="hidden" name="sid" value="{{ $id }}">
 
-                    <button type="submit" class="buttonred">{{ __('messages.Send') }}</button>
+                    <button type="submit" onclick="loder()" class="buttonred">{{ __('messages.Send') }}</button>
                 </form>
             </div>
         </div>
@@ -89,17 +91,14 @@
             enableTime: true, // Enable time selection
             dateFormat: "Y-m-d H:i", // Customize the date and time format as needed
         });
-    </script>
-    <script type="text/javascript">
-        function myFunction() {
-            var x = document.getElementById("inputContainer");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        }
 
-       
+
+        let btn = document.querySelector('button');
+        let loader = document.querySelector('#pageLoader')
+        function loder() {
+            // alert('ttt');
+            loader.style.display = 'block';
+
+        }
     </script>
 @endpush

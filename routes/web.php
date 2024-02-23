@@ -99,6 +99,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
      Route::get('/offers/buy', [OfferController::class ,'offerBuy'])->name('offer.buy');
     Route::get('upstatusoffer', [OfferController::class ,'upstatusoffer'])->name('admin.upstatusoffer');
     Route::get('/offer/{id}/show', [OfferController::class ,'offerShow'])->name('offer.show');
+    Route::get('/offer/{id}/sellshow', [OfferController::class ,'sellshow'])->name('offer.sellshow');
     Route::post('/calendar/update', [OfferController::class, 'update'])->name('admin.calendar.update');
     // Route::get('offerx/buy', function () {
 //     return view('welcome');

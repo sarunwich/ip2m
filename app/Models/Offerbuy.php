@@ -24,6 +24,11 @@ class Offerbuy extends Model
     {
         return $this->hasMany(ProductImagebuy::class, 'offerbuy_id', 'id');
     }
+
+    public function response()
+    {
+        return $this->hasMany(Response_offerbuy::class, 'offerbuy_id', 'id');
+    }
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id', 'category_id');

@@ -64,7 +64,17 @@
             border: 1px solid #000000;
         }
 
-    
+        .pageLoader{
+    background: url(../storage/images/loader.gif) no-repeat center center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 9999999;
+    background-color: #ffffff8c;
+
+}
     </style>
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -90,6 +100,7 @@
 @include('include.head')
 
 <body>
+    <div class="pageLoader hidden" id="pageLoader" style="display: none"></div>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">

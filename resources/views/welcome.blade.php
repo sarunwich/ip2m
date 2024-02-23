@@ -11,6 +11,16 @@
             text-overflow: ellipsis;
             /* display an ellipsis (...) to indicate overflow */
         }
+        .bcenter{
+            /* display: inline-block;
+  margin-left: 5px;
+  position:relative;
+  top: 40px; */
+  margin-left: 35%;
+  /* margin: 0; */
+  /* position: absolute; */
+  top: 70%;
+        }
     </style>
 @endpush
 @section('content')
@@ -48,6 +58,11 @@
                         {{-- {{ __('messages.title') }} --}}
                     </div>
                 @endif
+                
+                        <a href="{{ asset('storage/images/IPMart_Match.pdf') }}" target="_blank"> <button type="button"
+                                style="margin-top:50px;padding-left:50 "
+                                class=" btn btn-primary  bcenter ">คู่มือการใช้งานระบบ <br>(User Manual)</button></a>
+                  
             </div>
             <div class="col-md-6 mx-auto">
                 <img src="{{ asset('storage/images/ip2m.jpg') }}" width="100%" alt="Image Alt Text">
@@ -113,13 +128,13 @@
                                 <div class="col-md-3 mb-3">
                                     <div class="card">
 
-                                       
+
                                         @if ($offerbuy->imagesbuy)
-                                        <img src="{{ asset('storage/images/ip2m.jpg') }}"
-                                        class="card-img-top" alt="Product">
+                                            <img src="{{ asset('storage/images/ip2m.jpg') }}" class="card-img-top"
+                                                alt="Product">
                                         @else
-                                        <img src="{{ asset('storage/ProductImagebuys/' . $offerbuy->imagesbuy[0]->ProductImagebuy_name) }}"
-                                            class="card-img-top" alt="Product">
+                                            <img src="{{ asset('storage/ProductImagebuys/' . $offerbuy->imagesbuy[0]->ProductImagebuy_name) }}"
+                                                class="card-img-top" alt="Product">
                                         @endif
 
                                         <div class="card-body" style="background-color: rgb(249, 219, 187)">
@@ -146,7 +161,7 @@
                 <div class="card ">
                     <div class="custom-red-header d-flex justify-content-between align-items-center text-center">
                         <h3 class="card-title ml-4"> {{ __('messages.group') }}</h3>
-                        <a href="/categories" class="btn btn-primary float-end">ดูรายละเอียด</a>
+                        {{-- <a href="/categories" class="btn btn-primary float-end">ดูรายละเอียด</a> --}}
                     </div>
 
                     <div class="card-body">
@@ -165,23 +180,55 @@
                                             @else
                                             @endif
                                             <div class="card-body ">
-                                                {{-- <h5 class="card-title ">Product {{ $i }}</h5> --}}
+                                                {{-- <h5 class="card-title ">Product {{ $i }}</h5>
                                                 <p class="card-text">
-                                                    <span class="badge rounded-pill bg-success">เสนอซื้อ
+                                                    <span class="badge rounded-pill bg-success">เสนอขาย
+                                                        @foreach ($productCount as $product)
+                                                            @if ($product->group_id == $group->group_id)
+                                                                {{ $product->count }}
+                                                            @endif
+                                                        @endforeach
+                                                    </span>
+                                                    <span class="badge rounded-pill bg-primary"> เสนอซื้อ
+                                                        @foreach ($offerbuyCount as $offerbuy)
+                                                            @if ($offerbuy->group_id == $group->group_id)
+                                                                {{ $offerbuy->Offercount }}
+                                                            @endif
+                                                        @endforeach
+                                                    </span>
+
+
+                                                </p> --}}
+                                                <button type="button" class="btn btn-success position-relative">
+                                                    เสนอขาย
+
                                                     @foreach ($productCount as $product)
                                                         @if ($product->group_id == $group->group_id)
-                                                            {{ $product->count }}
+                                                            <span
+                                                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                                {{ $product->count }}
+                                                                <span class="visually-hidden">เสนอขาย</span>
+                                                            </span>
                                                         @endif
-                                                    @endforeach</span>
-                                                    <span class="badge rounded-pill bg-primary">  เสนอขาย
+                                                    @endforeach
+
+
+                                                </button>
+                                                <button type="button" class="btn btn-primary position-relative float-end">
+                                                    เสนอซื้อ
+
                                                     @foreach ($offerbuyCount as $offerbuy)
                                                         @if ($offerbuy->group_id == $group->group_id)
-                                                            {{ $offerbuy->Offercount }}
+                                                            <span
+                                                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                                {{ $offerbuy->Offercount }}
+                                                                <span class="visually-hidden">เสนอขาย</span>
+                                                            </span>
                                                         @endif
-                                                    @endforeach</span>
-                                                  
-                                                    
-                                                </p>
+                                                    @endforeach
+
+
+                                                </button>
 
                                             </div>
                                         </div>

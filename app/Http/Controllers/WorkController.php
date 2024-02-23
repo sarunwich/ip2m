@@ -10,6 +10,7 @@ use App\Models\IPdataDetail;
 use App\Models\IPtype;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\IPdetail;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,7 +48,11 @@ class WorkController extends Controller
         //
         $iptypes = IPtype::all();
         $ipdata = $request->session()->get('ipdata');
-        return view('user.works.create', compact('iptypes', 'ipdata'));
+        $ipdetail=IPdetail::all();
+        // $IPdataDetail = IPdataDetail::where('IPdata_id', $ipdata['IPdata_id']);
+        // dd( $IPdataDetail);
+        // dd($ipdata);
+        return view('user.works.create', compact('iptypes', 'ipdata','ipdetail'));
     }
     // public function createStepOne(Request $request)
     // {

@@ -27,6 +27,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {{-- @dd($sellers) --}}
                         @foreach ($sellers as $seller)
                             <tr>
                                 <td><strong>{{ $seller->product_name }}</strong></td>
@@ -112,7 +113,8 @@
                                                 </div>
                                             </div>
                                         @endforeach
-                                        {{-- {{ $appointments->links() }} --}}
+                                        {{-- {{ $seller->appointments->links() }} --}}
+                                        {!! $seller->appointments->withQueryString()->links('pagination::bootstrap-5') !!}
                                     </div>
                                 </td>
                             </tr>
@@ -120,7 +122,7 @@
 
                     </tbody>
                 </table>
-
+                {{-- {{ $sellers->links() }} --}}
                 {!! $sellers->withQueryString()->links('pagination::bootstrap-5') !!}
             </div>
         </div>
@@ -147,41 +149,103 @@
                             <th>#</th>
                             <th>{{ __('messages.appointment') }}</th>
                             <th> {{ __('messages.Interest_data') }}</th>
-                            <th>{{ __('messages.daterecord') }}</th>
-                            <th>{{ __('messages.detail') }}</th>
+                            {{-- <th>{{ __('messages.daterecord') }}</th> --}}
+                            {{-- <th>{{ __('messages.detail') }}</th> --}}
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($response_offerbuys as $response_offerbuy)
+                        {{-- @dd($offerbuys) --}}
+                        @foreach ($offerbuys as $offerbuy)
                             <tr>
                                 <th scope="row">
-                                    {{ ($response_offerbuys->currentPage() - 1) * $response_offerbuys->perPage() + $loop->iteration }}
+                                    {{ ($offerbuys->currentPage() - 1) * $offerbuys->perPage() + $loop->iteration }}
                                 </th>
-                                <td>F{{ $response_offerbuy->id }}</td>
-                                <td>{{ $response_offerbuy->Interest_data }}</td>
-                                <td>
+                                <td>F{{ $offerbuy->id }}</td>
+                                <td>{{ $offerbuy->Interest_data }}</td>
+                                {{-- <td>
                                     @if (app()->getLocale() == 'en')
-                                        {{ \Carbon\Carbon::parse($response_offerbuy->response_date)->isoFormat('LL') }}
+                                        {{ \Carbon\Carbon::parse($offerbuy->response_date)->isoFormat('LL') }}
                                     @else
-                                        {{ \Carbon\Carbon::parse($response_offerbuy->response_date)->locale('th')->thaidate('j F Y') }}
+                                        {{ \Carbon\Carbon::parse($offerbuy->response_date)->locale('th')->thaidate('j F Y') }}
                                     @endif
                                 </td>
-                                <td>{{ $response_offerbuy->response_detail }}</td>
+                                <td>{{ $offerbuy->response_detail }}</td>
                                 <td>
-                                    {{-- <a href="{{ route('response.edit', $response_offerbuy->resid ) }}" class="btn btn-primary">Edit</a> --}}
-                                    <form action="{{ route('response.destroy', $response_offerbuy->resid) }}"
-                                        method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger"
-                                            onclick="return confirm('Are you sure?')">Delete</button>
-                                    </form>
+                                 
+                                </td> --}}
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <div class="accordion" id="accordionExample">
+                                        @php
+                                        $responses = $offerbuy->response()->paginate(10); // assuming offerbuy is an instance of a model
+                                    @endphp
+                                    {{-- @dd($offerbuy->response()) --}}
+                                        @foreach ($responses as $response)
+                                        {{-- {{$response->id}} --}}
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="heading{{ $response->id }}">
+                                                    <button class="accordion-button collapsed" type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#collapse{{ $response->id }}"
+                                                        {{-- onclick="upreadAppointment({{ $response->id }})" --}}
+                                                        aria-expanded="true" aria-controls="collapseOne">
+                                                        {{-- @if ($appointment->status_appointments == 1)
+                                                            <i class="fas fa-eye eye-icon ml-1" aria-hidden="true"></i>
+                                                        @else
+                                                            <i class="fa fa-eye ml-1" aria-hidden="true"></i>
+                                                        @endif --}}
+
+                                                        <strong class="ml-1"> {{ __('messages.daterecord') }} ::&nbsp;
+                                                        </strong>
+                                                        @if (app()->getLocale() == 'en')
+                                                            {{ \Carbon\Carbon::parse($response->created_at)->isoFormat('LLL') }}
+                                                        @else
+                                                            {{ \Carbon\Carbon::parse($response->created_at)->locale('th')->thaidate('j F Y H:i:s') }}
+                                                        @endif
+                                                       
+                                                        &nbsp;&nbsp;
+                                                        {{-- <strong> {{ __('messages.date_time') }}
+                                                            {{ __('messages.appointment') }}:: &nbsp;
+                                                        </strong> --}}
+                                                        {{-- @if (app()->getLocale() == 'en')
+                                                            {{ \Carbon\Carbon::parse($appointment->appointment_time)->isoFormat('LLL') }}
+                                                        @else
+                                                            {{ \Carbon\Carbon::parse($appointment->appointment_time)->locale('th')->thaidate('j F Y H:i:s') }}
+                                                        @endif --}}
+                                                        
+
+                                                    </button>
+                                                </h2>
+                                                <div id="collapse{{ $response->id }}"
+                                                    class="accordion-collapse collapse"
+                                                    aria-labelledby="heading{{ $response->id }}"
+                                                    data-bs-parent="#accordionExample">
+                                                    <div class="accordion-body">
+                                                       
+                                                       
+                                                        <strong> {{ __('messages.detail') }} :: </strong>
+                                                        {{ $response->response_detail }}
+                                                        <hr>
+                                                        @foreach ($users as $user)
+                                                            @if ($user->id == $response->res_id)
+                                                                <strong></strong> {{ $user->firstname }}
+                                                                {{ $user->lastname }} {{ $user->tel }}
+                                                            @endif
+                                                        @endforeach
+                                                        <hr>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                        {{ $responses->links() }}
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-                {!! $response_offerbuys->withQueryString()->links('pagination::bootstrap-5') !!}
+                {!! $offerbuys->withQueryString()->links('pagination::bootstrap-5') !!}
             </div>
         </div>
         <br>
@@ -269,6 +333,66 @@
                 {!! $appointments->withQueryString()->links('pagination::bootstrap-5') !!}
             </div>
         </div>
+        <br>
+        {{-- สนใจขาย --}}
+        <div class="row justify-content-center">
+            <div class="col-md-3 left-side">
+                <h2>{{ __('messages.appointment') }}</h2>
+                <h4>{{ __('messages.respones_products') }}</h4>
+
+                {{-- <a href="{{ route('profiles.create') }}" class="btn btn-primary">{{ __('messages.Create_Profile') }}</a> --}}
+
+                @if (session('success'))
+                    <div class="alert alert-success mt-3">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+            </div>
+            <div class="col-md-9 right-side">
+                <table class="table mt-3">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>{{ __('messages.appointment') }}</th>
+                            <th> {{ __('messages.Interest_data') }}</th>
+                            <th>{{ __('messages.daterecord') }}</th>
+                            <th>{{ __('messages.detail') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($response_offerbuys as $response_offerbuy)
+                            <tr>
+                                <th scope="row">
+                                    {{ ($response_offerbuys->currentPage() - 1) * $response_offerbuys->perPage() + $loop->iteration }}
+                                </th>
+                                <td>F{{ $response_offerbuy->id }}</td>
+                                <td>{{ $response_offerbuy->Interest_data }}</td>
+                                <td>
+                                    @if (app()->getLocale() == 'en')
+                                        {{ \Carbon\Carbon::parse($response_offerbuy->response_date)->isoFormat('LL') }}
+                                    @else
+                                        {{ \Carbon\Carbon::parse($response_offerbuy->response_date)->locale('th')->thaidate('j F Y') }}
+                                    @endif
+                                </td>
+                                <td>{{ $response_offerbuy->response_detail }}</td>
+                                <td>
+                                    {{-- <a href="{{ route('response.edit', $response_offerbuy->resid ) }}" class="btn btn-primary">Edit</a> --}}
+                                    <form action="{{ route('response.destroy', $response_offerbuy->resid) }}"
+                                        method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger"
+                                            onclick="return confirm('Are you sure?')">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                {!! $response_offerbuys->withQueryString()->links('pagination::bootstrap-5') !!}
+            </div>
+        </div>
     </div>
 @endsection
 @push('scripts')
@@ -277,7 +401,7 @@
             $.ajax({
                 type: "GET",
                 dataType: "json",
-                url: '/upreadApp',
+                url: '{{ route('user.upreadApp') }}',
                 data: {
                     'id': id
                 },

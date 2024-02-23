@@ -29,19 +29,85 @@
                     @csrf
                     <div class="row g-2">
                         <div class="col">
+                            {{-- @dd($ipdata) --}}
                             {{-- <label for="name">{{ __('messages.profile_name') }}</label> --}}
                             <select class="form-control select2bs4 " style="width: 100%" onchange="finetype(this.value)"
                                 id="iptype_id" name="iptype_id">
                                 <option id=""> ----- ประเภททรัพย์สินทางปัญญา -----</option>
                                 @foreach ($iptypes as $iptype)
                                     <option value="{{ $iptype->iptype_id }}"
-                                        @if (old('iptype_id') == $iptype->iptype_id) selected @endif>{{ $iptype->iptype_name }}
-                                    </option>
+                                        @if ($ipdata) @if ($ipdata['iptype_id'] == $iptype->iptype_id) selected @endif>
+                                        {{ $iptype->iptype_name }}
+                                    @else
+                                        @if (old('iptype_id') == $iptype->iptype_id) selected
+                                        @endif>{{ $iptype->iptype_name }}
+                                @endif
+                                </option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                     <span id="ipdetal">
+                        {{-- @dd($ipdata) --}}
+                        @if ($ipdata)
+                            @foreach ($ipdata['ipdid'] as $key => $value)
+                                {{-- {{ dd($ipdata)}} --}}
+                                {{-- {{ $ipdata['ipdata'][$key] }} --}}
+                                <div class="row g-2">
+                                    <div class="col">
+                                        {{-- {{$value->IPdetail->require}} --}}
+                                        {{-- @dd($ipdetail) --}}
+
+                                        {{-- {{ $value }} --}}
+                                        @foreach ($ipdetail as $item)
+                                            @if ($item['ipdetail_id'] == $value)
+                                                {{-- {{ $item['ipdetail_name'] }}
+                                            {{ $ipdata['ipdata'][$key] }} --}}
+                                                @if ($item['require'] == 1)
+                                                    <input type="hidden" name="ipdid[]" class="form-control"
+                                                        value="{{ $value }}">
+                                                    <label for="pr{{ $value }}">{{ $item['ipdetail_name'] }}</label>
+                                                    <input type="{{ $item['type'] }}" name="ipdata[]"class="form-control"
+                                                        placeholder="{{ $item['ipdetail_name'] }}"
+                                                        aria-label="{{ $item['ipdetail_name'] }}" required
+                                                        value="{{ old('ipdata.0') ?? $ipdata['ipdata'][$key] }}">
+                                                @else
+                                                    <input type="hidden" name="ipdid[]" class="form-control"
+                                                        value="{{ $value }}">
+                                                    <label
+                                                        for="pr{{ $value }}">{{ $item['ipdetail_name'] }}</label>
+                                                    <input type="{{ $item['type'] }}" name="ipdata[]"class="form-control"
+                                                        placeholder="{{ $item['ipdetail_name'] }}"
+                                                        aria-label="{{ $item['ipdetail_name'] }}"
+                                                        value="{{ old('ipdata.0') ?? $ipdata['ipdata'][$key] }}">
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                        {{-- @if ($value->IPdetail->require == 1)
+                                        <input type="hidden" name="ipdid[]" class="form-control"
+                                            value="{{ $value->IPdetail->ipdetail_id }}">
+                                        <label
+                                            for="pr{{ $value->IPdetail->ipdetail_id }}">{{ $value->IPdetail->ipdetail_name }}</label>
+                                        <input type="{{ $value->IPdetail->type }}" name="ipdata[]"class="form-control"
+                                            placeholder="{{ $value->IPdetail->ipdetail_name }}"
+                                            aria-label="{{ $value->IPdetail->ipdetail_name }}" required
+                                            value="{{ old('ipdata.0') ?? ($ipdata['ipdata'][$key] ?? $value->IPdataDetail_data) }}">
+                                    @else
+                                    <input type="hidden" name="ipdid[]" class="form-control"
+                                            value="{{ $value->IPdetail->ipdetail_id }}">
+                                        <label
+                                            for="pr{{ $value->IPdetail->ipdetail_id }}">{{ $value->IPdetail->ipdetail_name }}</label>
+                                        <input type="{{ $value->IPdetail->type }}" name="ipdata[]"class="form-control"
+                                            placeholder="{{ $value->IPdetail->ipdetail_name }}"
+                                            aria-label="{{ $value->IPdetail->ipdetail_name }}" 
+                                            value="{{ old('ipdata.0') ?? ($ipdata['ipdata'][$key] ?? $value->IPdataDetail_data) }}">
+                                
+                                    @endif --}}
+                                    </div>
+
+                                </div>
+                            @endforeach
+                        @endif
 
                     </span>
 
@@ -79,33 +145,34 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(data) {
-                   
+
                     $('#ipdetal').empty().append('');
                     $.each(data.ipdetails, function(key, value) {
-                        if(value.require==1){
-                        $('#ipdetal').append('<div class="row g-2">' +
-                            ' <div class="col"><input type="hidden" name="ipdid[]" class="form-control" value="' +
-                            value.ipdetail_id +
-                            '"><label for="pr' + value.ipdetail_id + '">' +
-                            value.ipdetail_name + '</label><input type="' +
-                            value.type +
-                            '"   name="ipdata[]" class="form-control" placeholder="' +
-                            value.ipdetail_name + '" aria-label="' + value
-                            .ipdetail_name + '" required value="{{ old('ipdata.0') }}">' +
-                            ' </div></div>');
-                        }else{
+                        if (value.require == 1) {
                             $('#ipdetal').append('<div class="row g-2">' +
-                            ' <div class="col"><input type="hidden" name="ipdid[]" class="form-control" value="' +
-                            value.ipdetail_id +
-                            '"><label for="pr' + value.ipdetail_id + '">' +
-                            value.ipdetail_name +' '+ value.require +'</label><input type="' +
-                            value.type +
-                            '"   name="ipdata[]" class="form-control" placeholder="' +
-                            value.ipdetail_name + '" aria-label="' + value
-                            .ipdetail_name + '"  value="{{ old('ipdata.0') }}">' +
-                            ' </div></div>');
+                                ' <div class="col"><input type="hidden" name="ipdid[]" class="form-control" value="' +
+                                value.ipdetail_id +
+                                '"><label for="pr' + value.ipdetail_id + '">' +
+                                value.ipdetail_name + '</label><input type="' +
+                                value.type +
+                                '"   name="ipdata[]" class="form-control" placeholder="' +
+                                value.ipdetail_name + '" aria-label="' + value
+                                .ipdetail_name + '" required value="{{ old('ipdata.0') }}">' +
+                                ' </div></div>');
+                        } else {
+                            $('#ipdetal').append('<div class="row g-2">' +
+                                ' <div class="col"><input type="hidden" name="ipdid[]" class="form-control" value="' +
+                                value.ipdetail_id +
+                                '"><label for="pr' + value.ipdetail_id + '">' +
+                                value.ipdetail_name + ' ' + value.require +
+                                '</label><input type="' +
+                                value.type +
+                                '"   name="ipdata[]" class="form-control" placeholder="' +
+                                value.ipdetail_name + '" aria-label="' + value
+                                .ipdetail_name + '"  value="{{ old('ipdata.0') }}">' +
+                                ' </div></div>');
                         }
-                        
+
                     });
                     // $('#ipdetal').html(data.ipdetailsdata);
                     console.log(data);

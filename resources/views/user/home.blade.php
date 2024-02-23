@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div class="mb-3 row justify-content-center">
-                <div class="col-sm-6 text-center">
+                <div class="col-sm-12 text-center">
                     @foreach ($iptypes as $key => $iptype)
                         @if ($key != 0)
                             |

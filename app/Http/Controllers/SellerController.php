@@ -94,7 +94,7 @@ class SellerController extends Controller
         $products = Product::where('products.id', $request->input('pid'))
         ->select('products.*')
         ->first();
-        $model= Seller::create([
+        $model= Seller::insert([
             'id'=>$sid ,
             'store_name' => $request->input('store_name'),
             'person_type' => $request->input('person_type'),
@@ -103,6 +103,8 @@ class SellerController extends Controller
             'profile_id' => $request->input('profile_id'),
             'pid' => $request->input('pid'),
             'accept' => $request->input('accept'),
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
         ]);
         // $id = $model->id;
         $email = Auth::user()->email;
@@ -111,14 +113,14 @@ class SellerController extends Controller
         $prefix = Auth::user()->prefix;
         $SendMail = [
             'title' => 'เพิ่มข้อมูล เสนอขาย',
-            'body' => 'เรียนคุณ' . $firstname .' '.$lastname . ' ได้เพิ่มข้อมูลเสนอขาย ที่เลขที่ S'.$sid.'สินค้าเลขที่ ip2m'.$products['id'].' '.$products['product_name'].' ',
+            'body' => 'เรียนคุณ' . $firstname .' '.$lastname . ' ได้เพิ่มข้อมูลเสนอขาย เลขที่ S'.$sid.'สินค้าเลขที่ ip2m'.$products['id'].' '.$products['product_name'].' ',
             
             'URL' => 'ท่านสามารถตรวจสอบข้อมูลได้ทาง ' . env('APP_URL') . ' ',
 
         ];
 
          Mail::to($email)->send(new SendMail($SendMail));
-         Line::send('คุณ' . $firstname .' '.$lastname . ' ได้เพิ่มข้อมูลเสนอขาย '. PHP_EOL .'ที่เลขที่ :: S'.$sid.''. PHP_EOL .' สินค้าเลขที่ :: ip2m'.$products['id'].''. PHP_EOL .'ชื่อ :: '.$products['product_name'].''. PHP_EOL .'สถานะ :: รออนุมัติ '. PHP_EOL .' ตรวจสอบข้อมูล ' . env('APP_URL') . '');
+         Line::send('คุณ' . $firstname .' '.$lastname . ' ได้เพิ่มข้อมูลเสนอขาย '. PHP_EOL .'เลขที่ :: S'.$sid.''. PHP_EOL .' สินค้าเลขที่ :: ip2m'.$products['id'].''. PHP_EOL .'ชื่อ :: '.$products['product_name'].''. PHP_EOL .'สถานะ :: รออนุมัติ '. PHP_EOL .' ตรวจสอบข้อมูล ' . env('APP_URL') . '');
          return redirect()->route('seller.index')->with('success', 'created successfully');
 
     }
@@ -216,14 +218,14 @@ class SellerController extends Controller
     }
     $SendMail = [
         'title' => 'ข้อมูล เสนอขาย',
-        'body' => 'เรียนคุณ' . $seller->profile->user->firstname . ' ' . $seller->profile->user->lastname . ' ข้อมูลเสนอขาย ที่เลขที่ S' . $seller->id . ' สินค้าเลขที่ ip2m' . $seller->product->id . ' ' . $seller->product->product_name . ' สถานะ :: '.$status.'',
+        'body' => 'เรียนคุณ' . $seller->profile->user->firstname . ' ' . $seller->profile->user->lastname . ' ข้อมูลเสนอขาย เลขที่ S' . $seller->id . ' สินค้าเลขที่ ip2m' . $seller->product->id . ' ' . $seller->product->product_name . ' สถานะ :: '.$status.'',
 
         'URL' => 'ท่านสามารถตรวจสอบข้อมูลได้ทาง ' . env('APP_URL') . ' ',
 
     ];
 
     Mail::to($email)->send(new SendMail($SendMail));
-    Line::send('ข้อมูลเสนอขาย ' . PHP_EOL . 'ที่เลขที่ :: S' . $seller->id . '' . PHP_EOL . 'สินค้าเลขที่ :: ip2m' . $seller->product->id . '' . PHP_EOL . 'ชื่อ :: ' . $seller->product->product_name . '' . PHP_EOL . 'สถานะ :: '.$status.'');
+    Line::send('ข้อมูลเสนอขาย ' . PHP_EOL . 'เลขที่ :: S' . $seller->id . '' . PHP_EOL . 'สินค้าเลขที่ :: ip2m' . $seller->product->id . '' . PHP_EOL . 'ชื่อ :: ' . $seller->product->product_name . '' . PHP_EOL . 'สถานะ :: '.$status.'');
     
 
 
