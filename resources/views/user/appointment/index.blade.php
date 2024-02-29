@@ -123,7 +123,7 @@
                     </tbody>
                 </table>
                 {{-- {{ $sellers->links() }} --}}
-                {!! $sellers->withQueryString()->links('pagination::bootstrap-5') !!}
+                {!! $sellersPaginator->withQueryString()->links('pagination::bootstrap-5') !!}
             </div>
         </div>
         <br>

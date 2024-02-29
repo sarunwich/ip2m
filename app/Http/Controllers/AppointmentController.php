@@ -65,8 +65,16 @@ class AppointmentController extends Controller
                 return $seller;
             });
 
-            $sellers = new LengthAwarePaginator($sellers->all(), $sellers->count(), 5);
+            // $sellers = new LengthAwarePaginator($sellers->all(), $sellers->count(), 5);
             // dd($sellers);
+            $total = $sellers->count();
+$perPage = 5;
+$currentPage = LengthAwarePaginator::resolveCurrentPage();
+$sellersPaginator = new LengthAwarePaginator($sellers->all(), $total, $perPage);
+
+// Change the page parameter name
+$sellersPaginator->withQueryString(['new_page_name' => $currentPage]);
+
         $appointments = Appointment::where('appointments.rid', Auth::user()->id)
             ->join('sellers', 'sellers.id', '=', 'appointments.sid')
             ->join('products', 'products.id', '=', 'sellers.pid')
@@ -76,8 +84,8 @@ class AppointmentController extends Controller
             ->orderby('created_at', 'desc')
             ->paginate(5, ['*'], 'appointments');
 
-            $sellers->setPageName('sellers_page');
-        return view('user.appointment.index', compact('appointments', 'sellers', 'users', 'response_offerbuys', 'offerbuys'));
+            // $sellers->setPageName('sellers_page');
+        return view('user.appointment.index', compact('appointments','sellersPaginator', 'sellers', 'users', 'response_offerbuys', 'offerbuys'));
     }
 
     /**

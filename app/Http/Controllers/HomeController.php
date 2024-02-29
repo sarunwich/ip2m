@@ -107,7 +107,26 @@ class HomeController extends Controller
      */
     public function adminHome(): View
     {
-        return view('admin.adminHome');
+        // Retrieve and organize data for product count by month and group
+    $productData = Product::selectRaw('MONTH(products.created_at) as month, products.group_id as group_id, COUNT(*) as count')
+    ->join('sellers', 'sellers.pid', '=', 'products.id')
+    ->join('i_pdatas', 'i_pdatas.id', '=', 'products.IPdata_id')
+    ->leftJoin('approves', 'approves.sid', '=', 'sellers.id')
+    ->where('approves.status', '=', 1)
+    ->groupBy('month', 'group_id')
+    ->get();
+
+// Retrieve and organize data for offer buy count by month and group
+$offerbuyData = Offerbuy::selectRaw('MONTH(offerbuys.created_at) as month, groups.group_id as group_id, COUNT(*) as offerCount')
+    ->join('categories', 'categories.category_id', '=', 'offerbuys.category_id')
+    ->join('groups', 'groups.group_id', '=', 'categories.group_id')
+    ->where('offerbuys.status', '=', 1)
+    ->where('offerbuys.offerbuy_enddate', '>=', date('Y-m-d'))
+    ->groupBy('month', 'group_id')
+    ->get();
+    // Get all groups
+    $groups = Group::orderBy('order', 'asc')->get();
+        return view('admin.adminHome', compact('productData', 'offerbuyData', 'groups'));
     }
 
     /**

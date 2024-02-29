@@ -38,6 +38,9 @@ class welcomeController extends Controller
         $groups=Group::orderBy('groups.order', 'asc')
         ->get();
         
+        
+
+
         // dd($groups);
         $offerbuys=Offerbuy::where('status','=',1)
         ->where('offerbuy_enddate','>=',date('Y-m-d'))
